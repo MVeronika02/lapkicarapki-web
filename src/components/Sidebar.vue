@@ -4,22 +4,17 @@
 <div class="leftSidebarMenu">
 <ul v-show="showLi">
   <!-- <li>Привет</!-->
-<li v-for="allCategoryDropDown in $store.state.filtredArray" :key="allCategoryDropDown.idcategory"><a>{{ allCategoryDropDown.namecategory}}</a></li>
+<li v-for="allCategoryDropDown in $store.state.filtredArray" :key="allCategoryDropDown.idcategory"><a>{{ allCategoryDropDown.namecategory }}</a></li>
 </ul>
 </div>
 
   <div class="filter_section">
-    <form class="form_filter">
-      <div class="filter_parameters title">
-        <h3>Фильтр по параметрам</h3>
-      </div>
-
-      <div class="filter_parameters_price">
-        <h3>Цена</h3>
-        <input class="min-price" type="text" name="filter_price_min" value size="5" placeholder="25">
-        <input class="max-price" type="text" name="filter_price_max" value size="5" placeholder="50 000">
-      </div>
+    <form method="POST">
+      <label for="amount">Цена: </label>
+      <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+      <input type="submit" value="Поиск" @click="priceFiltr"/>
     </form>
+  <div id="slider-range"></div>
   </div>
 </div>
 </template>
@@ -32,7 +27,10 @@ export default {
   data () {
     return {
       // openBar: false,
-      showLi: true
+      showLi: true,
+      // selected: 'Фильтр по параметрам',
+      minPrice: 0,
+      maxPrice: 50000
     }
   },
   // mounted () {
@@ -41,7 +39,8 @@ export default {
   //   console.log(this.$store.state.allCategoryAnimal)
   // },
   computed: mapState([
-    'allCategoryAnimal'
+    'allCategoryAnimal',
+    'priceFiltr'
   ])
   // methods: {
   //   allCategoryAnimals: function (idanimal) {
@@ -123,26 +122,105 @@ export default {
 }
 
 .filter_section {
-  height: 900px;
+  height: 300px;
   width: 350px;
   margin-top: 600px;
-  background: #DCDCDC;
+  /* background: #DCDCDC; */
   opacity: 0.7;
   text-align: center;
 }
 
-.filter_parameters h3 {
-  font-size: 28px;
+label {
+    font: 1rem 'Fira Sans', sans-serif;
 }
+
+.range-slider {
+  width: 200px;
+  margin: 0;
+  text-align: left;
+  position: relative;
+}
+
+.range-slider .range-slider input[type=range] {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  z-index: 2;
+  position: relative;
+  /* top: 2px; */
+}
+
+/* Ширина слайдера */
+#slider {
+  width: 200px;
+}
+/* Контейнер слайдера */
+.ui-slider {
+  position: relative;
+}
+/* Ползунок */
+.ui-slider .ui-slider-handle {
+  position: absolute;
+  z-index: 2;
+  width: 13px;   /* Задаем нужную ширину */
+  height: 13px;  /* и высоту */
+  background: #4682B4 no-repeat; /* картинка изображающая ползунок. Или можно залить цветом, задать бордюр и скругления */
+  cursor: pointer
+}
+.ui-slider .ui-slider-range {
+  position: absolute;
+  z-index: 1;
+  font-size: .7em;
+  display: block;
+  border: 0;
+  overflow: hidden;
+}
+/* горизонтальный слайдер (сама полоса по которой бегает ползунок) */
+.ui-slider-horizontal {
+  height: 3px; /* задаем высоту согласно дизайна */
+}
+/* позиционируем ползунки */
+.ui-slider-horizontal .ui-slider-handle {
+  top: -5px;
+  /* margin-left: 6px; */
+}
+.ui-slider-horizontal .ui-slider-range {
+  top: -1px;
+  height: 15%;
+}
+.ui-slider-horizontal .ui-slider-range-min {
+  left: 0;
+}
+.ui-slider-horizontal .ui-slider-range-max {
+  right: 0;
+}
+/* оформление полосы по которой ходит ползунок */
+.ui-widget-content {
+  border: 1px solid #D4D4D4;
+  background: #fff;
+  height: 3px;
+}
+/* оформление активного участка (между двумя ползунками) */
+.ui-widget-header {
+  border: 1px solid #D4D4D4;
+  background: #4B0082;
+}
+/* скругление для полосы слайдера */
+.ui-corner-all {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
+/* .filter_parameters h3 {
+  font-size: 28px;
+}*/
 
 .filter_parameters_price h3 {
   font-size: 32px;
-}
-
-.filter_parameters_price input {
-  width: 120px;
-  height: 50px;
-  margin-left: 20px;
 }
 
 /*

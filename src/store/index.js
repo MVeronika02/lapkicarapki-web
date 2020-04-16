@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     allCategoryAnimal: [],
     allProducts: [],
-    filtredArray: []
+    filtredArray: [],
+    priceFiltr: []
   },
   // getters: {
   //   getCategory: (state) => {
@@ -34,6 +35,13 @@ export default new Vuex.Store({
         .then(allProducts => {
           state.allProducts = allProducts.data
           console.log(state.allProducts)
+        })
+    },
+    filterPrice: (state) => {
+      Axios.get('http://localhost:4747/priceFilter')
+        .then(priceFiltr => {
+          state.priceFiltr = priceFiltr.data
+          console.log(state.priceFiltr)
         })
     }
   },
