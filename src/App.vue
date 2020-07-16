@@ -1,18 +1,24 @@
 <template>
-<body>
-  <div id="app">
+  <v-app>
     <router-view/>
-  </div>
-</body>
+  </v-app>
 </template>
 
-<style lang="scss">
-// body {
-//     background: url(../src/assets/img/mainBackground.jpg);
-// }
+<script>
+// import Home from './views/Home.vue'
 
-#app {
-  padding: 0;
+export default {
+  name: 'App',
+
+  // components: {
+  //   Home
+  // },
+
+  data () {
+    return {}
+  }
 }
+</script>
+<style>
 
 </style>

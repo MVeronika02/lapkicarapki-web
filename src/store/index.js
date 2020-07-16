@@ -8,52 +8,70 @@ export default new Vuex.Store({
   state: {
     allCategoryAnimal: [],
     allProducts: [],
-    filtredArray: [],
-    priceFiltr: []
+    filtredArray: {},
+    basketContent: [],
+    cartCount: 0
   },
-  // getters: {
-  //   getCategory: (state) => {
-  //     return state.allCategoryAnimal.find(allCategoryAnimal => allCategoryAnimal.idanimal === 1)
-  //   }
-  // },
-
   mutations: {
-    SET_Category: (state) => {
-      Axios.get('http://localhost:4747/categoryanimals')
-        .then(allCategoryAnimal => {
-          state.allCategoryAnimal = allCategoryAnimal.data
-          console.log(state.allCategoryAnimal)
-        })
+    SETAllCategory: (state, categoryAll) => {
+      state.allCategoryAnimal = categoryAll
     },
-    filterCategory: (state, idanimal) => {
-      console.log(idanimal)
-      state.filtredArray = state.allCategoryAnimal.filter(object => object.idanimal === idanimal)
-      console.log(state.filtredArray)
+    SETProducts: (state, productsAll) => {
+      state.allProducts = productsAll
     },
-    GetProducts: (state) => {
-      Axios.get('http://localhost:4747/products')
-        .then(allProducts => {
-          state.allProducts = allProducts.data
-          console.log(state.allProducts)
-        })
+    filterCategory: (state, idAnimal) => {
+      state.filtredArray = state.allCategoryAnimal.filter(object => object.idAnimal === idAnimal)
     },
-    filterPrice: (state) => {
-      Axios.get('http://localhost:4747/priceFilter')
-        .then(priceFiltr => {
-          state.priceFiltr = priceFiltr.data
-          console.log(state.priceFiltr)
-        })
+    SETfiltredProducts: (state, filtredProducts) => {
+      state.allProducts = filtredProducts
+    },
+    SETProductToBasket: (state, allProduct) => {
+      let newItem = state.basketContent.find(object => object.idProduct=== allProduct.idProduct)
+      
+      if (newItem) {
+        newItem.quantity ++
+        newItem.totalPrice = newItem.quantity * newItem.priceProduct
+      } else {
+        state.basketContent.push(allProduct)
+
+        Vue.set(allProduct, 'quantity', 1)
+        Vue.set(allProduct, 'totalPrice', allProduct.priceProduct)
+      }
+      state.cartCount++
+      console.log(state.basketContent, '++++')
+    },
+    removeProductFromBasket: (state, allProduct) => {
+      let newItemRemove = state.basketContent.find(object => object.idProduct === allProduct.idProduct)
+      if (newItemRemove) {
+        newItemRemove.quantity --
+        newItemRemove.totalPrice = newItemRemove.quantity * newItemRemove.priceProduct
+        // if (newItemRemove.quantity == 0) {
+        //   state.basketContent.splice(newItemRemove)
+        // }
+      }
+      state.cartCount--
     }
   },
   actions: {
-    //   async actionA ({ commit }) {
-    //     commit('setCategory', await SET_Category())
-    //   }
-    // loadCategory ({ commit }) {
-    //   Axios.get('http://localhost:4747/categoryanimals')
-    //     .then(r => r.data)
-    //     .then(allCategoryAnimal => {
-    //       commit('SET_Category', allCategoryAnimal)
-    //     })
+    SETCategory: async (context) => {
+      await Axios.get('http://localhost:5000/url2')
+        .then(categoryAll => {
+          console.log(categoryAll.data.result)
+          context.commit('SETAllCategory', categoryAll.data.result)
+        })
+    },
+    SETContent: async (context) => {
+      await Axios.get('http://localhost:5000/url1')
+        .then(productsAll => {
+          console.log(productsAll.data.result)
+          context.commit('SETProducts', productsAll.data.result)
+        })
+    },
+    ProductsFilter: async (context, payload) => {
+      await Axios.get('http://localhost:5000/api/products?valueMin=' + payload.min + '&valueMax=' + payload.max)
+        .then(filtredProducts => {
+          context.commit('SETfiltredProducts', filtredProducts.data.result)
+        })
+    }
   }
 })

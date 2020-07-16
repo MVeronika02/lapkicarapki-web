@@ -1,12 +1,12 @@
 <template>
     <main class="content">
       <div class="logoContent">
-        <img src="../assets/img/logo.jpeg">
+        <a href="/"><img src="../assets/img/logo.jpeg"></a>
         <div class="blockSearch">
         <ul class="navbarLink">
           <li>Доставка и оплата</li>
           <li>Контакты</li>
-          <li>Корзина</li>
+          <li><button @click="openBasket(); closeSidebar()">Корзина</button></li>
         </ul>
         <input type="text" id="mySearch" placeholder="Search..">
         </div>
@@ -14,54 +14,58 @@
 
         <ul class="buttonsAnimal">
           <div class="dropdown">
-          <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(1)">Собаки</button></li>
-          <div class="drop-content">
-          <ul>
-            <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idcategory">{{ allCategory.namecategory }}</li>
-          </ul>
-        </div>
-      </div>
+            <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(1)">Собаки</button></li>
+            <div class="drop-content">
+              <ul>
+                <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idCategory">{{ allCategory.nameCategory }}</li>
+              </ul>
+            </div>
+          </div>
 
-      <div class="dropdown">
-          <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(2)">Кошки</button></li>
-          <div class="drop-content">
-          <ul>
-            <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idcategory">{{ allCategory.namecategory }}</li>
-          </ul>
-        </div>
-      </div>
-      <div class="dropdown">
-          <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(3)">Птицы</button></li>
-          <div class="drop-content">
-          <ul>
-            <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idcategory">{{ allCategory.namecategory }}</li>
-          </ul>
-        </div>
-      </div>
-      <div class="dropdown">
-          <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(4)">Рыбы</button></li>
-          <div class="drop-content">
-          <ul>
-            <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idcategory">{{ allCategory.namecategory }}</li>
-          </ul>
-        </div>
-      </div>
-      <div class="dropdown">
-          <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(5)">Насекомые</button></li>
-          <div class="drop-content">
-          <ul>
-            <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idcategory">{{ allCategory.namecategory }}</li>
-          </ul>
-        </div>
-      </div>
-      <div class="dropdown">
-          <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(6)">Грызуны</button></li>
-          <div class="drop-content">
-          <ul>
-            <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idcategory">{{ allCategory.namecategory }}</li> -->
-          </ul>
-        </div>
-      </div>
+          <div class="dropdown">
+            <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(2)">Кошки</button></li>
+            <div class="drop-content">
+              <ul>
+                <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idCategory">{{ allCategory.nameCategory }}</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="dropdown">
+            <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(3)">Птицы</button></li>
+            <div class="drop-content">
+              <ul>
+                <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idCategory">{{ allCategory.nameCategory }}</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="dropdown">
+            <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(4)">Рыбы</button></li>
+            <div class="drop-content">
+              <ul>
+                <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idCategory">{{ allCategory.nameCategory }}</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="dropdown">
+            <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(5)">Насекомые</button></li>
+            <div class="drop-content">
+              <ul>
+                <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idCategory">{{ allCategory.nameCategory }}</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="dropdown">
+            <li><button type="button" class="dogsBtn" @mouseover="allCategoryAnimals(6)">Грызуны</button></li>
+            <div class="drop-content">
+              <ul>
+                <li v-for="allCategory in $store.state.filtredArray" :key="allCategory.idCategory">{{ allCategory.nameCategory }}</li>
+              </ul>
+            </div>
+          </div>
         </ul>
     </main>
 </template>
@@ -79,15 +83,22 @@ export default {
     return {}
   },
   mounted () {
-    this.$store.commit('SET_Category')
-    console.log(this.$store.state.allCategoryAnimal)
+    this.$store.commit('SETProducts')
+    // console.log(this.$store.state.allCategoryAnimal)
   },
   computed: mapState([
     'allCategoryAnimal'
   ]),
   methods: {
-    allCategoryAnimals: function (idanimal) {
-      this.$store.commit('filterCategory', idanimal)
+    allCategoryAnimals: function (idAnimal) {
+      this.$store.commit('filterCategory', idAnimal)
+    },
+    openBasket: function () {
+      this.$router.push({name: 'allBasket'})
+    },
+    closeSidebar () {
+      document.getElementById("sidebar").className = "sidebarClose"
+      document.getElementById("mainPage").className = "newMainPage"
     }
   }
 }
@@ -110,6 +121,8 @@ export default {
 .logoContent img {
   float: right;
   border-radius: 5%;
+  margin-top: 5px;
+  margin-left: 5px;
   margin-right: 50px;
 }
 
@@ -131,13 +144,13 @@ export default {
   align-content: flex-start;
   padding-bottom: 5px;
   list-style-type: none;
-  margin: 0;
+  margin: 5px 0;
   background-color: blueviolet;
 }
 
 .navbarLink li {
   width: 250px;
-  font-size: 2em;
+  font-size: 1em;
 }
 
 #mySearch {
@@ -162,6 +175,7 @@ export default {
   justify-content: space-around;
   align-items: space-around;
   list-style-type: none;
+  margin: 40px 0;
 }
 
 .buttonsAnimal li {
@@ -175,19 +189,28 @@ export default {
   font-size: 16px;
   border: none;
   cursor: pointer;
+  position: static;
 }
 
 .drop-content {
-    display: none ;
-    position: absolute;
-    background-color: orange;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    width: 600px;
-    height: 500px;
+  display: none;
+  position: fixed;
+  background-color: orange;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  width: 600px;
+  height: 500px;
 }
 
-.dropdown:hover .drop-content {display: block;}
+.drop-content li {
+  list-style-type: none;
+}
+
+.dropdown:hover .drop-content {
+  display: block;
+  position: absolute;
+  z-index: 1;
+}
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 </style>
