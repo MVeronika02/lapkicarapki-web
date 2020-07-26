@@ -1,13 +1,14 @@
 <template>
 <body>
-<div id="mainPage" class="onePage" :class="{newMainPage: newGridEl}">
-  <div id="header">
-    <theHeader/>
+<!-- <div id="mainPage" class="onePage" :class="{newMainPage: newGridEl}"> -->
+  <div id="mainPage" class="onePage">
+  <div id="Header">
+    <Header/>
   </div>
-  <div id="sidebar" class="sidebarOpen" :class="{sidebarClose: closeBar}">
+  <!-- <div id="sidebar" class="sidebarOpen" :class="{sidebarClose: closeBar}">
     <sidebar/>
-  </div>
-  <div id="thecontent">
+  </div> -->
+  <div id="Content">
     <router-view/>
   </div>
 <footer id="pageFooter">Footer</footer>
@@ -16,25 +17,23 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-import theHeader from '../views/theHeader.vue'
-import Sidebar from '../components/Sidebar.vue'
-import theContentProduct from '../views/theContentProduct.vue'
-// import axios from 'axios'
+
+import Header from '../views/Header.vue'
+// import Sidebar from '../components/Sidebar.vue'
+import ContentProduct from '../views/ContentProduct.vue'
 
 export default {
   name: 'Home',
   data () {
     return {
-      closeBar: false,
-      newGridEl: false
+      closeBar: true,
+      newGridEl: true
     }
   },
   components: {
-    theHeader,
-    Sidebar,
-    theContentProduct
+    Header,
+    // Sidebar,
+    ContentProduct
   }
 }
 </script>
@@ -44,65 +43,68 @@ export default {
 body {
   margin: 0px;
   padding: 0px;
-  /* height: 100vh; */
 }
+
 .onePage {
   width: 88%;
   display: grid;
   grid-template-areas:
-    "header header header"
-    "sidebar thecontent thecontent"
-    "footer footer footer";
-  grid-template-rows: 370px 1fr 300px;
-  grid-template-columns: 25% 1fr 15%;
-  grid-gap: 10px;
-  /* height: 100vh; */
-  margin: 0 auto;
-  padding: 0px;
-}
-
-.newMainPage {
-  width: 88%;
-  display: grid;
-  grid-template-areas:
-    "header header header"
-    "thecontent thecontent thecontent"
+    "Header Header Header"
+    "Content Content Content"
     "footer footer footer";
   grid-template-rows: 370px 1fr 300px;
   grid-template-columns: 15% 1fr 15%;
   grid-gap: 10px;
-  /* height: 100vh; */
   margin: 0 auto;
   padding: 0px;
+  /* width: 88%;
+  display: grid;
+  grid-template-areas:
+    "Header Header Header"
+    "sidebar Content Content"
+    "footer footer footer";
+  grid-template-rows: 370px 1fr 300px;
+  grid-template-columns: 25% 1fr 15%;
+  grid-gap: 10px;
+  margin: 0 auto;
+  padding: 0px; */
 }
-
-/* footer, nav, div {
-  padding: 15px;
+/* 
+.newMainPage {
+  width: 88%;
+  display: grid;
+  grid-template-areas:
+    "Header Header Header"
+    "Content Content Content"
+    "footer footer footer";
+  grid-template-rows: 370px 1fr 300px;
+  grid-template-columns: 15% 1fr 15%;
+  grid-gap: 10px;
+  margin: 0 auto;
+  padding: 0px;
 } */
 
-#header {
-grid-area: header;
-padding: 10px 0;
+#Header {
+  grid-area: Header;
+  padding: 10px 0;
 }
+
 #pageFooter {
-grid-area: footer;
-background: gold;
+  grid-area: footer;
+  background: gold;
 }
 
-#sidebar {
+/* #sidebar {
   padding: 0;
-  /* display: none; */
-}
-/* #sideBar:active {
-  display: block;
 } */
-#thecontent {
-grid-area: thecontent;
-padding: 0;
-/* background: blue; */
+
+#Content {
+  grid-area: Content;
+  padding: 0;
 }
+
 #mainNav {
-grid-area: nav;
-background: blueviolet;
+  grid-area: nav;
+  background: blueviolet;
 }
 </style>

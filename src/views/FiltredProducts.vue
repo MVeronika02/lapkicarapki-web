@@ -1,9 +1,10 @@
 <template>
 <div>
+
   <div class="contentProduct">
     <div id="content-main" class="contentGroup">
       <ul class="content_allProducts">
-        <li v-for="allProduct in $store.state.allProducts" :key="allProduct.idProduct">
+          <li v-for="allProduct in  $store.state.filtredProductData" :key="allProduct.idProduct">
           <div class="oneProduct">
             <div @click="goDetails(allProduct.idProduct); closeSidebar()">
             <p>{{ allProduct.nameProduct }}</p>
@@ -17,13 +18,24 @@
     </div>
 
     <div class="text-center">
-      <v-pagination
-        v-model="onePage"
-        :length="6"
-      ></v-pagination>
-  </div>
-  </div>
+      <v-container>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-container class="max-width">
+              <v-pagination
+                v-model="page"
+                class="my-4"
+                :length="length"
+                total-visible="5"
+                @input="getFilterValues(page)"
+              ></v-pagination>
+            </v-container>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
 
+  </div>
   
 </div>
 </template>
@@ -31,19 +43,18 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  name: 'thecontent',
+  name: 'filtredProducts',
   data () {
-    return {}
+    return {
+      page: 1,
+      length: 5
+    }
   },
-  mounted () {
-    this.$store.commit('SETProducts')
-  },
+  mounted () {},
   computed: mapState([
     'allProducts'
   ]),
-  created () {
-    this.$store.dispatch('SETContent')
-  },
+  created () {},
   methods: {
     imageProduct (imagePath) {
       return require(`../static/${imagePath}`)
@@ -57,7 +68,11 @@ export default {
     },
     addToBasket (allProduct) {
       this.$store.commit('SETProductToBasket', allProduct)
-      console.log('added')
+    },
+    getFilterValues: function (pageproduct) {
+        console.log(this.$store.state.valueMin)
+        console.log(this.$store.state.valueMax)
+      this.$store.dispatch('ProductsFilter', { min: this.$store.state.valueMin, max: this.$store.state.valueMax, page:pageproduct})
     }
   }
 }
@@ -128,5 +143,12 @@ export default {
 
 .content_allProducts li p {
   margin-bottom: 5px;
+}
+
+.content-main-filter{
+  top: 20%;
+  height: 100%;
+  position: absolute;
+  display: inline;
 }
 </style>

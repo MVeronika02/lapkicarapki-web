@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import theContentProduct from '../views/theContentProduct.vue'
+import ContentProduct from '../views/ContentProduct.vue'
 import DetailsProduct from '../components/DetailsProduct.vue'
-import allBasket from '../components/allBasket.vue'
+import Basket from '../components/Basket.vue'
+import FiltredProducts from '../views/FiltredProducts.vue'
+import Sidebar from '../components/Sidebar.vue'
+import Categories from '../components/Categories.vue'
 
 Vue.use(VueRouter)
 
@@ -15,8 +18,23 @@ const routes = [
       children: [
         {
           path: '/',
-          name: 'thecontent',
-          component: theContentProduct
+          name: 'Content',
+          component: ContentProduct
+        },
+        {
+          path: 'categories/:Pid',
+          name: 'categories',
+          component: Categories
+        },
+        {
+          path: '/',
+          name: 'Sidebar',
+          component: Sidebar
+        },
+        {
+          path: '/filtred',
+          name: 'filtredProducts',
+          component: FiltredProducts
         },
         {
           path: 'detailsProduct/:Pid',
@@ -24,23 +42,12 @@ const routes = [
           component: DetailsProduct
         },
         {
-          path: 'allBasket',
-          name: 'allBasket',
-          component: allBasket
+          path: '/basket',
+          name: 'Basket',
+          component: Basket
         }
       ]
-  },
- 
-
-
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  // route level code-splitting
-  // this generates a separate chunk (about.[hash].js) for this route
-  // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // }
+  }
 ]
 
 const router = new VueRouter({

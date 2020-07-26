@@ -3,74 +3,119 @@ import Vuex from 'vuex'
 import Axios from 'axios'
 
 Vue.use(Vuex)
+let basketContent = window.localStorage.getItem('basketContent')
+let cartCount = window.localStorage.getItem('cartCount')
 
 export default new Vuex.Store({
   state: {
     allCategoryAnimal: [],
     allProducts: [],
-    filtredArray: {},
-    basketContent: [],
-    cartCount: 0
+    filtredCategory: [],
+    filterCategoryOneAnimal: [],
+    basketContent: basketContent ? JSON.parse(basketContent) : [],
+    cartCount: cartCount ? parseInt(cartCount) : 0,
+    productPageNumber: 0,
+    filtredProductData: [],
+    valueMin: 0,
+    valueMax: 0
   },
+
+  //Мутации
+
   mutations: {
     SETAllCategory: (state, categoryAll) => {
       state.allCategoryAnimal = categoryAll
     },
-    SETProducts: (state, productsAll) => {
-      state.allProducts = productsAll
-    },
-    filterCategory: (state, idAnimal) => {
-      state.filtredArray = state.allCategoryAnimal.filter(object => object.idAnimal === idAnimal)
+    SETProducts: (state, allProducts) => {
+      state.allProducts = allProducts
     },
     SETfiltredProducts: (state, filtredProducts) => {
-      state.allProducts = filtredProducts
+      state.filtredProductData = filtredProducts
     },
-    SETProductToBasket: (state, allProduct) => {
-      let newItem = state.basketContent.find(object => object.idProduct=== allProduct.idProduct)
+    filterCategory: (state, idAnimal) => {
+      state.filtredCategory = state.allCategoryAnimal.filter(object => object.idAnimal === idAnimal)
+      console.log(state.filtredCategory)
+    },
+    filterCategoryOneAnimal: (state, idAnimal) => {
+      state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.idAnimal === idAnimal)
+    },
+    SETProductToPage: (state, selectedPage) => {
+      state.allProducts = selectedPage
+    },
+    SETFilterKey: (state, key) => {
+      state.filtredProductKey = key
+    },
+    SETvalueMinMax: (state, value) => {
+      state.valueMin = value[0]
+      state.valueMax = value[1]
+    },
+
+    // Корзина: добавление товара, показ товара в корзине, удаление
+    saveBasket: (state) => {
+      window.localStorage.setItem('basketContent', JSON.stringify(state.basketContent))
+      window.localStorage.setItem('cartCount', state.cartCount)
+    },
+    SETProductToBasket: (state, allDetailProduct) => {
+      let newItem = state.basketContent.find(object => object.idProduct=== allDetailProduct.idProduct)
       
       if (newItem) {
         newItem.quantity ++
         newItem.totalPrice = newItem.quantity * newItem.priceProduct
       } else {
-        state.basketContent.push(allProduct)
+        state.basketContent.push(allDetailProduct)
 
-        Vue.set(allProduct, 'quantity', 1)
-        Vue.set(allProduct, 'totalPrice', allProduct.priceProduct)
+        Vue.set(allDetailProduct, 'quantity', 1)
+        Vue.set(allDetailProduct, 'totalPrice', allDetailProduct.priceProduct)
       }
       state.cartCount++
       console.log(state.basketContent, '++++')
     },
-    removeProductFromBasket: (state, allProduct) => {
-      let newItemRemove = state.basketContent.find(object => object.idProduct === allProduct.idProduct)
-      if (newItemRemove) {
-        newItemRemove.quantity --
-        newItemRemove.totalPrice = newItemRemove.quantity * newItemRemove.priceProduct
-        // if (newItemRemove.quantity == 0) {
-        //   state.basketContent.splice(newItemRemove)
-        // }
+    removeProductFromBasket: (state, allDetailProduct) => {
+      let newItemRemove = state.basketContent.find(object => object.idProduct === allDetailProduct.idProduct)
+      if ( newItemRemove.quantity > 0 ) {
+        if (newItemRemove) {
+          newItemRemove.quantity --
+          newItemRemove.totalPrice = newItemRemove.quantity * newItemRemove.priceProduct
+        }
       }
       state.cartCount--
+    },
+    removeAllProduct: (state, allDetailProduct) => {
+      let index = state.basketContent.indexOf(allDetailProduct)
+      if (index > -1) {
+        let product = state.basketContent[index]
+        state.cartCount -= product.quantity
+        state.basketContent.splice(index, 1)
+      }
+      if (state.basketContent == 0) {
+        localStorage.clear()
+      }
     }
   },
+
+  // Действия
+
   actions: {
     SETCategory: async (context) => {
-      await Axios.get('http://localhost:5000/url2')
+      await Axios.get('http://localhost:5000/categories')
         .then(categoryAll => {
-          console.log(categoryAll.data.result)
+          console.log(categoryAll, '77777')
           context.commit('SETAllCategory', categoryAll.data.result)
         })
     },
-    SETContent: async (context) => {
-      await Axios.get('http://localhost:5000/url1')
-        .then(productsAll => {
-          console.log(productsAll.data.result)
-          context.commit('SETProducts', productsAll.data.result)
-        })
+    ProductsFilter: async ( context, payload) => {
+        await Axios.get('http://localhost:5000/products?valueMin=' + payload.min + '&valueMax=' + payload.max + '&limit=5&numberpage='+ payload.page)
+          .then(filtredProducts => {
+            context.commit('SETfiltredProducts', filtredProducts.data.result)
+            console.log(filtredProducts, '---------------')
+          })
+      
     },
-    ProductsFilter: async (context, payload) => {
-      await Axios.get('http://localhost:5000/api/products?valueMin=' + payload.min + '&valueMax=' + payload.max)
-        .then(filtredProducts => {
-          context.commit('SETfiltredProducts', filtredProducts.data.result)
+    ProductsOnPage: async ( context, page) => {
+        await Axios.get('http://localhost:5000/paginationcontent?limit=5&numberpage=' + page)
+        .then(selectedPage => {
+          context.commit('SETProductToPage', selectedPage.data.result)
+          // console.log(selectedPage, 'tytytytytytyty')
         })
     }
   }

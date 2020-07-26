@@ -14,14 +14,14 @@
         <tr class="row-2">
             <td width="25%"><div class="payProduct">
                     <p>{{ allProduct.nameProduct }}</p>
-                    <!-- * {{ allProduct.quantity }} - {{ allProduct.priceProduct }} -->
                     <img :src="imageProduct(allProduct.urlImageProduct)" width="40%" height="20%">
                 </div></td>
             
             <td width="25%"><div id="counter">
                 <button type="button" class="button_plus" @click="addToBasket(allProduct)">+</button>
                 <div id="buttonCountNumber"><span id="displayCount">{{ allProduct.quantity }}</span></div>
-                <button type="button" class="button_minus" @click="removeProduct(allProduct)">-</button>
+                <button type="button" class="button_minus" @click="minusProduct(allProduct)">-</button>
+                <button type="button" class="button_delete" @click="removeProducts(allProduct)">Удалить</button>
             </div></td>
             <td class="row-2-cell-3"><p>{{ allProduct.priceProduct }} тг</p></td>
             <td class="row-2-cell-4"><p>{{ allProduct.totalPrice }} тг</p></td>
@@ -38,8 +38,8 @@
       </div>
 
       <div v-else class="navbar-dropdown is-boxed is-right">
-            <a class="navbar-item" href="">
-                Корзина пуста
+            <a class="navbar-item">
+                Kорзина пуста
             </a>
         </div>
     </div>
@@ -50,13 +50,15 @@
 import { mapState } from 'vuex'
 var count = 0
 export default {
-  name: 'allBasket',
+  name: 'Basket',
   data () {
     return {
         prodId:this.$route.params.Pid,
     }
   },
-  mounted () {},
+  mounted () {
+      this.$store.commit('saveBasket')
+  },
   computed: mapState([
     'allProducts'
   ]),
@@ -69,9 +71,6 @@ export default {
       return total.toFixed(2)
     }
   },
-  created () {
-    this.$store.dispatch('SETContent')
-  },
   methods: {
     imageProduct (imagePath) {
       return require(`../static/${imagePath}`)
@@ -80,16 +79,11 @@ export default {
       this.$store.commit('SETProductToBasket', allProduct)
       console.log('added')
     },
-    removeProduct(allProduct) {
+    minusProduct(allProduct) {
       this.$store.commit('removeProductFromBasket', allProduct)
-      console.log('popopopopo')
-        // var count 
-        // count += value
-    //    var oneProductPrice
-    //    oneProductPrice += value
-    //    return oneProductPrice
-        // displayCount.innerHTML = count
-        // console.log(oneProductPrice)
+    },
+    removeProducts(allProduct) {
+      this.$store.commit('removeAllProduct', allProduct)
     }
   }
 }
@@ -271,5 +265,9 @@ hr {
     text-align: left;
     font-size: 22px;
 }
+
+/* .navbar-item {
+  font-size: 26px;
+} */
 
 </style>
