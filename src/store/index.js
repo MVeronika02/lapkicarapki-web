@@ -17,7 +17,8 @@ export default new Vuex.Store({
     productPageNumber: 0,
     filtredProductData: [],
     valueMin: 0,
-    valueMax: 0
+    valueMax: 0,
+    countProductPage: 0
   },
 
   //Мутации
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     SETProductToPage: (state, selectedPage) => {
       state.allProducts = selectedPage
+    },
+    SETCountProductPage: (state, countPage) => {
+      state.countProductPage = countPage
     },
     SETFilterKey: (state, key) => {
       state.filtredProductKey = key
@@ -112,10 +116,11 @@ export default new Vuex.Store({
       
     },
     ProductsOnPage: async ( context, page) => {
-        await Axios.get('http://localhost:5000/paginationcontent?limit=5&numberpage=' + page)
-        .then(selectedPage => {
-          context.commit('SETProductToPage', selectedPage.data.result)
-          // console.log(selectedPage, 'tytytytytytyty')
+        await Axios.get('http://localhost:5000/paginationcontent?limit=12&numberpage=' + page)
+        .then(resultBackend => {
+          context.commit('SETProductToPage', resultBackend.data.result.product)
+          context.commit('SETCountProductPage', resultBackend.data.result.count_page)
+          console.log(resultBackend, 'tytytytytytyty')
         })
     }
   }

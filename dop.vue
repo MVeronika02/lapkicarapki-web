@@ -106,7 +106,7 @@ export default {
   color: #fff;
 }
 
-.leftSidebarMenu ul li {
+/* .leftSidebarMenu ul li {
   list-style: none;
   margin-bottom: 15px;
 }
@@ -118,7 +118,7 @@ export default {
 
 .leftSidebarMenu ul li a:hover {
   color: #E0FFFF;
-}
+} */
 
 .filter_section {
   height: 300px;
@@ -329,17 +329,17 @@ input[type=range]::-webkit-slider-thumb {
   padding: 0;
 }
 
-.leftSidebarMenu ul li a {
+/* .leftSidebarMenu ul li a {
   text-decoration: none;
-  color: #F4A460;
+  color: #F4A460; */
   /*font-weight: normal;*/
-  font-size: 0.5em;
+  /* font-size: 0.5em; */
   /*font-weight: 800;*/
-}
+/* } */
 
-.leftSidebarMenu ul li a:hover {
+/* .leftSidebarMenu ul li a:hover {
   color: #E0FFFF;
-}
+} */
 
 .filter_section {
   height: 100px;
