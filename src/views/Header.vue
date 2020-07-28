@@ -15,91 +15,24 @@
       <input type="text" class="header_details_search" placeholder="Поиск.." />
     </div>
 
-    <div class="header_details_btn_animals">
-      <div class="btn_animals_dropdown">
-        <button
-          type="button"
-          class="btn_animals_one"
-          @mouseover="allCategoryAnimals(1)"
-          @click="goToCategories(1); categoriesForOneAnimal(1)"
-        >Собаки</button>
-        <ul class="btn_animals_dropdown_content">
-          <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.idCategory">
-            <a>{{ allCategory.nameCategory }}</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="btn_animals_dropdown">
-        <button
-          type="button"
-          class="btn_animals_one"
-          @mouseover="allCategoryAnimals(2)"
-          @click="goToCategories(2); categoriesForOneAnimal(2)"
-        >Кошки</button>
-        <ul class="btn_animals_dropdown_content">
-          <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.idCategory">
-            <a>{{ allCategory.nameCategory }}</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="btn_animals_dropdown">
-        <button
-          type="button"
-          class="btn_animals_one"
-          @mouseover="allCategoryAnimals(3)"
-          @click="goToCategories(3); categoriesForOneAnimal(3)"
-        >Птицы</button>
-        <ul class="btn_animals_dropdown_content">
-          <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.idCategory">
-            <a>{{ allCategory.nameCategory }}</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="btn_animals_dropdown">
-        <button
-          type="button"
-          class="btn_animals_one"
-          @mouseover="allCategoryAnimals(4)"
-          @click="goToCategories(4); categoriesForOneAnimal(4)"
-        >Рыбы</button>
-        <ul class="btn_animals_dropdown_content">
-          <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.idCategory">
-            <a>{{ allCategory.nameCategory }}</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="btn_animals_dropdown">
-        <button
-          type="button"
-          class="btn_animals_one"
-          @mouseover="allCategoryAnimals(5)"
-          @click="goToCategories(5); categoriesForOneAnimal(5)"
-        >Насекомые</button>
-        <ul class="btn_animals_dropdown_content_insects">
-          <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.idCategory">
-            <a>{{ allCategory.nameCategory }}</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="btn_animals_dropdown">
-        <button
-          type="button"
-          class="btn_animals_one"
-          @mouseover="allCategoryAnimals(6)"
-          @click="goToCategories(6); categoriesForOneAnimal(6)"
-        >Грызуны</button>
-        <ul class="btn_animals_dropdown_content_rodents">
-          <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.idCategory">
-            <a>{{ allCategory.nameCategory }}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <nav class="main_nav">
+      <ul class="main_nav_btn_list">
+        <li
+          v-for="animal in animals"
+          :key="animal.key"
+          class="main_nav_btn_list_item"
+          @mouseover="allCategoryAnimals(animal.key)"
+          @click="goToCategories(animal.key); categoriesForOneAnimal(animal.key)"
+        >
+          <a>{{ animal.name }}</a>
+          <ul class="main_nav_btn_list_item_dropdown">
+            <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.idCategory">
+              <a>{{ allCategory.nameCategory }}</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -110,7 +43,16 @@ export default {
   name: "Header",
   components: {},
   data() {
-    return {};
+    return {
+      animals: [
+        { key: 1, name: "Собаки" },
+        { key: 2, name: "Кошки" },
+        { key: 3, name: "Птицы" },
+        { key: 4, name: "Рыбы" },
+        { key: 5, name: "Насекомые" },
+        { key: 6, name: "Грызуны" },
+      ],
+    };
   },
   mounted() {
     this.$store.commit("SETProducts");
@@ -118,6 +60,7 @@ export default {
   },
   methods: {
     allCategoryAnimals: function (idAnimal) {
+      console.log(idAnimal, "////////");
       this.$store.commit("filterCategory", idAnimal);
     },
     categoriesForOneAnimal: function (idAnimal) {
@@ -134,6 +77,7 @@ export default {
 </script>
 
 <style>
+
 .header_details {
   height: 250px;
   margin: auto;
@@ -163,6 +107,7 @@ export default {
   width: 270px;
   font-size: 22px;
   color: green !important;
+  text-align: center;
 }
 
 .header_details_basket {
@@ -202,117 +147,58 @@ export default {
   width: 80%;
 }
 
-.header_details_btn_animals {
+:root {
+  --main-bg-color-nav: darkgreen;
+}
+
+.main_nav {
   width: 100%;
-  background-color: darkseagreen;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  box-shadow: 0 0 5px;
-  /* margin-left: 140px; */
+  background-color: var(--main-bg-color-nav);
+}
+.main_nav_btn_list {
+  position: relative;
+  text-align: center;
+}
+.main_nav_btn_list_item {
+  display: inline-block;
+  background-color: var(--main-bg-color-nav);
+  width: 150px;
+  height: 50px;
 }
 
-.btn_animals_one {
+.main_nav_btn_list_item_dropdown {
+  display: none;
+  background-color: darkorange;
+  list-style-type: none;
   width: 200px;
-  height: 55px;
-  background-color: darkseagreen;
-  color: white;
-  padding: 6px;
-  font-size: 16px;
+  height: 200px;
 }
 
-.btn_animals_one:hover {
-  background-color: orange;
+.main_nav_btn_list_item:hover {
+  background-color: darkorange;
 }
 
-.btn_animals_one:active {
-  border-radius: 10%;
-  background-color: orange;
-}
-
-.btn_animals_dropdown_content {
-  position: fixed;
-  z-index: 10;
+.main_nav_btn_list_item .main_nav_btn_list_item_dropdown {
   display: none;
-  background-color: orange;
-  width: 650px;
-  height: 220px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
-.btn_animals_dropdown_content:hover > .btn_animals_one {
-  background-color: orange;
-}
-
-.btn_animals_dropdown_content li {
-  width: 200px;
-  margin-bottom: 5px;
-  font-size: 20px;
-  display: block;
-  list-style-type: none;
-}
-
-.btn_animals_dropdown:hover .btn_animals_dropdown_content {
+.main_nav_btn_list_item:hover .main_nav_btn_list_item_dropdown {
   position: absolute;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-.btn_animals_dropdown:hover .btn_animals_one {
-  background-color: orange;
-}
-
-.btn_animals_dropdown_content_insects {
-  position: fixed;
-  z-index: 10;
-  display: none;
-  background-color: orange;
-  width: 650px;
-  height: 220px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  right: 515px;
-}
-
-.btn_animals_dropdown_content_insects li {
   display: block;
-  list-style-type: none;
-  margin-bottom: 5px;
-  font-size: 20px;
+  top: 100%;
+  left: auto;
 }
 
-.btn_animals_dropdown:hover .btn_animals_dropdown_content_insects {
+.main_nav_btn_list_item:hover .main_nav_btn_list_item_dropdown {
   position: absolute;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-
-.btn_animals_dropdown_content_rodents {
-  position: fixed;
-  z-index: 10;
-  display: none;
-  background-color: orange;
-  width: 650px;
-  height: 220px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  right: 300px;
-}
-
-.btn_animals_dropdown_content_rodents li {
   display: block;
-  list-style-type: none;
-  margin-bottom: 5px;
-  font-size: 20px;
+  top: 100%;
+  left: auto;
 }
 
-.btn_animals_dropdown:hover .btn_animals_dropdown_content_rodents {
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+.main_nav_btn_list>li:nth-child(6) .main_nav_btn_list_item_dropdown {
+  left: auto;
+  /* right: 550px; */
 }
+
 </style>

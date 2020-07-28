@@ -102,10 +102,9 @@ export default {
 <style>
 .details_container {
   width: 100%;
-  padding: 30px;
   border: 1px solid black;
-  border-radius: 4px;
   box-shadow: 0 0 5px;
+  background: rgb(230, 230, 250, 0.95);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

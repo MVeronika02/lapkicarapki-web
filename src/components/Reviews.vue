@@ -77,7 +77,6 @@
     <div id="popup-wrapper" class="reviews_composition_overlay">
       <div class="popup">
         <a class="close" href="#">&times;</a>
-        <!-- <div class="content"> -->
           <form
             id="ProductReview"
             class="rating"
@@ -135,6 +134,7 @@
                 name="fname"
                 v-model="content.name_reviewer"
                 placeholder="*Имя"
+                required
               />
               <input
                 type="text"
@@ -142,12 +142,11 @@
                 id="textReview"
                 v-model="content.text_review"
                 placeholder="*Комментарий"
+                required
               />
             </div>
 
-            <p width="30%">
-              <input type="submit" value="Отправить" class="btn-submit" />
-            </p>
+              <input type="submit" value="Отправить" class="btn_submit_review" />
           </form>
       </div>
     </div>
@@ -224,6 +223,7 @@ export default {
   height: 40px;
   width: 150px;
   float: right;
+  margin-right: 10px;
 }
 
 .reviews_show {
@@ -368,9 +368,28 @@ export default {
   width: 80%;
 }
 
-.btn-submit {
-  border-radius: 10%;
+input:invalid {
+  border: 2px solid red;
+}
+
+input:valid {
+  border: 2px solid black;
+}
+
+.btn_submit_review {
+  width: 100px;
+  height: 50px;
+  border-radius: 2px;
   font-size: 16px;
+  background: rgb(1, 51, 1);
+}
+
+.btn_submit_review:hover {
+  background: rgb(31, 107, 31);
+}
+
+.btn_submit_review:active {
+  background: grey;
 }
 
 .rating-mini {
@@ -390,10 +409,6 @@ export default {
   color: gold;
 }
 
-.pName {
-  width: 40%;
-  margin-right: 0;
-}
 
 hr {
   border: none;

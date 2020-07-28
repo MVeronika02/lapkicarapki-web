@@ -44,6 +44,7 @@ export default {
 <style>
 
 .contentCategories {
+  background: rgb(230, 230, 250, 0.95);
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

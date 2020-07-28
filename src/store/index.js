@@ -80,9 +80,12 @@ export default new Vuex.Store({
         if (newItemRemove) {
           newItemRemove.quantity --
           newItemRemove.totalPrice = newItemRemove.quantity * newItemRemove.priceProduct
+          if (state.cartCount > 0) { 
+            state.cartCount--
+          }
         }
       }
-      state.cartCount--
+      
     },
     removeAllProduct: (state, allDetailProduct) => {
       let index = state.basketContent.indexOf(allDetailProduct)

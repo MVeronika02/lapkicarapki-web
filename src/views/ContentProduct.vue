@@ -5,12 +5,14 @@
         class="product_unit"
         v-for="allProduct in  $store.state.allProducts"
         :key="allProduct.idProduct"
-        @click="goDetails(allProduct.idProduct)"
       >
-        <div class="product_unit_title">{{ allProduct.nameProduct }}</div>
-        <img :src="imageProduct(allProduct.urlImageProduct)" class="product_unit_img" />
-        <p>Цена: {{ allProduct.priceProduct }}</p>
-        <button @click="addToBasket(allProduct)">Добавить в корзину</button>
+        <div class="product_unit_block" @click="goDetails(allProduct.idProduct)">
+          <div class="product_unit_title">{{ allProduct.nameProduct }}</div>
+          <img :src="imageProduct(allProduct.urlImageProduct)" class="product_unit_img" />
+          <p>Цена: {{ allProduct.priceProduct }}</p>
+        </div>
+
+        <button class="btn_addBasket" @click="addToBasket(allProduct)">Добавить в корзину</button>
       </div>
     </div>
     <v-pagination
@@ -71,6 +73,11 @@ export default {
   justify-content: space-between;
 }
 
+.product_unit_block {
+  height: 290px;
+  width: 240px;
+}
+
 .product_unit {
   height: 345px;
   width: 250px;
@@ -88,6 +95,16 @@ export default {
 .product_unit_img {
   height: 190px;
   width: 190px;
+  margin-bottom: 10px;
+}
+
+.btn_addBasket {
+  height: 30px;
+  width: 180px;
+}
+
+.btn_addBasket:hover {
+  background: chocolate;
 }
 
 .pagination_style {
