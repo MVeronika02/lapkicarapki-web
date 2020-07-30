@@ -132,6 +132,7 @@
                 type="text"
                 id="fname"
                 name="fname"
+                class="reviews_input"
                 v-model="content.name_reviewer"
                 placeholder="*Имя"
                 required
@@ -140,6 +141,7 @@
                 type="text"
                 name="textReview"
                 id="textReview"
+                class="reviews_input"
                 v-model="content.text_review"
                 placeholder="*Комментарий"
                 required
@@ -368,11 +370,11 @@ export default {
   width: 80%;
 }
 
-input:invalid {
+.reviews_input:invalid {
   border: 2px solid red;
 }
 
-input:valid {
+.reviews_input:valid {
   border: 2px solid black;
 }
 

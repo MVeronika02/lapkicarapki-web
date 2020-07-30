@@ -7,6 +7,7 @@ import Basket from '../components/Basket.vue'
 import FiltredProducts from '../views/FiltredProducts.vue'
 import Sidebar from '../components/Sidebar.vue'
 import Categories from '../components/Categories.vue'
+import Order from '../components/Order.vue'
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,11 @@ const routes = [
           path: '/basket',
           name: 'Basket',
           component: Basket
+        },
+        {
+          path: '/order',
+          name: 'Order',
+          component: Order
         }
       ]
   }

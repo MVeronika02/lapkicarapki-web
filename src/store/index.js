@@ -72,7 +72,7 @@ export default new Vuex.Store({
         Vue.set(allDetailProduct, 'totalPrice', allDetailProduct.priceProduct)
       }
       state.cartCount++
-      console.log(state.basketContent, '++++')
+      // console.log(state.basketContent, '++++')
     },
     removeProductFromBasket: (state, allDetailProduct) => {
       let newItemRemove = state.basketContent.find(object => object.idProduct === allDetailProduct.idProduct)
@@ -106,7 +106,7 @@ export default new Vuex.Store({
     SETCategory: async (context) => {
       await Axios.get('http://localhost:5000/categories')
         .then(categoryAll => {
-          console.log(categoryAll, '77777')
+          // console.log(categoryAll, '77777')
           context.commit('SETAllCategory', categoryAll.data.result)
         })
     },
@@ -114,7 +114,7 @@ export default new Vuex.Store({
         await Axios.get('http://localhost:5000/products?valueMin=' + payload.min + '&valueMax=' + payload.max + '&limit=5&numberpage='+ payload.page)
           .then(filtredProducts => {
             context.commit('SETfiltredProducts', filtredProducts.data.result)
-            console.log(filtredProducts, '---------------')
+            // console.log(filtredProducts, '---------------')
           })
       
     },
@@ -123,7 +123,7 @@ export default new Vuex.Store({
         .then(resultBackend => {
           context.commit('SETProductToPage', resultBackend.data.result.product)
           context.commit('SETCountProductPage', resultBackend.data.result.count_page)
-          console.log(resultBackend, 'tytytytytytyty')
+          // console.log(resultBackend, 'tytytytytytyty')
         })
     }
   }

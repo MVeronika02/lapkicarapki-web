@@ -38,7 +38,7 @@ export default {
   computed: mapState(["allProducts"]),
   created() {
     this.$store.dispatch("ProductsOnPage", 1);
-    console.log(this.$store.state.countProductPage);
+    // console.log(this.$store.state.countProductPage);
   },
   methods: {
     imageProduct(imagePath) {

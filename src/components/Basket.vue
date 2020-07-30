@@ -1,48 +1,55 @@
 <template>
   <div class="basket_details">
     <h3 class="basket_name">Ваша корзина ({{ $store.state.cartCount }})</h3>
-    <div v-if="$store.state.basketContent.length > 0">
-      <table>
+    <div class="basket_details_info">
+      <table v-if="$store.state.basketContent.length > 0" class="basket_details_table">
         <tr class="basket_table_row_1">
-          <th style="text-align:left">Наименование</th>
-          <th>Количество</th>
-          <th>Цена 1 шт.</th>
-          <th>Общая сумма</th>
+          <th class="row_1_th_name">Товары</th>
+          <th class="row_1_th_count_product">Количество</th>
+          <th class="row_1_th_price">Цена</th>
+          <th class="row_1_th_totalsum">Сумма</th>
         </tr>
-        <div v-for="allProduct in $store.state.basketContent" :key="allProduct.idProduct">
-          <tr class="basket_table_row_2">
-            <td class="basket_table_name_product">
-              <p>{{ allProduct.nameProduct }}</p>
-              <img :src="imageProduct(allProduct.urlImageProduct)" width="30%" height="50%" />
-            </td>
 
-            <td class="basket_table_counter">
-              <button type="button" class="button_plus" @click="addToBasket(allProduct)">+</button>
-              <span class="counter_number">{{ allProduct.quantity }}</span>
-              <button type="button" class="button_minus" @click="minusProduct(allProduct)">-</button>
-              <button type="button" class="button_delete" @click="removeProducts(allProduct)">
-                <i class="fa fa-times" aria-hidden="true"></i>
-                Удалить
-              </button>
-            </td>
-            <td class="basket_table_price_product">
-              <p>{{ allProduct.priceProduct }} тг</p>
-            </td>
-            <td class="basket_table_totalprice">
-              <p>{{ allProduct.totalPrice }} тг</p>
-            </td>
-          </tr>
-        </div>
+        <tr
+          v-for="allProduct in $store.state.basketContent"
+          :key="allProduct.idProduct"
+          class="basket_table_row_2"
+        >
+          
+          <td class="basket_table_img">
+            <img :src="imageProduct(allProduct.urlImageProduct)" width="80%" height="90%" />
+          </td>
+          <td class="basket_table_name_product">
+            <p>{{ allProduct.nameProduct }}</p>
+          </td>
+
+          <td class="basket_table_counter">
+            <button type="button" class="button_plus" @click="addToBasket(allProduct)">+</button>
+            <span class="counter_number">{{ allProduct.quantity }}</span>
+            <button type="button" class="button_minus" @click="minusProduct(allProduct)">-</button>
+            <button type="button" class="button_delete" @click="removeProducts(allProduct)">
+              <i class="far fa-trash-alt"></i>
+            </button>
+          </td>
+          <td class="basket_table_price_product">
+            <p>{{ allProduct.priceProduct }} тг</p>
+          </td>
+          <td class="basket_table_totalprice">
+            <p>{{ allProduct.totalPrice }} тг</p>
+          </td>
+        </tr>
       </table>
-      <hr />
-      <div class="sum_price">
-        <v-btn>Оформить заказ</v-btn>
-        <p>Итого: {{ totalPrice }} тг</p>
+      <div v-else class="navbar-dropdown is-boxed is-right">
+        <a class="navbar-item">Kорзина пуста</a>
       </div>
-    </div>
 
-    <div v-else class="navbar-dropdown is-boxed is-right">
-      <a class="navbar-item">Kорзина пуста</a>
+      <div class="ordering">
+        <h1>Итого</h1>
+        <p>Товара на: {{ totalPrice }} тг</p>
+        <hr/>
+        <p>К оплате: {{ totalPrice }} тг</p>
+        <v-btn @click="goToOrdering()">Оформить заказ</v-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -84,15 +91,19 @@ export default {
     removeProducts(allProduct) {
       this.$store.commit("removeAllProduct", allProduct);
     },
+    goToOrdering(allProduct) {
+      this.$router.push({ name: "Order" });
+    }
   },
 };
 </script>
 
 <style>
 .basket_details {
-  width: 100%;
-  background: rgb(230, 230, 250, 1);
-  padding: 20px;
+  background: rgb(230, 230, 250, 0.95);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .basket_name {
@@ -102,7 +113,18 @@ export default {
   height: 100px;
 }
 
+.basket_details_info {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.basket_details_table {
+  width: 50%;
+}
+
 .basket_table_row_1 {
+  width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -110,47 +132,69 @@ export default {
 
 /* границы ячеек первого ряда таблицы */
 th {
-  width: 25%;
-  font-size: 30px;
+  font-size: 22px;
+  /* text-align: left; */
+  
+}
+
+.row_1_th_name {
+  width: 500px;
+  text-align: left;
+}
+
+.row_1_th_count_product {
+  width: 200px;
+  text-align: left;
+}
+
+.row_1_th_price {
+  width: 150px;
+  text-align: center;
+}
+
+.row_1_th_totalsum {
+  width: 100px;
+  text-align: left;
 }
 
 .basket_table_row_2 {
-  margin-top: 30px;
-  height: 250px;
+  width: 100%;
+  margin-top: 15px;
+  padding: 5px;
+  height: 150px;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  /* box-shadow: 0 0 2px; */
-  background: cornsilk;
+  background: darkseagreen;
+  box-shadow: 0 0 5px;
+}
+
+.basket_table_img {
+  width: 160px;
+  padding-top: 10px;
+  padding-left: 5px;
 }
 
 .basket_table_name_product {
-  width: 25%;
-}
-
-.basket_table_name_product p {
-  width: 100%;
-  font-size: 26px;
+  width: 340px;
+  margin-top: 50px;
+  font-size: 18px;
 }
 
 .basket_table_counter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 25%;
+  width: 200px;
   height: 100px;
-  padding: 20px;
 }
 
 .button_plus {
   border: 1px solid #d5d5d5;
   border-radius: 2px;
-  height: 35px;
-  width: 50px;
-  margin-left: 75px;
-  margin-right: 20px;
-  font-size: 26px;
+  height: 30px;
+  width: 45px;
+  margin: 30px 20px 0 0;
+  font-size: 20px;
   text-align: center;
 }
 
@@ -162,16 +206,16 @@ th {
 .counter_number {
   font-size: 22px;
   text-align: center;
+  margin-top: 30px;
 }
 
 .button_minus {
   border: 1px solid #d5d5d5;
   border-radius: 2px;
-  height: 35px;
-  width: 50px;
-  margin-left: 20px;
-  margin-right: 70px;
-  font-size: 26px;
+  height: 30px;
+  width: 45px;
+  margin: 30px 20px 0 20px;
+  font-size: 20px;
 }
 
 .button_minus:active,
@@ -180,30 +224,25 @@ th {
 }
 
 .button_delete {
-  width: 150px;
+  margin-top: 30px; 
+  height: 30px;
+  width: 45px;
+  font-size: 18px;
 }
 
-/* границы ячеек тела таблицы */
 .basket_table_price_product {
-  width: 25%;
+  width: 150px;
   height: 100px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  font-size: 26px;
+  font-size: 20px;
+  margin-top: 50px;
+  padding-left: 45px;
 }
 
 .basket_table_totalprice {
-  width: 25%;
+  width: 100px;
   height: 100px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  font-size: 26px;
+  font-size: 20px;
+  margin-top: 50px;
 }
 
 hr {
@@ -212,15 +251,18 @@ hr {
   height: 2px; /* Толщина линии */
 }
 
-.sum_price {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
+.ordering {
+  margin-top: 45px;
+  margin-left: 40px;
+  width: 35%;
+  box-shadow: 0 0 5px;
+  background: darkseagreen;
+  padding: 15px;
 }
 
-.sum_price p {
-  width: 18%;
+.ordering p {
+  width: 500px;
   font-size: 22px;
+  margin: 40px 0;
 }
 </style>

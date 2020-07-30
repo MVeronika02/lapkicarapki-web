@@ -10,7 +10,7 @@
 
       <div class="header_details_basket">
         <i class="fas fa-cart-arrow-down"></i>
-        <button @click="openBasket(); closeSidebar()">ВАША КОРЗИНА ({{ $store.state.cartCount }})</button>
+        <button @click="openBasket()">ВАША КОРЗИНА ({{ $store.state.cartCount }})</button>
       </div>
       <input type="text" class="header_details_search" placeholder="Поиск.." />
     </div>
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     allCategoryAnimals: function (idAnimal) {
-      console.log(idAnimal, "////////");
+      // console.log(idAnimal, "////////");
       this.$store.commit("filterCategory", idAnimal);
     },
     categoriesForOneAnimal: function (idAnimal) {
@@ -124,7 +124,7 @@ export default {
 .header_details_basket button {
   height: 50px;
   width: 160px;
-  margin-left: 5px;
+  margin-left: 10px;
   padding: 5px;
   background-color: darkseagreen;
 }
@@ -148,7 +148,7 @@ export default {
 }
 
 :root {
-  --main-bg-color-nav: darkgreen;
+  --main-bg-color-nav: rgb(19, 138, 49);
 }
 
 .main_nav {
@@ -164,14 +164,26 @@ export default {
   background-color: var(--main-bg-color-nav);
   width: 150px;
   height: 50px;
+  padding-top: 10px;
 }
 
 .main_nav_btn_list_item_dropdown {
   display: none;
   background-color: darkorange;
   list-style-type: none;
-  width: 200px;
-  height: 200px;
+  width: 400px;
+  height: 300px;
+  text-align: left;
+}
+
+.main_nav_btn_list_item_dropdown li {
+  margin-bottom: 10px;
+  color: black !important;
+  
+}
+
+.main_nav_btn_list_item_dropdown li > a{
+  color: black !important;
 }
 
 .main_nav_btn_list_item:hover {
@@ -198,7 +210,6 @@ export default {
 
 .main_nav_btn_list>li:nth-child(6) .main_nav_btn_list_item_dropdown {
   left: auto;
-  /* right: 550px; */
 }
 
 </style>
