@@ -7,7 +7,7 @@
   </div>
 
   <div class="content_grid">
-    <router-view/>
+    <router-view />
   </div>
   
   <footer id="pageFooter">Footer</footer>

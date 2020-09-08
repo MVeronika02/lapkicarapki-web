@@ -18,6 +18,7 @@ const routes = [
     component: Home,
       children: [
         {
+          
           path: '/',
           name: 'Content',
           component: ContentProduct
@@ -61,5 +62,9 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+router.beforeEach(((to, from, next) => {
+  if (false) next({ name: 'Basket' })
+  else next()
+}))
 
 export default router

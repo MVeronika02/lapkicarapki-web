@@ -12,7 +12,19 @@
         <i class="fas fa-cart-arrow-down"></i>
         <button @click="openBasket()">ВАША КОРЗИНА ({{ $store.state.cartCount }})</button>
       </div>
-      <input type="text" class="header_details_search" placeholder="Поиск.." />
+
+      <div class="search_and_sign">
+        <input type="text" class="header_details_search" placeholder="Поиск.." />
+
+        <div class="sign_in">
+          <a href="#sign_in_wrapper">
+            <button class="btn_sign_in">Войти</button>
+          </a>
+          <a href="#sign_up_wrapper">
+            <button class="btn_sign_up">Регистрация</button>
+          </a>
+        </div>
+      </div>
     </div>
 
     <nav class="main_nav">
@@ -24,20 +36,77 @@
           @mouseover="allCategoryAnimals(animal.key)"
           @click="goToCategories(animal.key); categoriesForOneAnimal(animal.key)"
         >
-          <a>{{ animal.name }}</a>
+          <a class="main_nav_btn_list_item_a">{{ animal.name }}</a>
           <ul class="main_nav_btn_list_item_dropdown">
             <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.idCategory">
-              <a>{{ allCategory.nameCategory }}</a>
+              <a class="main_nav_btn_list_item_dropdown_a">{{ allCategory.nameCategory }}</a>
             </li>
           </ul>
         </li>
       </ul>
     </nav>
+
+    <div id="sign_in_wrapper" class="sign_in_overlay">
+      <div class="sign_in_popup">
+        <a class="sign_in_close" href="#">&times;</a>
+        <form id="form_sign_in" method="post">
+          <h2>Форма входа</h2>
+          <div>
+            <input type="tel" placeholder="*Номер телефона" required class="form_sign_in_input" />
+            <br />
+            <input
+              type="password"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              title="Не менее восьми символов, содержащих хотя бы одну цифру и символы из верхнего и нижнего регистра"
+              placeholder="*Пароль"
+              required
+              class="form_sign_in_input"
+            />
+          </div>
+
+          <input type="submit" value="Войти в аккаунт" class="btn_sign_in" />
+        </form>
+      </div>
+    </div>
+
+    <div id="sign_up_wrapper" class="sign_up_overlay">
+      <div class="sign_up_popup">
+        <a class="sign_up_close" href="#">&times;</a>
+        <form id="form_sign_up" method="post" @submit.prevent="recordUser">
+          <h2>Новый пользователь</h2>
+          <div>
+            <input type="text" placeholder="*Имя" required class="form_sign_up_input" />
+            <br />
+            <input type="tel" placeholder="*Номер телефона" required class="form_sign_up_input" />
+            <br />
+            <input
+              type="email"
+              pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
+              placeholder="*Электронная почта"
+              required
+              class="form_sign_up_input"
+            />
+            <br />
+            <input
+              type="password"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              title="Не менее восьми символов, содержащих хотя бы одну цифру и символы из верхнего и нижнего регистра"
+              placeholder="*Пароль"
+              required
+              class="form_sign_up_input"
+            />
+          </div>
+
+          <input type="submit" value="Регистрация" class="btn_sign_up" />
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import Axios from "axios";
 
 export default {
   name: "Header",
@@ -52,6 +121,12 @@ export default {
         { key: 5, name: "Насекомые" },
         { key: 6, name: "Грызуны" },
       ],
+      userData: {
+        user_name: "",
+        user_tel: "",
+        user_email: "",
+        user_password: ""
+      }
     };
   },
   mounted() {
@@ -72,12 +147,22 @@ export default {
     openBasket: function () {
       this.$router.push({ name: "Basket" });
     },
+    recordUser(event) {
+      console.log(this.content);
+      Axios.post("http://localhost:5000/registration", this.userData).then(
+        (response) => {
+          console.log(response);
+        }
+      ),
+        (error) => {
+          console.log(error);
+        };
+    },
   },
 };
 </script>
 
 <style>
-
 .header_details {
   height: 250px;
   margin: auto;
@@ -133,18 +218,43 @@ export default {
   color: white;
 }
 
+.search_and_sign {
+  width: 100%;
+}
+
 .header_details_search {
-  width: 60%;
+  width: 40%;
   height: 50px;
   transition: width 0.4s ease-in-out;
   font-size: 18px;
   padding: 5px;
-  border: 1px solid #ddd;
-  margin-top: 20px;
+  border: 1px solid grey;
+  border-radius: 4px;
 }
 
 .header_details_search:focus {
-  width: 80%;
+  width: 60%;
+}
+
+.sign_in {
+  float: right;
+}
+
+.btn_sign_in {
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  background: orange;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.btn_sign_up {
+  width: 120px;
+  height: 30px;
+  border-radius: 5px;
+  background: green;
+  margin-left: 10px;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 :root {
@@ -176,13 +286,12 @@ export default {
   text-align: left;
 }
 
-.main_nav_btn_list_item_dropdown li {
+.main_nav_btn_list_item_dropdown_a {
   margin-bottom: 10px;
   color: black !important;
-  
 }
 
-.main_nav_btn_list_item_dropdown li > a{
+.main_nav_btn_list_item_a {
   color: black !important;
 }
 
@@ -208,8 +317,131 @@ export default {
   left: auto;
 }
 
-.main_nav_btn_list>li:nth-child(6) .main_nav_btn_list_item_dropdown {
+.main_nav_btn_list > li:nth-child(6) .main_nav_btn_list_item_dropdown {
   left: auto;
 }
 
+.sign_in_overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.sign_in_overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.sign_in_popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 20%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.sign_in_popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.sign_in_close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.sign_in_close:hover {
+  color: #06d85f;
+}
+
+.form_sign_in_input {
+  width: 200px;
+  height: 40px;
+  margin: 10px 0px;
+  border: 1px solid black;
+}
+
+.btn_sign_in {
+  width: 150px;
+  height: 30px;
+  border-radius: 2px;
+  font-size: 16px;
+  background: orange;
+}
+
+.sign_up_overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.sign_up_overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.sign_up_popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 20%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.sign_up_popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.sign_up_close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.sign_up_close:hover {
+  color: #06d85f;
+}
+
+.form_sign_up_input {
+  width: 200px;
+  height: 40px;
+  margin: 10px 0px;
+  border: 1px solid black;
+}
+
+.btn_sign_up {
+  width: 150px;
+  height: 30px;
+  border-radius: 2px;
+  font-size: 16px;
+  background: orange;
+}
 </style>
