@@ -18,11 +18,20 @@ export default new Vuex.Store({
     filtredProductData: [],
     valueMin: 0,
     valueMax: 0,
-    countProductPage: 0
+    countProductPage: 0,
+    user: {
+      loggedIn: false,
+      isSubscribed: false
+    }
+  },
+
+  getters: {
+    auth(state) {
+        return state.user
+    }
   },
 
   //Мутации
-
   mutations: {
     SETAllCategory: (state, categoryAll) => {
       state.allCategoryAnimal = categoryAll

@@ -38,18 +38,20 @@
             <p>{{ allProduct.totalPrice }} тг</p>
           </td>
         </tr>
-      </table>
-      <div v-else class="navbar-dropdown is-boxed is-right">
-        <a class="navbar-item">Kорзина пуста</a>
-      </div>
 
-      <div class="ordering">
+        <div class="ordering">
         <h1>Итого</h1>
         <p>Товара на: {{ totalPrice }} тг</p>
         <hr/>
         <p>К оплате: {{ totalPrice }} тг</p>
         <v-btn @click="goToOrdering()">Оформить заказ</v-btn>
       </div>
+      </table>
+      <div v-else class="navbar-dropdown is-boxed is-right">
+        <a class="navbar-item">Kорзина пуста</a>
+      </div>
+
+      
     </div>
   </div>
 </template>
