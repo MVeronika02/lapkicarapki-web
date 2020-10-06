@@ -1,6 +1,6 @@
 <template>
   <div class="login_block">
-    <p>Регистрация нового пользователя!</p>
+    <p>Вам необходимо зарегистрироваться!</p>
   </div>
 </template>
 
@@ -15,6 +15,7 @@ export default {
 
 <style>
 .login_block {
-    
+  height: 300px;
+  background: green;
 }
 </style>

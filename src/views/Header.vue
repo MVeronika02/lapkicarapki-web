@@ -10,11 +10,17 @@
 
       <div class="header_details_basket">
         <i class="fas fa-cart-arrow-down"></i>
-        <button @click="openBasket()">ВАША КОРЗИНА ({{ $store.state.cartCount }})</button>
+        <button @click="openBasket()">
+          ВАША КОРЗИНА ({{ $store.state.cartCount }})
+        </button>
       </div>
 
       <div class="search_and_sign">
-        <input type="text" class="header_details_search" placeholder="Поиск.." />
+        <input
+          type="text"
+          class="header_details_search"
+          placeholder="Поиск.."
+        />
 
         <div class="sign_in">
           <a href="#sign_in_wrapper">
@@ -34,12 +40,20 @@
           :key="animal.key"
           class="main_nav_btn_list_item"
           @mouseover="allCategoryAnimals(animal.key)"
-          @click="goToCategories(animal.key); categoriesForOneAnimal(animal.key)"
+          @click="
+            goToCategories(animal.key);
+            categoriesForOneAnimal(animal.key);
+          "
         >
           <a class="main_nav_btn_list_item_a">{{ animal.name }}</a>
           <ul class="main_nav_btn_list_item_dropdown">
-            <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.idCategory">
-              <a class="main_nav_btn_list_item_dropdown_a">{{ allCategory.nameCategory }}</a>
+            <li
+              v-for="allCategory in $store.state.filtredCategory"
+              :key="allCategory.idCategory"
+            >
+              <a class="main_nav_btn_list_item_dropdown_a">{{
+                allCategory.nameCategory
+              }}</a>
             </li>
           </ul>
         </li>
@@ -48,23 +62,38 @@
 
     <div id="sign_in_wrapper" class="sign_in_overlay">
       <div class="sign_in_popup">
-        <a class="sign_in_close" href="#">&times;</a>
-        <form id="form_sign_in" method="post">
+        <a class="sign_in_close" href="#" @click="$emit('close')">&times;</a>
+        <form id="form_sign_in" method="get" @submit.prevent="userLogin">
           <h2>Форма входа</h2>
           <div>
-            <input type="tel" placeholder="*Номер телефона" required class="form_sign_in_input" />
+            <input
+              type="text"
+              placeholder="*Логин"
+              required
+              class="form_sign_in_input"
+              v-model="info.login"
+            />
             <br />
             <input
+              type="password"
+              placeholder="*Пароль"
+              required
+              class="form_sign_in_input"
+              v-model="info.password"
+            />
+
+            <!-- <input
               type="password"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               title="Не менее восьми символов, содержащих хотя бы одну цифру и символы из верхнего и нижнего регистра"
               placeholder="*Пароль"
               required
               class="form_sign_in_input"
-            />
+            /> -->
           </div>
 
-          <input type="submit" value="Войти в аккаунт" class="btn_sign_in" />
+          <!-- <input type="submit" value="Войти в аккаунт" class="btn_sign_in" @click="openLogin()" /> -->
+          <button class="btn_sign_in">Войти</button>
         </form>
       </div>
     </div>
@@ -75,9 +104,19 @@
         <form id="form_sign_up" method="post" @submit.prevent="recordUser">
           <h2>Новый пользователь</h2>
           <div>
-            <input type="text" placeholder="*Имя" required class="form_sign_up_input" />
+            <input
+              type="text"
+              placeholder="*Имя"
+              required
+              class="form_sign_up_input"
+            />
             <br />
-            <input type="tel" placeholder="*Номер телефона" required class="form_sign_up_input" />
+            <input
+              type="tel"
+              placeholder="*Номер телефона"
+              required
+              class="form_sign_up_input"
+            />
             <br />
             <input
               type="email"
@@ -121,12 +160,16 @@ export default {
         { key: 5, name: "Насекомые" },
         { key: 6, name: "Грызуны" },
       ],
+      info: {
+        login: "",
+        password: "",
+      },
       userData: {
         user_name: "",
         user_tel: "",
         user_email: "",
-        user_password: ""
-      }
+        user_password: "",
+      },
     };
   },
   mounted() {
@@ -135,7 +178,6 @@ export default {
   },
   methods: {
     allCategoryAnimals: function (idAnimal) {
-      // console.log(idAnimal, "////////");
       this.$store.commit("filterCategory", idAnimal);
     },
     categoriesForOneAnimal: function (idAnimal) {
@@ -145,7 +187,26 @@ export default {
       this.$router.push({ name: "categories", params: { Pid: idAnimal } });
     },
     openBasket: function () {
-      this.$router.push({ name: "Basket" });
+        let config = {
+        headers: {},
+      }
+      if (localStorage.getItem("key") != 'undefined') {
+          config.headers = {TOKEN:  localStorage.getItem("key")}
+      }
+      Axios.get(
+        "http://localhost:5000/check_access",
+        config
+      ).then((response) => {
+        console.log(response.data, " key2");
+        if (response.data.success == true) {
+          this.$router.push("/basket");
+        } else {
+          alert("Вам необходимо зарегистрироваться");
+        }
+      }),
+        (error) => {
+          console.log(error);
+        };
     },
     recordUser(event) {
       console.log(this.content);
@@ -157,6 +218,12 @@ export default {
         (error) => {
           console.log(error);
         };
+    },
+    userLogin(event) {
+      console.log(this.info, " login");
+      this.$store
+        .dispatch("UserLogin", this.info)
+        .then(() => this.$router.push("/login"));
     },
   },
 };

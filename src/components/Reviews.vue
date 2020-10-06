@@ -199,7 +199,7 @@ export default {
     addReview(event) {
       console.log(this.content);
       console.log(this.productId);
-      Axios.post("http://localhost:5000/reviews", this.content).then(
+      Axios.post,("http://localhost:5000/reviews", this.content).then(
         (response) => {
           console.log(response);
         }

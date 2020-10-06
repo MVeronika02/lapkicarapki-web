@@ -2,7 +2,10 @@
   <div class="basket_details">
     <h3 class="basket_name">Ваша корзина ({{ $store.state.cartCount }})</h3>
     <div class="basket_details_info">
-      <table v-if="$store.state.basketContent.length > 0" class="basket_details_table">
+      <table
+        v-if="$store.state.basketContent.length > 0"
+        class="basket_details_table"
+      >
         <tr class="basket_table_row_1">
           <th class="row_1_th_name">Товары</th>
           <th class="row_1_th_count_product">Количество</th>
@@ -15,19 +18,38 @@
           :key="allProduct.idProduct"
           class="basket_table_row_2"
         >
-          
           <td class="basket_table_img">
-            <img :src="imageProduct(allProduct.urlImageProduct)" width="80%" height="90%" />
+            <img
+              :src="imageProduct(allProduct.urlImageProduct)"
+              width="80%"
+              height="90%"
+            />
           </td>
           <td class="basket_table_name_product">
             <p>{{ allProduct.nameProduct }}</p>
           </td>
 
           <td class="basket_table_counter">
-            <button type="button" class="button_plus" @click="addToBasket(allProduct)">+</button>
+            <button
+              type="button"
+              class="button_plus"
+              @click="addToBasket(allProduct)"
+            >
+              +
+            </button>
             <span class="counter_number">{{ allProduct.quantity }}</span>
-            <button type="button" class="button_minus" @click="minusProduct(allProduct)">-</button>
-            <button type="button" class="button_delete" @click="removeProducts(allProduct)">
+            <button
+              type="button"
+              class="button_minus"
+              @click="minusProduct(allProduct)"
+            >
+              -
+            </button>
+            <button
+              type="button"
+              class="button_delete"
+              @click="removeProducts(allProduct)"
+            >
               <i class="far fa-trash-alt"></i>
             </button>
           </td>
@@ -40,18 +62,16 @@
         </tr>
 
         <div class="ordering">
-        <h1>Итого</h1>
-        <p>Товара на: {{ totalPrice }} тг</p>
-        <hr/>
-        <p>К оплате: {{ totalPrice }} тг</p>
-        <v-btn @click="goToOrdering()">Оформить заказ</v-btn>
-      </div>
+          <h1>Итого</h1>
+          <p>Товара на: {{ totalPrice }} тг</p>
+          <hr />
+          <p>К оплате: {{ totalPrice }} тг</p>
+          <v-btn @click="goToOrdering()">Оформить заказ</v-btn>
+        </div>
       </table>
       <div v-else class="navbar-dropdown is-boxed is-right">
         <a class="navbar-item">Kорзина пуста</a>
       </div>
-
-      
     </div>
   </div>
 </template>
@@ -95,7 +115,7 @@ export default {
     },
     goToOrdering(allProduct) {
       this.$router.push({ name: "Order" });
-    }
+    },
   },
 };
 </script>
@@ -136,7 +156,6 @@ export default {
 th {
   font-size: 22px;
   /* text-align: left; */
-  
 }
 
 .row_1_th_name {
@@ -226,7 +245,7 @@ th {
 }
 
 .button_delete {
-  margin-top: 30px; 
+  margin-top: 30px;
   height: 30px;
   width: 45px;
   font-size: 18px;

@@ -19,15 +19,17 @@ export default new Vuex.Store({
     valueMin: 0,
     valueMax: 0,
     countProductPage: 0,
-    user: {
-      loggedIn: false,
-      isSubscribed: false
-    }
+    user: []
+    // user: {
+    //   loggedIn: [],
+    // isSubscribed: false
+
   },
 
   getters: {
     auth(state) {
-        return state.user
+      console.log(state.user, 'getter')
+      return state.user
     }
   },
 
@@ -44,7 +46,6 @@ export default new Vuex.Store({
     },
     filterCategory: (state, idAnimal) => {
       state.filtredCategory = state.allCategoryAnimal.filter(object => object.idAnimal === idAnimal)
-      console.log(state.filtredCategory)
     },
     filterCategoryOneAnimal: (state, idAnimal) => {
       state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.idAnimal === idAnimal)
@@ -62,6 +63,12 @@ export default new Vuex.Store({
       state.valueMin = value[0]
       state.valueMax = value[1]
     },
+    SETUser: (state, resultBool) => {
+      state.user = resultBool.success
+      window.localStorage.setItem('key', resultBool.token)
+      var localValue = localStorage.getItem('key')
+      console.log(localValue, 'token')
+    },
 
     // Корзина: добавление товара, показ товара в корзине, удаление
     saveBasket: (state) => {
@@ -69,10 +76,10 @@ export default new Vuex.Store({
       window.localStorage.setItem('cartCount', state.cartCount)
     },
     SETProductToBasket: (state, allDetailProduct) => {
-      let newItem = state.basketContent.find(object => object.idProduct=== allDetailProduct.idProduct)
-      
+      let newItem = state.basketContent.find(object => object.idProduct === allDetailProduct.idProduct)
+
       if (newItem) {
-        newItem.quantity ++
+        newItem.quantity++
         newItem.totalPrice = newItem.quantity * newItem.priceProduct
       } else {
         state.basketContent.push(allDetailProduct)
@@ -81,20 +88,19 @@ export default new Vuex.Store({
         Vue.set(allDetailProduct, 'totalPrice', allDetailProduct.priceProduct)
       }
       state.cartCount++
-      // console.log(state.basketContent, '++++')
     },
     removeProductFromBasket: (state, allDetailProduct) => {
       let newItemRemove = state.basketContent.find(object => object.idProduct === allDetailProduct.idProduct)
-      if ( newItemRemove.quantity > 0 ) {
+      if (newItemRemove.quantity > 0) {
         if (newItemRemove) {
-          newItemRemove.quantity --
+          newItemRemove.quantity--
           newItemRemove.totalPrice = newItemRemove.quantity * newItemRemove.priceProduct
-          if (state.cartCount > 0) { 
+          if (state.cartCount > 0) {
             state.cartCount--
           }
         }
       }
-      
+
     },
     removeAllProduct: (state, allDetailProduct) => {
       let index = state.basketContent.indexOf(allDetailProduct)
@@ -115,24 +121,28 @@ export default new Vuex.Store({
     SETCategory: async (context) => {
       await Axios.get('http://localhost:5000/categories')
         .then(categoryAll => {
-          // console.log(categoryAll, '77777')
           context.commit('SETAllCategory', categoryAll.data.result)
         })
     },
-    ProductsFilter: async ( context, payload) => {
-        await Axios.get('http://localhost:5000/products?valueMin=' + payload.min + '&valueMax=' + payload.max + '&limit=5&numberpage='+ payload.page)
-          .then(filtredProducts => {
-            context.commit('SETfiltredProducts', filtredProducts.data.result)
-            // console.log(filtredProducts, '---------------')
-          })
-      
+    ProductsFilter: async (context, payload) => {
+      await Axios.get('http://localhost:5000/products?valueMin=' + payload.min + '&valueMax=' + payload.max + '&limit=5&numberpage=' + payload.page)
+        .then(filtredProducts => {
+          context.commit('SETfiltredProducts', filtredProducts.data.result)
+        })
+
     },
-    ProductsOnPage: async ( context, page) => {
-        await Axios.get('http://localhost:5000/paginationcontent?limit=12&numberpage=' + page)
+    ProductsOnPage: async (context, page) => {
+      await Axios.get('http://localhost:5000/paginationcontent?limit=12&numberpage=' + page)
         .then(resultBackend => {
           context.commit('SETProductToPage', resultBackend.data.result.product)
           context.commit('SETCountProductPage', resultBackend.data.result.count_page)
-          // console.log(resultBackend, 'tytytytytytyty')
+        })
+    },
+    UserLogin: async (context, payload) => {
+      await Axios.get('http://localhost:5000/user?login=' + payload.login + '&password=' + payload.password)
+        .then(answerBool => {
+          context.commit('SETUser', answerBool.data)
+          console.log(answerBool.data, 'lllllll')
         })
     }
   }

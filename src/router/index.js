@@ -49,11 +49,11 @@ const routes = [
         path: 'detailsProduct/:Pid',
         name: 'detailsProduct',
         component: DetailsProduct,
-        meta: {
-          middleware: [
-            auth
-          ]
-        }
+        // meta: {
+        //   middleware: [
+        //     guest
+        //   ]
+        // }
       },
       {
         path: '/basket',
@@ -67,7 +67,7 @@ const routes = [
       },
       {
         path: '/login',
-        name: 'login',
+        name: 'Login',
         component: Login,
         meta: {
           middleware: [

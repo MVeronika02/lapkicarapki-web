@@ -1,9 +1,7 @@
-
-export default function auth({ next, store }) {
-    
-    if (!store.getters.auth.loggedIn) {
+export default function auth({ next, store }) {    
+    if (!store.getters.auth) {
         return next({
-            name: 'login'
+            name: 'Login'
         })
     }
     return next()
