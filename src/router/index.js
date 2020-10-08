@@ -9,7 +9,9 @@ import FiltredProducts from '../views/FiltredProducts.vue'
 import Sidebar from '../components/Sidebar.vue'
 import Categories from '../components/Categories.vue'
 import Order from '../components/Order.vue'
-import Login from '../components/Login'
+import Login from '../components/Login.vue'
+import Dashboard from '../components/Dashboard.vue'
+import Profile from '../components/Profile.vue'
 import middlewarePipeline from './middlewarePipeline'
 import guest from './middleware/guest'
 import auth from './middleware/auth'
@@ -75,6 +77,16 @@ const routes = [
           ]
         }
       },
+      {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: Dashboard,
+      },
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+      }
     ]
   }
 ]

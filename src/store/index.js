@@ -19,9 +19,8 @@ export default new Vuex.Store({
     valueMin: 0,
     valueMax: 0,
     countProductPage: 0,
-    user: []
-    // user: {
-    //   loggedIn: [],
+    user: [],
+    userData: []
     // isSubscribed: false
 
   },
@@ -65,10 +64,14 @@ export default new Vuex.Store({
     },
     SETUser: (state, resultBool) => {
       state.user = resultBool.success
+      state.userData = resultBool.result
+      console.log(userData, 'userdata')
       window.localStorage.setItem('key', resultBool.token)
       var localValue = localStorage.getItem('key')
       console.log(localValue, 'token')
     },
+
+    
 
     // Корзина: добавление товара, показ товара в корзине, удаление
     saveBasket: (state) => {

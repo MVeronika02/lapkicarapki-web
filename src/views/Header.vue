@@ -29,6 +29,9 @@
           <a href="#sign_up_wrapper">
             <button class="btn_sign_up">Регистрация</button>
           </a>
+          <a>
+            <button class="btn_profile" @click="openProfile">Личный кабинет</button>
+          </a>
         </div>
       </div>
     </div>
@@ -92,7 +95,6 @@
             /> -->
           </div>
 
-          <!-- <input type="submit" value="Войти в аккаунт" class="btn_sign_in" @click="openLogin()" /> -->
           <button class="btn_sign_in">Войти</button>
         </form>
       </div>
@@ -109,6 +111,7 @@
               placeholder="*Имя"
               required
               class="form_sign_up_input"
+              v-model="userData.login"
             />
             <br />
             <input
@@ -116,6 +119,7 @@
               placeholder="*Номер телефона"
               required
               class="form_sign_up_input"
+              v-model="userData.tel"
             />
             <br />
             <input
@@ -124,6 +128,7 @@
               placeholder="*Электронная почта"
               required
               class="form_sign_up_input"
+              v-model="userData.email"
             />
             <br />
             <input
@@ -133,13 +138,18 @@
               placeholder="*Пароль"
               required
               class="form_sign_up_input"
+              v-model="userData.password"
             />
           </div>
 
-          <input type="submit" value="Регистрация" class="btn_sign_up" />
+          <button class="btn_sign_up">Зарегистрироваться</button>
         </form>
       </div>
     </div>
+
+    <!-- <div class="btn_logout">
+      <button @click="logout">Выйти</button>
+    </div> -->
   </div>
 </template>
 
@@ -165,11 +175,12 @@ export default {
         password: "",
       },
       userData: {
-        user_name: "",
-        user_tel: "",
-        user_email: "",
-        user_password: "",
+        login: "",
+        tel: "",
+        email: "",
+        password: "",
       },
+      // Ninja: True,
     };
   },
   mounted() {
@@ -187,44 +198,51 @@ export default {
       this.$router.push({ name: "categories", params: { Pid: idAnimal } });
     },
     openBasket: function () {
-        let config = {
+      let config = {
         headers: {},
+      };
+      if (localStorage.getItem("key") != "undefined") {
+        config.headers = { TOKEN: localStorage.getItem("key") };
       }
-      if (localStorage.getItem("key") != 'undefined') {
-          config.headers = {TOKEN:  localStorage.getItem("key")}
-      }
-      Axios.get(
-        "http://localhost:5000/check_access",
-        config
-      ).then((response) => {
-        console.log(response.data, " key2");
-        if (response.data.success == true) {
-          this.$router.push("/basket");
-        } else {
-          alert("Вам необходимо зарегистрироваться");
-        }
-      }),
-        (error) => {
-          console.log(error);
-        };
-    },
-    recordUser(event) {
-      console.log(this.content);
-      Axios.post("http://localhost:5000/registration", this.userData).then(
+      Axios.get("http://localhost:5000/check_access", config).then(
         (response) => {
-          console.log(response);
+          console.log(response.data, " key2");
+          if (response.data.success == true) {
+            this.$router.push("/basket");
+          } else {
+            alert("Вам необходимо зарегистрироваться");
+          }
         }
       ),
         (error) => {
           console.log(error);
         };
     },
+    recordUser(event) {
+      console.log(this.userData)
+      Axios.post('http://localhost:5000/registration', this.userData).then(
+        (response) => {
+          console.log(response);
+        }
+      ),
+        (error) => {
+          console.log(error);
+        }
+    },
     userLogin(event) {
       console.log(this.info, " login");
+      this.$router.push("/dashboard");
       this.$store
         .dispatch("UserLogin", this.info)
         .then(() => this.$router.push("/login"));
     },
+    logout() {
+      localStorage.removeItem("key");
+      this.$router.push("/");
+    },
+    openProfile:function () {
+      this.$router.push("/profile");
+    }
   },
 };
 </script>
@@ -315,14 +333,14 @@ export default {
   color: rgba(0, 0, 0, 0.7);
 }
 
-.btn_sign_up {
-  width: 120px;
+/* .btn_sign_up {
+  width: 160px;
   height: 30px;
   border-radius: 5px;
   background: green;
   margin-left: 10px;
   color: rgba(0, 0, 0, 0.7);
-}
+} */
 
 :root {
   --main-bg-color-nav: rgb(19, 138, 49);
@@ -505,10 +523,11 @@ export default {
 }
 
 .btn_sign_up {
-  width: 150px;
+  width: 160px;
   height: 30px;
   border-radius: 2px;
   font-size: 16px;
   background: orange;
+  color: black;
 }
 </style>
