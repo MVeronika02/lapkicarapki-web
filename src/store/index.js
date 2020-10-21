@@ -19,10 +19,16 @@ export default new Vuex.Store({
     valueMin: 0,
     valueMax: 0,
     countProductPage: 0,
-    user: [],
-    userData: []
-    // isSubscribed: false
-
+    allReviews: [],
+    countPageReview: 0,
+    user: Boolean,
+    userData: [],
+    // user : {
+    //   metaData : {},
+    //   presence: undefined
+    // }, 
+    ninja: false,
+    localValue: 0,
   },
 
   getters: {
@@ -63,14 +69,19 @@ export default new Vuex.Store({
       state.valueMax = value[1]
     },
     SETUser: (state, resultBool) => {
+      console.log("state.user", state.user)
       state.user = resultBool.success
       state.userData = resultBool.result
-      console.log(userData, 'userdata')
       window.localStorage.setItem('key', resultBool.token)
-      var localValue = localStorage.getItem('key')
-      console.log(localValue, 'token')
+      state.localValue = localStorage.getItem('key')
     },
-
+    SETReviewsToPage: (state, selectedReviews) => {
+      state.allReviews = selectedReviews
+    },
+    SETReviews: (state, countReviews) => {
+      state.countPageReview = countReviews
+      console.log(state.countPageReview, 'review')
+    },
     
 
     // Корзина: добавление товара, показ товара в корзине, удаление
@@ -147,6 +158,17 @@ export default new Vuex.Store({
           context.commit('SETUser', answerBool.data)
           console.log(answerBool.data, 'lllllll')
         })
+    },
+    ReviewsOnPage: async (context, payload) => {
+      await Axios.get(
+        "http://localhost:5000/inforeviews?productid=" + payload.id + "&offset=" + payload.page + "&limit=3"
+      ).then((reviewsProduct) => {
+        context.commit('SETReviews', reviewsProduct.data.count_page)
+        context.commit('SETReviewsToPage', reviewsProduct.data.result)
+        // this.allReviews = reviewsProduct.data.result;
+        // this.countPage = reviewsProduct.data.count_page;
+        console.log(reviewsProduct.data.result, 'reviewsProduct.data.result')
+      });
     }
   }
 })

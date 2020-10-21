@@ -1,7 +1,7 @@
 <template>
   <div class="header_details">
     <a href="/" height="190px">
-      <img src="../assets/img/logo.jpeg" class="header_details_img" />
+      <img src="../assets/img/animalPaws.svg" class="header_details_img" />
     </a>
     <div class="header_details_nav">
       <a class="header_details_nav_a">ДОСТАВКА И ОПЛАТА</a>
@@ -9,9 +9,10 @@
       <a class="header_details_nav_a">НАШИ АДРЕСА</a>
 
       <div class="header_details_basket">
-        <i class="fas fa-cart-arrow-down"></i>
+        <!-- <i class="fas fa-cart-arrow-down"></i> -->
         <button @click="openBasket()">
-          ВАША КОРЗИНА ({{ $store.state.cartCount }})
+          <!-- <img src="../assets/img/basket.svg" class="header_details_basket_img"/> -->
+          КОРЗИНА ({{ $store.state.cartCount }})
         </button>
       </div>
 
@@ -22,46 +23,20 @@
           placeholder="Поиск.."
         />
 
-        <div class="sign_in">
+        <div :class="$store.state.ninja ? 'sign_in_close_block' : 'sign_in'">
           <a href="#sign_in_wrapper">
             <button class="btn_sign_in">Войти</button>
           </a>
           <a href="#sign_up_wrapper">
-            <button class="btn_sign_up">Регистрация</button>
+            <button class="btn_sign_up">Зарегистрироваться</button>
           </a>
-          <a>
-            <button class="btn_profile" @click="openProfile">Личный кабинет</button>
-          </a>
+        </div>
+        <div :class="$store.state.ninja ? 'block_profile_open' : 'block_profile'">
+          <button class="block_profile_open_btn" @click="openProfile">Личный кабинет</button>
+          <button class="block_profile_open_btn" @click="logout">Выйти</button>
         </div>
       </div>
     </div>
-
-    <nav class="main_nav">
-      <ul class="main_nav_btn_list">
-        <li
-          v-for="animal in animals"
-          :key="animal.key"
-          class="main_nav_btn_list_item"
-          @mouseover="allCategoryAnimals(animal.key)"
-          @click="
-            goToCategories(animal.key);
-            categoriesForOneAnimal(animal.key);
-          "
-        >
-          <a class="main_nav_btn_list_item_a">{{ animal.name }}</a>
-          <ul class="main_nav_btn_list_item_dropdown">
-            <li
-              v-for="allCategory in $store.state.filtredCategory"
-              :key="allCategory.idCategory"
-            >
-              <a class="main_nav_btn_list_item_dropdown_a">{{
-                allCategory.nameCategory
-              }}</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
 
     <div id="sign_in_wrapper" class="sign_in_overlay">
       <div class="sign_in_popup">
@@ -69,21 +44,24 @@
         <form id="form_sign_in" method="get" @submit.prevent="userLogin">
           <h2>Форма входа</h2>
           <div>
+            <label>Логин</label><br />
             <input
               type="text"
-              placeholder="*Логин"
               required
               class="form_sign_in_input"
               v-model="info.login"
             />
             <br />
+            <label>Пароль</label><br />
             <input
               type="password"
-              placeholder="*Пароль"
               required
               class="form_sign_in_input"
               v-model="info.password"
             />
+            <div :class="$store.state.user ? 'block_wrong_close' : 'block_wrong_user_open'">
+              <p>*Неверный логин или пароль</p>
+            </div>
 
             <!-- <input
               type="password"
@@ -106,23 +84,46 @@
         <form id="form_sign_up" method="post" @submit.prevent="recordUser">
           <h2>Новый пользователь</h2>
           <div>
+            <label>Логин</label><br />
             <input
               type="text"
-              placeholder="*Имя"
               required
               class="form_sign_up_input"
               v-model="userData.login"
             />
             <br />
+            <label>Номер телефона</label><br />
             <input
               type="tel"
-              placeholder="*Номер телефона"
               required
               class="form_sign_up_input"
               v-model="userData.tel"
             />
             <br />
+            <label>Электронная почта</label><br />
             <input
+              type="email"
+              required
+              class="form_sign_up_input"
+              v-model="userData.email"
+            />
+            <br />
+            <label>Пароль</label><br />
+            <input
+              type="password"
+              required
+              class="form_sign_up_input"
+              v-model="userData.password"
+            />
+
+            <div :class="userExists ? 'block_userExists_close' : 'block_userExists_open'">
+              <p>*Пользователь уже существует!</p>
+            </div>
+            <div :class="userConfirm ? 'block_userNotExists_close' : 'block_userNotExists_open'">
+              <p>*Поздравляем! Вы успешно зарегистрированы!</p>
+            </div>
+
+            <!-- <input
               type="email"
               pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
               placeholder="*Электронная почта"
@@ -139,17 +140,13 @@
               required
               class="form_sign_up_input"
               v-model="userData.password"
-            />
+            /> -->
           </div>
 
           <button class="btn_sign_up">Зарегистрироваться</button>
         </form>
       </div>
     </div>
-
-    <!-- <div class="btn_logout">
-      <button @click="logout">Выйти</button>
-    </div> -->
   </div>
 </template>
 
@@ -162,14 +159,8 @@ export default {
   components: {},
   data() {
     return {
-      animals: [
-        { key: 1, name: "Собаки" },
-        { key: 2, name: "Кошки" },
-        { key: 3, name: "Птицы" },
-        { key: 4, name: "Рыбы" },
-        { key: 5, name: "Насекомые" },
-        { key: 6, name: "Грызуны" },
-      ],
+      userExists: Boolean,
+      userConfirm: Boolean,
       info: {
         login: "",
         password: "",
@@ -179,50 +170,42 @@ export default {
         tel: "",
         email: "",
         password: "",
-      },
-      // Ninja: True,
+      }
     };
   },
   mounted() {
     this.$store.commit("SETProducts");
-    this.$store.dispatch("SETCategory");
   },
   methods: {
-    allCategoryAnimals: function (idAnimal) {
-      this.$store.commit("filterCategory", idAnimal);
-    },
-    categoriesForOneAnimal: function (idAnimal) {
-      this.$store.commit("filterCategoryOneAnimal", idAnimal);
-    },
-    goToCategories: function (idAnimal) {
-      this.$router.push({ name: "categories", params: { Pid: idAnimal } });
-    },
     openBasket: function () {
-      let config = {
-        headers: {},
-      };
-      if (localStorage.getItem("key") != "undefined") {
-        config.headers = { TOKEN: localStorage.getItem("key") };
-      }
-      Axios.get("http://localhost:5000/check_access", config).then(
-        (response) => {
-          console.log(response.data, " key2");
-          if (response.data.success == true) {
-            this.$router.push("/basket");
-          } else {
-            alert("Вам необходимо зарегистрироваться");
-          }
-        }
-      ),
-        (error) => {
-          console.log(error);
-        };
+      this.$router.push("/basket");
+      // let config = {
+      //   headers: {},
+      // };
+      // if (localStorage.getItem("key") != "undefined" && localStorage.getItem("key") != null) {
+      //   config.headers = { TOKEN: localStorage.getItem("key") };
+      // }
+      // Axios.get("http://localhost:5000/check_access", config).then(
+      //   (response) => {
+      //     if (response.data.success == true) {
+      //       this.$router.push("/basket");
+      //     } else {
+      //       alert("Вам необходимо зарегистрироваться");
+      //     }
+      //   }
+      // ),
+      //   (error) => {
+      //     console.log(error);
+      //   };
     },
     recordUser(event) {
       console.log(this.userData)
       Axios.post('http://localhost:5000/registration', this.userData).then(
         (response) => {
+          this.userExists = response.data.success;
+          this.userConfirm = response.data.confirm;
           console.log(response);
+          
         }
       ),
         (error) => {
@@ -230,18 +213,25 @@ export default {
         }
     },
     userLogin(event) {
-      console.log(this.info, " login");
-      this.$router.push("/dashboard");
-      this.$store
-        .dispatch("UserLogin", this.info)
-        .then(() => this.$router.push("/login"));
+      this.$store.dispatch("UserLogin", this.info)
+      console.log(localStorage.getItem("key"))
+      if (localStorage.getItem("key") != "undefined" && localStorage.getItem("key") != null) {
+        this.$store.state.ninja = true
+        document.getElementById('sign_in_wrapper').className = 'close_form_sign_in'
+      } else {
+        this.$store.state.ninja = false
+      }
     },
     logout() {
       localStorage.removeItem("key");
+      var localValue = localStorage.getItem('key')
+      this.$store.state.ninja = false
       this.$router.push("/");
     },
     openProfile:function () {
-      this.$router.push("/profile");
+      if (localStorage.getItem("key") != "undefined" && localStorage.getItem("key") != null) {
+        this.$router.push("/profile")
+      }
     }
   },
 };
@@ -249,7 +239,7 @@ export default {
 
 <style>
 .header_details {
-  height: 250px;
+  height: 200px;
   margin: auto;
   background: rgb(230, 230, 250, 0.95);
   border-radius: 2px 2px 0px 0px;
@@ -260,12 +250,14 @@ export default {
 }
 
 .header_details_img {
-  border-radius: 3px;
-  margin: 5px 50px 5px 5px;
+  width: 70%;
+  margin: 25px 5px 5px 50px;
+  background-color: rgba(20, 95, 1, 0.4);
 }
 
 .header_details_nav {
-  width: 70%;
+  width: 75%;
+  margin-left: 25px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -275,28 +267,30 @@ export default {
 .header_details_nav_a {
   margin: 15px;
   width: 270px;
-  font-size: 22px;
-  color: green !important;
+  font-size: 18px;
+  color: black !important;
   text-align: center;
 }
 
-.header_details_basket {
+/* .header_details_basket {
   width: 200px;
   height: 50px;
   margin-top: 20px;
-}
+} */
 
-.header_details_basket i {
+.header_details_basket_img {
+  width: 25px;
+  margin-top: 5px;
+  margin-right: 5px;
   color: darkseagreen;
-  font-size: 26px;
 }
 
 .header_details_basket button {
-  height: 50px;
-  width: 160px;
-  margin-left: 10px;
-  padding: 5px;
-  background-color: darkseagreen;
+  height: 30px;
+  width: 140px;
+  margin-top: 20px;
+  vertical-align: middle;
+  background-color: rgb(19, 138, 49);;
 }
 
 .header_details_basket button:hover {
@@ -323,87 +317,51 @@ export default {
 
 .sign_in {
   float: right;
+  display: flex;
+}
+
+.sign_in_close_block {
+  display: none;
 }
 
 .btn_sign_in {
-  width: 60px;
+  width: 80px;
   height: 30px;
-  border-radius: 5px;
-  background: orange;
-  color: rgba(0, 0, 0, 0.7);
+  border-radius: 2px;
+  font-size: 14px;
+  margin-right: 10px;
+  background: rgb(19, 138, 49);;
+  color: rgba(0, 0, 0, 0.9);
 }
-
-/* .btn_sign_up {
-  width: 160px;
-  height: 30px;
-  border-radius: 5px;
-  background: green;
-  margin-left: 10px;
-  color: rgba(0, 0, 0, 0.7);
-} */
-
-:root {
-  --main-bg-color-nav: rgb(19, 138, 49);
+.close_form_sign_in {
+  display: none;
 }
-
-.main_nav {
-  width: 100%;
-  background-color: var(--main-bg-color-nav);
-}
-.main_nav_btn_list {
-  position: relative;
-  text-align: center;
-}
-.main_nav_btn_list_item {
-  display: inline-block;
-  background-color: var(--main-bg-color-nav);
+.btn_sign_up {
   width: 150px;
-  height: 50px;
-  padding-top: 10px;
+  height: 30px;
+  border-radius: 2px;
+  font-size: 14px;
+  background: rgb(19, 138, 49);;
+  color: black;
 }
 
-.main_nav_btn_list_item_dropdown {
+.block_profile {
   display: none;
-  background-color: darkorange;
-  list-style-type: none;
-  width: 400px;
-  height: 300px;
-  text-align: left;
+  color: #06d85f;
 }
 
-.main_nav_btn_list_item_dropdown_a {
-  margin-bottom: 10px;
-  color: black !important;
+.block_profile_open {
+  float: right;
+  display: flex;
+  
 }
 
-.main_nav_btn_list_item_a {
-  color: black !important;
-}
-
-.main_nav_btn_list_item:hover {
-  background-color: darkorange;
-}
-
-.main_nav_btn_list_item .main_nav_btn_list_item_dropdown {
-  display: none;
-}
-
-.main_nav_btn_list_item:hover .main_nav_btn_list_item_dropdown {
-  position: absolute;
-  display: block;
-  top: 100%;
-  left: auto;
-}
-
-.main_nav_btn_list_item:hover .main_nav_btn_list_item_dropdown {
-  position: absolute;
-  display: block;
-  top: 100%;
-  left: auto;
-}
-
-.main_nav_btn_list > li:nth-child(6) .main_nav_btn_list_item_dropdown {
-  left: auto;
+.block_profile_open_btn {
+  width: 120px;
+  margin-right: 10px;
+  font-size: 14px;
+  background: orange;
+  color: black;
 }
 
 .sign_in_overlay {
@@ -423,6 +381,7 @@ export default {
 }
 
 .sign_in_popup {
+  z-index: 5;
   margin: 70px auto;
   padding: 20px;
   background: #fff;
@@ -456,16 +415,8 @@ export default {
 .form_sign_in_input {
   width: 200px;
   height: 40px;
-  margin: 10px 0px;
+  margin-bottom: 10px;
   border: 1px solid black;
-}
-
-.btn_sign_in {
-  width: 150px;
-  height: 30px;
-  border-radius: 2px;
-  font-size: 16px;
-  background: orange;
 }
 
 .sign_up_overlay {
@@ -518,16 +469,36 @@ export default {
 .form_sign_up_input {
   width: 200px;
   height: 40px;
-  margin: 10px 0px;
+  margin-bottom: 10px;
   border: 1px solid black;
 }
 
-.btn_sign_up {
-  width: 160px;
-  height: 30px;
-  border-radius: 2px;
-  font-size: 16px;
-  background: orange;
-  color: black;
+.false_login {
+  display: none;
 }
+
+.block_wrong_user_open {
+  display: block;
+}
+
+.block_wrong_close {
+  display: none;
+}
+
+.block_userExists_close {
+  display: none;
+}
+
+.block_userExists_open {
+  display: block;
+}
+.block_userNotExists_close {
+  display: none; 
+}
+
+.block_userNotExists_open {
+  display: block; 
+}
+
+
 </style>

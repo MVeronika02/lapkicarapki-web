@@ -6,7 +6,11 @@
       </a>
     </div>
     <ul>
-      <li v-for="allReview in allReviews" :key="allReview.idReview" class="reviews_show">
+      <li
+        v-for="allReview in $store.state.allReviews"
+        :key="allReview.idReview"
+        class="reviews_show"
+      >
         <div class="reviews_show_header">
           <p class="reviews_show_header_p">{{ allReview.reviewer_name }}</p>
 
@@ -65,7 +69,7 @@
             <v-pagination
               v-model="page"
               class="my-4"
-              :length="length"
+              :length="$store.state.countPageReview"
               total-visible="5"
               @input="showPage(page)"
             ></v-pagination>
@@ -77,79 +81,79 @@
     <div id="popup-wrapper" class="reviews_composition_overlay">
       <div class="popup">
         <a class="close" href="#">&times;</a>
-          <form
-            id="ProductReview"
-            class="rating"
-            method="post"
-            @submit.prevent="addReview"
-            onsubmit="alert('Ваш отзыв отправлен!');return false"
-          >
-            <div class="rating-area">
-              <input
-                type="radio"
-                id="star-5"
-                name="rating"
-                v-model="content.stars_product"
-                value="5"
-              />
-              <label for="star-5" title="Оценка «5»"></label>
-              <input
-                type="radio"
-                id="star-4"
-                name="rating"
-                v-model="content.stars_product"
-                value="4"
-              />
-              <label for="star-4" title="Оценка «4»"></label>
-              <input
-                type="radio"
-                id="star-3"
-                name="rating"
-                v-model="content.stars_product"
-                value="3"
-              />
-              <label for="star-3" title="Оценка «3»"></label>
-              <input
-                type="radio"
-                id="star-2"
-                name="rating"
-                v-model="content.stars_product"
-                value="2"
-              />
-              <label for="star-2" title="Оценка «2»"></label>
-              <input
-                type="radio"
-                id="star-1"
-                name="rating"
-                v-model="content.stars_product"
-                value="1"
-              />
-              <label for="star-1" title="Оценка «1»"></label>
-            </div>
+        <form
+          id="ProductReview"
+          class="rating"
+          method="post"
+          @submit.prevent="addReview"
+          onsubmit="alert('Ваш отзыв отправлен!');return false"
+        >
+          <div class="rating-area">
+            <input
+              type="radio"
+              id="star-5"
+              name="rating"
+              v-model="content.stars_product"
+              value="5"
+            />
+            <label for="star-5" title="Оценка «5»"></label>
+            <input
+              type="radio"
+              id="star-4"
+              name="rating"
+              v-model="content.stars_product"
+              value="4"
+            />
+            <label for="star-4" title="Оценка «4»"></label>
+            <input
+              type="radio"
+              id="star-3"
+              name="rating"
+              v-model="content.stars_product"
+              value="3"
+            />
+            <label for="star-3" title="Оценка «3»"></label>
+            <input
+              type="radio"
+              id="star-2"
+              name="rating"
+              v-model="content.stars_product"
+              value="2"
+            />
+            <label for="star-2" title="Оценка «2»"></label>
+            <input
+              type="radio"
+              id="star-1"
+              name="rating"
+              v-model="content.stars_product"
+              value="1"
+            />
+            <label for="star-1" title="Оценка «1»"></label>
+          </div>
 
-            <div class="reviews_composition_overlay_field">
-              <input
-                type="text"
-                id="fname"
-                name="fname"
-                class="reviews_input"
-                v-model="content.name_reviewer"
-                placeholder="*Имя"
-                required
-              />
-              <input
-                type="text"
-                name="textReview"
-                id="textReview"
-                class="reviews_input"
-                v-model="content.text_review"
-                placeholder="*Комментарий"
-                required
-              />
-            </div>
+          <div class="reviews_composition_overlay_field">
+            <input
+              type="text"
+              id="fname"
+              name="fname"
+              class="reviews_input"
+              v-model="content.name_reviewer"
+              placeholder="*Имя"
+              required
+            />
+            <input
+              type="text"
+              name="textReview"
+              id="textReview"
+              class="reviews_input"
+              v-model="content.text_review"
+              placeholder="*Комментарий"
+              required
+            />
+          </div>
 
-              <input type="submit" value="Отправить" class="btn_submit_review" />
-          </form>
+          <input type="submit" value="Отправить" class="btn_submit_review" />
+        </form>
       </div>
     </div>
   </div>
@@ -165,8 +169,6 @@ export default {
   data() {
     return {
       page: 1,
-      length: 4,
-      allReviews: [],
       content: {
         product_id: this.productId,
         stars_product: "",
@@ -176,34 +178,19 @@ export default {
     };
   },
   created() {
-    Axios.get(
-      "http://localhost:5000/inforeviews?productid=" +
-        this.productId +
-        "&offset=1&limit=3"
-    ).then((reviewsProduct) => {
-      this.allReviews = reviewsProduct.data.result;
-    });
+    this.$store.dispatch("ReviewsOnPage", { id: this.productId, page: 1 });
   },
   methods: {
-    showPage(page) {
-      Axios.get(
-        "http://localhost:5000/inforeviews?productid=" +
-          this.productId +
-          "&offset=" +
-          this.page +
-          "&limit=3"
-      ).then((reviewsProduct) => {
-        this.allReviews = reviewsProduct.data.result;
-      });
+    showPage(page, productId) {
+      this.$store.dispatch("ReviewsOnPage", { id: this.productId, page: page });
     },
     addReview(event) {
       console.log(this.content);
       console.log(this.productId);
-      Axios.post,("http://localhost:5000/reviews", this.content).then(
-        (response) => {
+      Axios.post,
+        ("http://localhost:5000/reviews", this.content).then((response) => {
           console.log(response);
-        }
-      ),
+        }),
         (error) => {
           console.log(error);
         };
@@ -224,8 +211,8 @@ export default {
   font-size: 16px;
   height: 40px;
   width: 150px;
-  float: right;
-  margin-right: 10px;
+  /* float: right; */
+  margin: 40px 20px;
 }
 
 .reviews_show {
@@ -410,7 +397,6 @@ export default {
 .rating-mini > span.active {
   color: gold;
 }
-
 
 hr {
   border: none;

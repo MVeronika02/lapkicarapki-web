@@ -60,17 +60,16 @@
             <p>{{ allProduct.totalPrice }} тг</p>
           </td>
         </tr>
-
-        <div class="ordering">
-          <h1>Итого</h1>
-          <p>Товара на: {{ totalPrice }} тг</p>
-          <hr />
-          <p>К оплате: {{ totalPrice }} тг</p>
-          <v-btn @click="goToOrdering()">Оформить заказ</v-btn>
-        </div>
       </table>
       <div v-else class="navbar-dropdown is-boxed is-right">
         <a class="navbar-item">Kорзина пуста</a>
+      </div>
+      <div class="ordering">
+        <h1>Итого</h1>
+        <p>Товара на: {{ totalPrice }} тг</p>
+        <hr />
+        <p>К оплате: {{ totalPrice }} тг</p>
+        <v-btn @click="goToOrdering()">Оформить заказ</v-btn>
       </div>
     </div>
   </div>
@@ -136,13 +135,13 @@ export default {
 }
 
 .basket_details_info {
-  width: 100%;
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
 }
 
 .basket_details_table {
-  width: 50%;
+  width: 60%;
+  display: block;
 }
 
 .basket_table_row_1 {
@@ -273,9 +272,9 @@ hr {
 }
 
 .ordering {
-  margin-top: 45px;
   margin-left: 40px;
-  width: 35%;
+  width: 25%;
+  height: 400px;
   box-shadow: 0 0 5px;
   background: darkseagreen;
   padding: 15px;

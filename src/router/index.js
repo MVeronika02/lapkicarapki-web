@@ -16,8 +16,6 @@ import middlewarePipeline from './middlewarePipeline'
 import guest from './middleware/guest'
 import auth from './middleware/auth'
 
-// import isSubscribed from './middleware/isSubscribed'
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -79,12 +77,12 @@ const routes = [
       },
       {
         path: '/dashboard',
-        name: 'Dashboard',
+        name: 'dashboard',
         component: Dashboard,
       },
       {
         path: '/profile',
-        name: 'Profile',
+        name: 'profile',
         component: Profile,
       }
     ]

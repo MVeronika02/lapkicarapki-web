@@ -59,6 +59,7 @@ export default {
 <style>
 .main_content {
   height: 100%;
+  margin-top: -10px;
   padding: 10px 5px 0px 5px;
   background: rgb(230, 230, 250, 0.95);
   border-radius: 2px;
@@ -70,6 +71,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom:30px;
 }
 
 .product_unit_block {

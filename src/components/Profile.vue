@@ -2,9 +2,9 @@
   <div class="profile_content">
     <div class="profile_data_user">
       <h2>Личные данные:</h2>
-      <h4>Имя: {{ $store.state.userData.user_name }}</h4>
-      <h4>Телефон: {{ $store.state.userData.user_phone }}</h4>
-      <h4>E-mail: {{ $store.state.userData.user_email }}</h4>
+      <h4>Имя: {{ $store.state.user.metaData.user_name }}</h4>
+      <h4>Телефон: {{ $store.state.user.metaData.user_phone }}</h4>
+      <h4>E-mail: {{ $store.state.user.metaData.user_email }}</h4>
     </div>
   </div>
 </template>
@@ -12,13 +12,10 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  name: "Profile",
+  name: "profile",
   data() {
     return {};
-  },
-  //   mounted() {
-  //     this.$store.commit("SETUser");
-  //   },
+  }
 };
 </script>
 

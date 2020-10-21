@@ -117,7 +117,7 @@ export default {
   justify-content: flex-start;
   align-content: flex-start;
   align-items: flex-start;
-  background: #FFA07A;
+  background: rgb(19, 138, 49);;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.9);
   border: 1px solid rgba(0,0,0,0.17);
   border-radius: 5px;

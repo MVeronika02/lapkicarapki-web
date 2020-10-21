@@ -6,11 +6,17 @@
     <Header/>
   </div>
 
+  <div class="nav">
+    <Navigation/>
+  </div>
+
   <div class="content_grid">
     <router-view />
   </div>
   
-  <footer id="pageFooter">Footer</footer>
+  <div class="footer">
+    <Footer/>
+  </div>
 
 </div>
 </body>
@@ -19,7 +25,9 @@
 <script>
 
 import Header from '../views/Header.vue'
+import Navigation from '../views/Navigation.vue'
 import ContentProduct from '../views/ContentProduct.vue'
+import Footer from '../views/Footer.vue'
 
 export default {
   name: 'Home',
@@ -31,7 +39,9 @@ export default {
   },
   components: {
     Header,
-    ContentProduct
+    Navigation,
+    ContentProduct,
+    Footer
   }
 }
 </script>
@@ -57,9 +67,10 @@ body {
   display: grid;
   grid-template-areas:
     "header header header"
+    "nav nav nav"
     "content content content"
     "footer footer footer";
-  grid-template-rows: 250px auto 300px;
+  grid-template-rows: 200px 50px auto 200px;
   grid-template-columns: 15% 1fr 15%;
   grid-gap: 10px;
   margin: 0 auto;
@@ -70,12 +81,7 @@ body {
 
 .header {
   grid-area: header;
-  padding: 10px 0;
-}
-
-#pageFooter {
-  grid-area: footer;
-  background: gold;
+  padding: 10px 0 0 0;
 }
 
 .content_grid {
@@ -83,8 +89,12 @@ body {
   padding: 0;
 }
 
-#mainNav {
+.nav {
   grid-area: nav;
-  background: blueviolet;
+}
+
+
+.footer {
+  grid-area: footer;
 }
 </style>
