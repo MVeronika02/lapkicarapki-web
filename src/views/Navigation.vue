@@ -8,7 +8,6 @@
           class="main_nav_btn_list_item"
           @mouseover="allCategoryAnimals(animal.key)"
           @click="
-            goToCategories(animal.key);
             categoriesForOneAnimal(animal.key);
           "
         >
@@ -57,11 +56,12 @@ export default {
       this.$store.commit("filterCategory", idAnimal);
     },
     categoriesForOneAnimal: function (idAnimal) {
+      this.$router.push({ name: "categories", params: { Pid: idAnimal } })
       this.$store.commit("filterCategoryOneAnimal", idAnimal);
     },
-    goToCategories: function (idAnimal) {
-      this.$router.push({ name: "categories", params: { Pid: idAnimal } });
-    }
+    // goToCategories: function (idAnimal) {
+    //   this.$router.push({ name: "categories", params: { Pid: idAnimal } });
+    // }
   },
 };
 </script>
@@ -86,10 +86,10 @@ export default {
   text-align: center;
 }
 .main_nav_btn_list_item {
-  /* position: static; */
+  position: relative;
   display: inline-block;
   background-color: var(--main-bg-color-nav);
-  width: 150px;
+  width: 200px;
   height: 50px;
   padding-top: 10px;
 }
@@ -98,17 +98,26 @@ export default {
   display: none;
   background-color: rgb(99, 170, 40);
   list-style-type: none;
-  width: 900px;
-  position: absolute;
-  height: 300px;
+  width: 300px;
+  position: static;
+  height: 350px;
   z-index: 99999;
-  /* margin-left: -200px; */
+  /* margin-left: -50px; */
+  align-items: space-between;
   text-align: left;
 }
 
+.main_nav_btn_list_item_dropdown > li{
+  margin: 10px 0;
+}
+
 .main_nav_btn_list_item_dropdown_a {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   color: black !important;
+}
+
+.main_nav_btn_list_item_dropdown_a:hover {
+  color:white!important;
 }
 
 .main_nav_btn_list_item_a {
@@ -124,7 +133,7 @@ export default {
 }
 
 .main_nav_btn_list_item:hover .main_nav_btn_list_item_dropdown {
-  position: absolute;
+  /* position: absolute; */
   display: block;
   top: 100%;
   left: auto;

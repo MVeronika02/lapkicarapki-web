@@ -15,6 +15,7 @@ import Profile from '../components/Profile.vue'
 import middlewarePipeline from './middlewarePipeline'
 import guest from './middleware/guest'
 import auth from './middleware/auth'
+import Slider from '../views/Slider.vue'
 
 Vue.use(VueRouter)
 
@@ -84,7 +85,12 @@ const routes = [
         path: '/profile',
         name: 'profile',
         component: Profile,
-      }
+      },
+      {
+        path: '/slider',
+        name: 'Slider',
+        component: Slider
+      },
     ]
   }
 ]

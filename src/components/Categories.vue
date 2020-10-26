@@ -3,7 +3,7 @@
   <!-- <div> -->
     <sidebar/>
   <!-- </div> -->
-
+  <h2>Товары для </h2>
   <div class="block-content">
     <ul>
       <li v-for="allCategory in $store.state.filterCategoryOneAnimal" :key="allCategory.idCategory">

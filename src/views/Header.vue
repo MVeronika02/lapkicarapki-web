@@ -6,7 +6,7 @@
     <div class="header_details_nav">
       <a class="header_details_nav_a">ДОСТАВКА И ОПЛАТА</a>
       <a class="header_details_nav_a">КОНТАКТЫ</a>
-      <a class="header_details_nav_a">НАШИ АДРЕСА</a>
+      <a @click="openSlider()" class="header_details_nav_a">НАШИ АДРЕСА</a>
 
       <div class="header_details_basket">
         <!-- <i class="fas fa-cart-arrow-down"></i> -->
@@ -22,7 +22,7 @@
           class="header_details_search"
           placeholder="Поиск.."
         />
-
+      </div>
         <div :class="$store.state.ninja ? 'sign_in_close_block' : 'sign_in'">
           <a href="#sign_in_wrapper">
             <button class="btn_sign_in">Войти</button>
@@ -35,7 +35,7 @@
           <button class="block_profile_open_btn" @click="openProfile">Личный кабинет</button>
           <button class="block_profile_open_btn" @click="logout">Выйти</button>
         </div>
-      </div>
+      
     </div>
 
     <div id="sign_in_wrapper" class="sign_in_overlay">
@@ -212,6 +212,9 @@ export default {
           console.log(error);
         }
     },
+    openSlider: function () {
+      this.$router.push("/slider");
+    },
     userLogin(event) {
       this.$store.dispatch("UserLogin", this.info)
       console.log(localStorage.getItem("key"))
@@ -252,12 +255,12 @@ export default {
 .header_details_img {
   width: 70%;
   margin: 25px 5px 5px 50px;
-  background-color: rgba(20, 95, 1, 0.4);
+  /* background-color: rgba(20, 95, 1, 0.4); */
 }
 
 .header_details_nav {
   width: 75%;
-  margin-left: 25px;
+  margin-left: 5px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -265,13 +268,17 @@ export default {
 }
 
 .header_details_nav_a {
-  margin: 15px;
+  margin: 20px 15px 10px 15px;
   width: 270px;
+  height: 30px;
   font-size: 18px;
   color: black !important;
   text-align: center;
 }
 
+.header_details_nav_a:hover {
+  color: rgb(99, 170, 40) !important;
+}
 /* .header_details_basket {
   width: 200px;
   height: 50px;
@@ -298,24 +305,28 @@ export default {
 }
 
 .search_and_sign {
-  width: 100%;
+  width: 70%;
+  height: 40px;
+  margin-left: 20px;
 }
 
 .header_details_search {
-  width: 40%;
-  height: 50px;
+  width: 60%;
+  /* height: 30px; */
   transition: width 0.4s ease-in-out;
   font-size: 18px;
   padding: 5px;
   border: 1px solid grey;
   border-radius: 4px;
+  margin-left: 30px;
 }
 
 .header_details_search:focus {
-  width: 60%;
+  width: 90%;
 }
 
 .sign_in {
+  height: 50px;
   float: right;
   display: flex;
 }
