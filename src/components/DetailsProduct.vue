@@ -7,54 +7,62 @@
       height="400px"
     /> -->
     <div class="slider_product_image">
+      <div class="slider_block_top">
+        <VueSlickCarousel
+          v-bind="settingsMainSlider"
+          ref="c1"
+          :asNavFor="$refs.c2"
+        >
+          <div>
+            <img :src="imageProduct(allDetailProduct.urlImageProduct)" />
+          </div>
+        </VueSlickCarousel>
+      </div>
 
-        <div class="slider_block_top">
-      <VueSlickCarousel ref="c1"
-        :asNavFor="$refs.c2"
-        :focusOnSelect="true"
-        slidesToShow: 1,
-        slidesToScroll: 1
-        arrows: false
-        fade: true>
-        <img :src="imageProduct(allDetailProduct.urlImageProduct)" />
-      </VueSlickCarousel>
-    </div>
-    <div class="slider_block_bottom"> 
-      <VueSlickCarousel
-        ref="c2"
-        :asNavFor="$refs.c1"
-        :focusOnSelect="true"
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        centerPadding='10px'
-        variableWidth:true,
-        dots: true,
-        autoplay: false,
-        centerMode: true
-        infinite: false>
-        <div class="slider_block_bottom_img">
-          <img
-            :src="imageProduct(allDetailProduct.urlImageProduct)"
-            width="80px"
-            height="80px"
-          />
-        </div>
-        <div class="slider_block_bottom_img">
-          <img
-            :src="imageProduct(allDetailProduct.urlImageProduct)"
-            width="80px"
-            height="80px"
-          />
-        </div>
-        <div class="slider_block_bottom_img">
-          <img
-            :src="imageProduct(allDetailProduct.urlImageProduct)"
-            width="80px"
-            height="80px"
-          />
-        </div>
-      </VueSlickCarousel>
-    </div>
+      <div class="slider_SubSlider">
+        <VueSlickCarousel
+          v-bind="settingsSubSlider"
+          ref="c2"
+          :asNavFor="$refs.c1"
+        >
+          <div border="2px solid #cb11ab;">
+            <img
+              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              class="slider_SubSlider_img"
+            />
+          </div>
+          <div>
+            <img
+              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              class="slider_SubSlider_img"
+            />
+          </div>
+          <div>
+            <img
+              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              class="slider_SubSlider_img"
+            />
+          </div>
+          <div>
+            <img
+              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              class="slider_SubSlider_img"
+            />
+          </div>
+          <div>
+            <img
+              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              class="slider_SubSlider_img"
+            />
+          </div>
+          <div>
+            <img
+              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              class="slider_SubSlider_img"
+            />
+          </div>
+        </VueSlickCarousel>
+      </div>
     </div>
 
     <div class="details_container_info">
@@ -149,9 +157,21 @@ export default {
       prodId: this.$route.params.Pid,
       tab: null,
       allDetailProduct: {},
-      // settings: {
-      //   focusOnSelect: false,
-      // },
+      settingsMainSlider: {
+        focusOnSelect: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        edgeFriction: 0.35,
+        infinite: false,
+        speed: 500
+      },
+      settingsSubSlider: {
+        focusOnSelect: true,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        centerPadding: "10px",
+        centerMode: true,
+      },
     };
   },
   mounted() {
@@ -181,67 +201,50 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: space-around; */
+  justify-content: center;
 }
-
-/* .images_product_block {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-}
-*/
-
-/* .slick-track {
-  display: flex;
-  flex-direction: row; */
-/* width: 500px !important; */
-/* transform: translate3d(150px, 0px, 0px) */
-/* } */
 
 .slider_product_image {
-  width: 50%;
+  width: 500px;
   display: flex;
-  margin-right: 50px;
+  margin: 20px 50px 0 0;
   flex-direction: column;
 }
+
 .slider_block_top {
-  width: 60% !important;
-  height: 300px;
+  width: 400px !important;
+  height: 350px;
+  margin-left: 20px;
 }
-
-.slider_block_bottom {
-  margin-top: 15px;
-  width: 40%;
-  margin: 10px 20px 0 20px;
-  height: 100px;
-  border: solid;
-  /* background: rgb(90, 138, 90); */
-}
-
-/* .slider_block_bottom .slick-slide {
-  width: 90px !important;
-} */
 
 .slider_block_top img {
-  width: 80% !important;
-  height: 300px;
+  width: 390px !important;
+  height: 350px;
 }
 
-.slider_block_bottom_img {
-  width: 30% !important;
-  height: 90px;
-  display: flex;
-  flex-direction: row;
+.slider_SubSlider {
+  margin-top: 15px;
+  margin-left: 20px;
+  width: 390px;
+  height: 100px;
+  padding-top: 6px;
+}
+
+.slider_SubSlider_img {
+  margin-left: 6px;
+  width:80px;
+  height: 80px;
 }
 
 .details_container_info {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
 }
 
 .details_container_info_nameProduct {
   font-weight: 400;
-  font-size: 3em;
+  font-size: 2.5em;
   margin-bottom: 20px;
 }
 
@@ -275,6 +278,15 @@ export default {
   margin-top: 40px;
   background-color: #2e7d32;
   font-size: 18px;
+}
+
+.details_container_info_btn_basket:hover {
+  color: darkgray;
+}
+
+.details_container_info_btn_basket:focus {
+  background: red;
+  transition: background 0s;
 }
 
 .details_container_cards {

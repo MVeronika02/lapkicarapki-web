@@ -23,19 +23,20 @@
           placeholder="Поиск.."
         />
       </div>
-        <div :class="$store.state.ninja ? 'sign_in_close_block' : 'sign_in'">
-          <a href="#sign_in_wrapper">
-            <button class="btn_sign_in">Войти</button>
-          </a>
-          <a href="#sign_up_wrapper">
-            <button class="btn_sign_up">Зарегистрироваться</button>
-          </a>
-        </div>
-        <div :class="$store.state.ninja ? 'block_profile_open' : 'block_profile'">
-          <button class="block_profile_open_btn" @click="openProfile">Личный кабинет</button>
-          <button class="block_profile_open_btn" @click="logout">Выйти</button>
-        </div>
-      
+      <div :class="$store.state.ninja ? 'sign_in_close_block' : 'sign_in'">
+        <a href="#sign_in_wrapper">
+          <button class="btn_sign_in">Войти</button>
+        </a>
+        <a href="#sign_up_wrapper">
+          <button class="btn_sign_up">Зарегистрироваться</button>
+        </a>
+      </div>
+      <div :class="$store.state.ninja ? 'block_profile_open' : 'block_profile'">
+        <button class="block_profile_open_btn" @click="openProfile">
+          Личный кабинет
+        </button>
+        <button class="block_profile_open_btn" @click="logout">Выйти</button>
+      </div>
     </div>
 
     <div id="sign_in_wrapper" class="sign_in_overlay">
@@ -59,7 +60,13 @@
               class="form_sign_in_input"
               v-model="info.password"
             />
-            <div :class="$store.state.user ? 'block_wrong_close' : 'block_wrong_user_open'">
+            <div
+              :class="
+                $store.state.user
+                  ? 'block_wrong_close'
+                  : 'block_wrong_user_open'
+              "
+            >
               <p>*Неверный логин или пароль</p>
             </div>
 
@@ -170,7 +177,7 @@ export default {
         tel: "",
         email: "",
         password: "",
-      }
+      },
     };
   },
   mounted() {
@@ -199,43 +206,49 @@ export default {
       //   };
     },
     recordUser(event) {
-      console.log(this.userData)
-      Axios.post('http://localhost:5000/registration', this.userData).then(
+      console.log(this.userData);
+      Axios.post("http://localhost:5000/registration", this.userData).then(
         (response) => {
           this.userExists = response.data.success;
           this.userConfirm = response.data.confirm;
           console.log(response);
-          
         }
       ),
         (error) => {
           console.log(error);
-        }
+        };
     },
     openSlider: function () {
       this.$router.push("/slider");
     },
     userLogin(event) {
-      this.$store.dispatch("UserLogin", this.info)
-      console.log(localStorage.getItem("key"))
-      if (localStorage.getItem("key") != "undefined" && localStorage.getItem("key") != null) {
-        this.$store.state.ninja = true
-        document.getElementById('sign_in_wrapper').className = 'close_form_sign_in'
+      this.$store.dispatch("UserLogin", this.info);
+      console.log(localStorage.getItem("key"));
+      if (
+        localStorage.getItem("key") != "undefined" &&
+        localStorage.getItem("key") != null
+      ) {
+        this.$store.state.ninja = true;
+        document.getElementById("sign_in_wrapper").className =
+          "close_form_sign_in";
       } else {
-        this.$store.state.ninja = false
+        this.$store.state.ninja = false;
       }
     },
     logout() {
       localStorage.removeItem("key");
-      var localValue = localStorage.getItem('key')
-      this.$store.state.ninja = false
+      var localValue = localStorage.getItem("key");
+      this.$store.state.ninja = false;
       this.$router.push("/");
     },
-    openProfile:function () {
-      if (localStorage.getItem("key") != "undefined" && localStorage.getItem("key") != null) {
-        this.$router.push("/profile")
+    openProfile: function () {
+      if (
+        localStorage.getItem("key") != "undefined" &&
+        localStorage.getItem("key") != null
+      ) {
+        this.$router.push("/profile");
       }
-    }
+    },
   },
 };
 </script>
@@ -255,7 +268,6 @@ export default {
 .header_details_img {
   width: 70%;
   margin: 25px 5px 5px 50px;
-  /* background-color: rgba(20, 95, 1, 0.4); */
 }
 
 .header_details_nav {
@@ -279,11 +291,6 @@ export default {
 .header_details_nav_a:hover {
   color: rgb(99, 170, 40) !important;
 }
-/* .header_details_basket {
-  width: 200px;
-  height: 50px;
-  margin-top: 20px;
-} */
 
 .header_details_basket_img {
   width: 25px;
@@ -296,8 +303,10 @@ export default {
   height: 30px;
   width: 140px;
   margin-top: 20px;
+  border-radius: 2px;
+  font-size: 14px;
   vertical-align: middle;
-  background-color: rgb(19, 138, 49);;
+  background-color: rgb(141, 206, 157);
 }
 
 .header_details_basket button:hover {
@@ -341,7 +350,7 @@ export default {
   border-radius: 2px;
   font-size: 14px;
   margin-right: 10px;
-  background: rgb(19, 138, 49);;
+  background: rgb(141, 206, 157);
   color: rgba(0, 0, 0, 0.9);
 }
 .close_form_sign_in {
@@ -352,7 +361,7 @@ export default {
   height: 30px;
   border-radius: 2px;
   font-size: 14px;
-  background: rgb(19, 138, 49);;
+  background: rgb(141, 206, 157);
   color: black;
 }
 
@@ -364,7 +373,6 @@ export default {
 .block_profile_open {
   float: right;
   display: flex;
-  
 }
 
 .block_profile_open_btn {
@@ -376,7 +384,8 @@ export default {
 }
 
 .sign_in_overlay {
-  position: fixed;
+  position: absolute;
+  width: 100%;
   top: 0;
   bottom: 0;
   left: 0;
@@ -392,13 +401,14 @@ export default {
 }
 
 .sign_in_popup {
-  z-index: 5;
+  position: relative;
+  z-index: 100000;
   margin: 70px auto;
   padding: 20px;
   background: #fff;
   border-radius: 5px;
   width: 20%;
-  position: relative;
+
   transition: all 5s ease-in-out;
 }
 
@@ -504,12 +514,10 @@ export default {
   display: block;
 }
 .block_userNotExists_close {
-  display: none; 
+  display: none;
 }
 
 .block_userNotExists_open {
-  display: block; 
+  display: block;
 }
-
-
 </style>

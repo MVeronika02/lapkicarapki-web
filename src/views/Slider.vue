@@ -1,16 +1,5 @@
 <template>
   <div class="slider_block">
-    <!-- <div> -->
-    <!-- <VueSlickCarousel ref="c1"
-        :asNavFor="$refs.c2"
-        :focusOnSelect="true"
-        slidesToShow: 1,
-        slidesToScroll: 1
-        arrows: false
-        fade: true>
-        <img src="../static/birdsShamp1.jpg" />
-      </VueSlickCarousel>
-    </div> -->
     <div class="slider_block_carousel">
       <VueSlickCarousel v-bind="settingsMainSlider" ref="c1" :asNavFor="$refs.c2">
         <div class="ttt">
@@ -74,7 +63,6 @@ export default {
       settingsMainSlider: {
         // dots: true,
         // dotsClass: "slick-dots custom-dot-class",
-// asNavFor: $refs.c2,
         arrows: false,
         edgeFriction: 0.35,
         infinite: false,
@@ -83,7 +71,6 @@ export default {
         slidesToScroll: 1,
       },
       settingsSubSlider: {
-        // asNavFor: $refs.c1,
         centerMode: true,
         centerPadding: "10px",
         slidesToShow: 6,

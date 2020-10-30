@@ -62,9 +62,9 @@
         </tr>
       </table>
       <div v-else class="navbar-dropdown is-boxed is-right">
-        <a class="navbar-item">Kорзина пуста</a>
+        <p style="margin-left: 20px">Корзина ждет, что ее наполнят. Желаем приятных покупок!</p>
       </div>
-      <div class="ordering">
+      <div :class="totalCheck ? 'ordering' : 'ordering_closed'">
         <h1>Итого</h1>
         <p>Товара на: {{ totalPrice }} тг</p>
         <hr />
@@ -83,7 +83,14 @@ export default {
   data() {
     return {
       prodId: this.$route.params.Pid,
+      totalCheck: true
     };
+  },
+  created() {
+    if (this.$store.state.basketContent.length == 0) {
+      this.totalCheck = false
+    }
+
   },
   mounted() {
     this.$store.commit("saveBasket");
@@ -131,7 +138,8 @@ export default {
   width: 400px;
   font-size: 44px;
   color: darkslateblue;
-  height: 100px;
+  height: 70px;
+  margin-left: 20px;
 }
 
 .basket_details_info {
@@ -284,5 +292,9 @@ hr {
   width: 500px;
   font-size: 22px;
   margin: 40px 0;
+}
+
+.ordering_closed {
+  display: none;
 }
 </style>
