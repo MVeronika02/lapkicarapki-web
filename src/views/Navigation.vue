@@ -15,10 +15,10 @@
           <ul class="main_nav_btn_list_item_dropdown">
             <li
               v-for="allCategory in $store.state.filtredCategory"
-              :key="allCategory.idCategory"
+              :key="allCategory.id_category"
             >
               <a class="main_nav_btn_list_item_dropdown_a">{{
-                allCategory.nameCategory
+                allCategory.name_category
               }}</a>
             </li>
           </ul>
@@ -84,7 +84,7 @@ export default {
   background-color: var(--main-bg-color-nav);
 }
 .main_nav_btn_list {
-  position:absolute;
+  position: relative;
   text-align: center;
 }
 .main_nav_btn_list_item {

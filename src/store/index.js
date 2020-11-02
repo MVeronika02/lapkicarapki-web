@@ -50,10 +50,11 @@ export default new Vuex.Store({
       state.filtredProductData = filtredProducts
     },
     filterCategory: (state, idAnimal) => {
-      state.filtredCategory = state.allCategoryAnimal.filter(object => object.idAnimal === idAnimal)
+      state.filtredCategory = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
+      console.log(state.filtredCategory, 'state.filtredCategory')
     },
     filterCategoryOneAnimal: (state, idAnimal) => {
-      state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.idAnimal === idAnimal)
+      state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
       console.log(state.filterCategoryOneAnimal, 'state.allCategoryAnimal')
     },
     SETProductToPage: (state, selectedPage) => {

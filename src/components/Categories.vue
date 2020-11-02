@@ -1,15 +1,11 @@
 <template>
-<div class="contentCategories">
-  <!-- <div> -->
-    <sidebar/>
-  <!-- </div> -->
-  <h2>Товары для </h2>
-  <div class="block-content">
-    <ul>
-      <li v-for="allCategory in $store.state.filterCategoryOneAnimal" :key="allCategory.idCategory">
-        <div class="categories">
-          <a>{{ allCategory.nameCategory }}</a>
-        </div>
+<div class="content_categories">
+  <sidebar/>
+  <div class="categories_block" >
+    <ul class="categories_block_ul">
+      <li v-for="allCategory in $store.state.filterCategoryOneAnimal" :key="allCategory.id_category" class="categories_block_li">
+          <p class="categories_block_name">{{ allCategory.name_category }}</p>
+          <img :src="imageCategory(allCategory.url_image_category)" class="categories_block_img"/>
       </li> 
     </ul>
   </div>
@@ -27,58 +23,57 @@ export default {
     }
   },
   components: {
-      Sidebar
+    Sidebar
   },
   methods:  {
-      
+    imageCategory(imagePath) {
+      return require(`../static/categoryImg/${imagePath}`);
+    },
   }
-//   mounted () {
-//     Axios.get('http://localhost:5000/categoryanimal?id=' + this.$route.params.Pid)
-//       .then(categories => {
-//         this.allCateegoriesAnimal = categories.data.result[0]
-//         console.log(this.allDetailProduct, '555555')
-//       })
-//   },
 }
 </script>
 <style>
 
-.contentCategories {
+.content_categories {
   background: rgb(230, 230, 250, 0.95);
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-content: center;
-  align-items: flex-start;
 }
 
-.block-content {
+/* .categories_block {
   width: 85%;
-  height: 1700px;
-}
+} */
 
-.block-content ul {
-  width: 100%;
-  height: 1700px;
+.categories_block_ul {
+  width: 80%;
+  margin: 20px 0 0 100px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-content: space-around;
-  align-items: flex-start;
 }
 
-.categories {
-  width: 100%;
-  height: 500px;
-}
-
-.block-content li {
+.categories_block_li {
   list-style-type: none;
   width: 40%;
-  height: 300px;
-  border-width: 2px;
-  border-style: ridge;
-  margin-left: 20px;
+  height: 330px;
+  border-radius: 3px;
+  /* border-width: 1.5px;
+  border-style: ridge; */
+  margin: 10px 0 20px 20px;
+  text-align: center;
+  background: rgb(188, 208, 209);
 }
+
+.categories_block_name {
+  font-size: 22px;
+  margin: 5px 0px 15px 0;
+}
+
+.categories_block_img {
+  width: 280px;
+  height: 250px;
+}
+
+
 </style>

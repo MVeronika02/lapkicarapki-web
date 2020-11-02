@@ -1,8 +1,8 @@
 <template>
-<div class="sidebarOpen" :class="{sidebarClose: closeBar}">
-<div class="leftSidebar">
-  <div class="filters-container">
-    <p class="price-p">Цена: </p>
+<div class="sidebar_open" :class="{sidebarClose: closeBar}">
+<div class="left_sidebar">
+  <div class="filters_container">
+    <p class="price_name">Цена: </p>
     <div class="slider">
       <v-range-slider
         v-model="range"
@@ -99,40 +99,30 @@ export default {
 
 <style>
 
-.sidebarOpen {
-  width: 30%;
+.sidebar_open {
+  width: 40%;
 }
 
-.leftSidebar {
-  will-change: width;  /* предупреждение браузеру об изменениях */
-  box-sizing: border-box;  /* внешние элеиенты складываются во внутренние*/
-  border: 1px solid black;
+.left_sidebar {
   left: -350px;
-  width: 100%;   /*350/1500px*/
-  height: 1500px;
-  padding: 0;
-  /*float: left;*/
+  width: 100%;
+  height: 1000px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-content: flex-start;
-  align-items: flex-start;
-  background: rgb(19, 138, 49);;
+  background: rgb(141, 206, 157);
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.9);
   border: 1px solid rgba(0,0,0,0.17);
-  border-radius: 5px;
-  opacity: 1;    /* прозрачность */
-  visibility: visible;  /* видимость */
-  transition: width 1.7s linear;
-  /*height 1s ease-out;    анимация перехода */
-  overflow: hidden; /* обрез невмещающихся при скрывании */
+  border-radius: 2px;
+  opacity: 1;
+  visibility: visible;
+  overflow: hidden;
 }
 
 .sidebarClose {
   display: none;
 }
 
-.filters-container {
+.filters_container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -141,7 +131,7 @@ export default {
   width: 100%;
 }
 
-.price-p {
+.price_name {
   margin-top: 20px;
 }
 .slider {
