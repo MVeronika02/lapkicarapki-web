@@ -40,10 +40,6 @@ export default {
   flex-direction: row;
 }
 
-/* .categories_block {
-  width: 85%;
-} */
-
 .categories_block_ul {
   width: 80%;
   margin: 20px 0 0 100px;

@@ -51,11 +51,9 @@ export default new Vuex.Store({
     },
     filterCategory: (state, idAnimal) => {
       state.filtredCategory = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
-      console.log(state.filtredCategory, 'state.filtredCategory')
     },
     filterCategoryOneAnimal: (state, idAnimal) => {
       state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
-      console.log(state.filterCategoryOneAnimal, 'state.allCategoryAnimal')
     },
     SETProductToPage: (state, selectedPage) => {
       state.allProducts = selectedPage
@@ -71,7 +69,6 @@ export default new Vuex.Store({
       state.valueMax = value[1]
     },
     SETUser: (state, resultBool) => {
-      console.log("state.user", state.user)
       state.user = resultBool.success
       state.userData = resultBool.result
       window.localStorage.setItem('key', resultBool.token)
@@ -82,7 +79,6 @@ export default new Vuex.Store({
     },
     SETReviews: (state, countReviews) => {
       state.countPageReview = countReviews
-      console.log(state.countPageReview, 'review')
     },
     
 

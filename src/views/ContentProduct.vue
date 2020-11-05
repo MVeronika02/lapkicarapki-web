@@ -5,14 +5,11 @@
         class="product_unit"
         v-for="allProduct in  $store.state.allProducts"
         :key="allProduct.idProduct"
-      >
-        <div class="product_unit_block" @click="goDetails(allProduct.idProduct)">
-          <div class="product_unit_title">{{ allProduct.nameProduct }}</div>
-          <img :src="imageProduct(allProduct.urlImageProduct)" class="product_unit_img" />
-          <p>Цена: {{ allProduct.priceProduct }}</p>
-        </div>
-
-        <button class="btn_addBasket" @click="addToBasket(allProduct)">Добавить в корзину</button>
+        @click="goDetails(allProduct.idProduct)">
+        <p class="product_unit_name">{{ allProduct.nameProduct }}</p>
+        <img :src="imageProduct(allProduct.urlImageProduct)" class="product_unit_img" />
+        <p>Цена: {{ allProduct.priceProduct }}</p>
+        <button class="btn_add_basket" @click="addToBasket(allProduct)">Добавить в корзину</button>
       </div>
     </div>
     <v-pagination
@@ -62,10 +59,8 @@ export default {
   margin-top: -10px;
   padding: 10px 5px 0px 5px;
   background: rgb(230, 230, 250, 0.95);
-  border-radius: 2px;
-  border-top-left-radius: 0%;
-  border-top-right-radius: 0%;
-  box-shadow: 0 0px, 0 1px, -0.5px 0, 1px 0;
+  /* border-radius: 2px; */
+  box-shadow: 0 0px, 0 1px, -1px 0, 1px 0;
 }
 .content_wrapper {
   display: flex;
@@ -74,41 +69,43 @@ export default {
   margin-bottom:30px;
 }
 
-.product_unit_block {
-  height: 290px;
-  width: 240px;
-}
-
 .product_unit {
-  height: 345px;
+  height: 355px;
   width: 250px;
   margin-top: 12px;
-  padding: 12px;
+  padding: 10px;
   box-shadow: 0 0 5px;
-  background: rgba(20, 95, 1, 0.4);
+  border-radius: 2px;
+  background: rgb(141, 206, 157);
+  text-align: center;
 }
 
-.product_unit_title {
-  height: 50px;
-  margin-bottom: 2px;
+.product_unit_name {
+  height: 40px;
+  margin-bottom: 10px !important;
 }
 
 .product_unit_img {
-  height: 190px;
-  width: 190px;
-  margin-bottom: 10px;
+  height: 210px;
+  width: 210px;
+  margin-bottom: 2px;
+  border-radius: 4px;
 }
 
-.btn_addBasket {
+.btn_add_basket {
   height: 30px;
   width: 180px;
 }
 
-.btn_addBasket:hover {
-  background: chocolate;
+.btn_add_basket:hover {
+  background: rgb(33, 147, 90);
 }
 
-.pagination_style {
-  height: 90px;
+.product_unit:hover {
+  box-shadow: 0 0 10px rgb(34, 33, 33);
+  border-radius: 4px;
+  /* border: 5px; */
+  /* outline: 2px solid rgb(107, 106, 106); */
 }
+
 </style>

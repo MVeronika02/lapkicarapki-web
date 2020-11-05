@@ -197,7 +197,7 @@ export default {
   width: 100%;
   border: 1px solid black;
   box-shadow: 0 0 5px;
-  background: rgba(115, 115, 211, 0.95);
+  background: rgb(230, 230, 250, 0.95);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -284,14 +284,10 @@ export default {
   color: darkgray;
 }
 
-.details_container_info_btn_basket:focus {
-  background: red;
-  transition: background 0s;
-}
-
 .details_container_cards {
   margin-top: 40px;
   width: 100%;
+  height: 300px;
 }
 
 .details_container_cards_content_p {

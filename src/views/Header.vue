@@ -1,34 +1,46 @@
 <template>
   <div class="header_details">
-    <a href="/" height="190px">
-      <img src="../assets/img/animalPaws.svg" class="header_details_img" />
-    </a>
     <div class="header_details_nav">
       <a class="header_details_nav_a">ДОСТАВКА И ОПЛАТА</a>
       <a class="header_details_nav_a">КОНТАКТЫ</a>
-      <a @click="openSlider()" class="header_details_nav_a">НАШИ АДРЕСА</a>
+      <a class="header_details_nav_a">НАШИ АДРЕСА</a>
+    </div>
+    <hr />
+    <a href="/" height="190px">
+      <img src="../assets/img/animalPaws.svg" class="logo_img" />
+    </a>
 
-      <div class="header_details_basket">
-        <!-- <i class="fas fa-cart-arrow-down"></i> -->
-        <button @click="openBasket()">
-          <!-- <img src="../assets/img/basket.svg" class="header_details_basket_img"/> -->
-          КОРЗИНА ({{ $store.state.cartCount }})
+    <div class="buttons">
+      <div class="buttons_search_block">
+        <input type="text" class="input_search" placeholder="Поиск.." />
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </div>
+      <div class="buttons_block">
+        <button class="basket_btn" @click="openBasket()">
+          <i
+            class="fa fa-shopping-cart"
+            aria-hidden="true"
+            style="margin-right: 10px"
+          ></i
+          >Корзина ({{ $store.state.cartCount }})
         </button>
-      </div>
-
-      <div class="search_and_sign">
-        <input
-          type="text"
-          class="header_details_search"
-          placeholder="Поиск.."
-        />
-      </div>
+      
       <div :class="$store.state.ninja ? 'sign_in_close_block' : 'sign_in'">
         <a href="#sign_in_wrapper">
-          <button class="btn_sign_in">Войти</button>
+          <button class="btn_sign_in">
+            <i
+              class="fa fa-user"
+              style="margin-right: 10px"
+              aria-hidden="true"
+            ></i
+            >Войти
+          </button>
         </a>
         <a href="#sign_up_wrapper">
-          <button class="btn_sign_up">Зарегистрироваться</button>
+          <button class="btn_sign_up">
+            <i class="fas fa-user-plus" style="margin-right: 10px"></i
+            >Регистрация
+          </button>
         </a>
       </div>
       <div :class="$store.state.ninja ? 'block_profile_open' : 'block_profile'">
@@ -36,6 +48,7 @@
           Личный кабинет
         </button>
         <button class="block_profile_open_btn" @click="logout">Выйти</button>
+      </div>
       </div>
     </div>
 
@@ -123,10 +136,20 @@
               v-model="userData.password"
             />
 
-            <div :class="userExists ? 'block_userExists_close' : 'block_userExists_open'">
+            <div
+              :class="
+                userExists ? 'block_userExists_close' : 'block_userExists_open'
+              "
+            >
               <p>*Пользователь уже существует!</p>
             </div>
-            <div :class="userConfirm ? 'block_userNotExists_close' : 'block_userNotExists_open'">
+            <div
+              :class="
+                userConfirm
+                  ? 'block_userNotExists_close'
+                  : 'block_userNotExists_open'
+              "
+            >
               <p>*Поздравляем! Вы успешно зарегистрированы!</p>
             </div>
 
@@ -150,7 +173,7 @@
             /> -->
           </div>
 
-          <button class="btn_sign_up">Зарегистрироваться</button>
+          <button class="form_btn_sign_up">Зарегистрироваться</button>
         </form>
       </div>
     </div>
@@ -218,9 +241,6 @@ export default {
           console.log(error);
         };
     },
-    openSlider: function () {
-      this.$router.push("/slider");
-    },
     userLogin(event) {
       this.$store.dispatch("UserLogin", this.info);
       console.log(localStorage.getItem("key"));
@@ -259,79 +279,96 @@ export default {
   margin: auto;
   background: rgb(230, 230, 250, 0.95);
   border-radius: 2px 2px 0px 0px;
-  box-shadow: 0 0px, 0 -0.5px, -0.5px 0, 1px 0;
+  box-shadow: 0 0px, 0 -1px, -1px 0, 1px 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-}
-
-.header_details_img {
-  width: 70%;
-  margin: 25px 5px 5px 50px;
+  position: relative;
 }
 
 .header_details_nav {
-  width: 75%;
-  margin-left: 5px;
+  width: 95%;
+  height: 20px;
+  margin-top: 5px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .header_details_nav_a {
-  margin: 20px 15px 10px 15px;
-  width: 270px;
-  height: 30px;
-  font-size: 18px;
+  width: 150px;
+  font-size: 12px;
   color: black !important;
   text-align: center;
 }
 
 .header_details_nav_a:hover {
-  color: rgb(99, 170, 40) !important;
+  color: rgb(33, 147, 90) !important;
 }
 
-.header_details_basket_img {
-  width: 25px;
-  margin-top: 5px;
-  margin-right: 5px;
-  color: darkseagreen;
+hr {
+  background-color: black;
+  color: black;
+  height: 1px;
+  width: 80%;
+  margin-left: 150px;
 }
 
-.header_details_basket button {
-  height: 30px;
-  width: 140px;
-  margin-top: 20px;
-  border-radius: 2px;
-  font-size: 14px;
-  vertical-align: middle;
-  background-color: rgb(141, 206, 157);
-}
-
-.header_details_basket button:hover {
-  color: white;
-}
-
-.search_and_sign {
-  width: 70%;
-  height: 40px;
-  margin-left: 20px;
-}
-
-.header_details_search {
+.logo_img {
   width: 60%;
-  /* height: 30px; */
+  margin: 25px 5px 5px 50px;
+}
+
+.buttons {
+  width: 80%;
+  margin: 50px 0 0 50px;
+}
+
+.buttons_block {
+  width: 28%;
+  display: inline-block;
+  margin-left: 100px;
+} 
+
+.buttons_search_block {
+  width: 45%;
+  height: 44px;
+  margin-left: 180px;
+  background: rgb(33, 147, 90);
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.input_search {
+  width: 94%;
   transition: width 0.4s ease-in-out;
   font-size: 18px;
   padding: 5px;
-  border: 1px solid grey;
+  margin: 2px 6px 0 2px;
+  border: 1px solid black;
   border-radius: 4px;
-  margin-left: 30px;
+  background: white;
 }
 
-.header_details_search:focus {
-  width: 90%;
+.basket_btn {
+  height: 30px;
+  width: 120px;
+  border-radius: 2px;
+  font-size: 14px;
+  background-color: rgb(141, 206, 157);
+  box-shadow: 0 -3px rgb(20, 163, 91) inset;
+  transition: 0.2s;
+  color: black;
+}
+
+.basket_btn:hover {
+  background: rgb(53, 167, 110);
+}
+
+.basket_btn:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
 .sign_in {
@@ -349,20 +386,43 @@ export default {
   height: 30px;
   border-radius: 2px;
   font-size: 14px;
-  margin-right: 10px;
+  margin-right: 15px;
   background: rgb(141, 206, 157);
-  color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 -3px rgb(20, 163, 91) inset;
+  transition: 0.2s;
+  color: black;
 }
+
+.btn_sign_in:hover {
+  background: rgb(53, 167, 110);
+}
+
+.btn_sign_in:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
+}
+
 .close_form_sign_in {
   display: none;
 }
 .btn_sign_up {
-  width: 150px;
+  width: 130px;
   height: 30px;
   border-radius: 2px;
   font-size: 14px;
   background: rgb(141, 206, 157);
+  box-shadow: 0 -3px rgb(20, 163, 91) inset;
+  transition: 0.2s;
   color: black;
+}
+
+.btn_sign_up:hover {
+  background: rgb(53, 167, 110);
+}
+
+.btn_sign_up:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
 .block_profile {
@@ -384,8 +444,7 @@ export default {
 }
 
 .sign_in_overlay {
-  position: absolute;
-  width: 100%;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -398,6 +457,7 @@ export default {
 .sign_in_overlay:target {
   visibility: visible;
   opacity: 1;
+  z-index: 999999;
 }
 
 .sign_in_popup {
@@ -408,7 +468,6 @@ export default {
   background: #fff;
   border-radius: 5px;
   width: 20%;
-
   transition: all 5s ease-in-out;
 }
 
@@ -454,6 +513,7 @@ export default {
 .sign_up_overlay:target {
   visibility: visible;
   opacity: 1;
+  z-index: 999999;
 }
 
 .sign_up_popup {
@@ -492,6 +552,26 @@ export default {
   height: 40px;
   margin-bottom: 10px;
   border: 1px solid black;
+}
+
+.form_btn_sign_up {
+  width: 170px;
+  height: 30px;
+  border-radius: 2px;
+  font-size: 14px;
+  background: rgb(141, 206, 157);
+  box-shadow: 0 -3px rgb(20, 163, 91) inset;
+  transition: 0.2s;
+  color: black;
+}
+
+.form_btn_sign_up:hover {
+  background: rgb(53, 167, 110);
+}
+
+.form_btn_sign_up:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
 .false_login {

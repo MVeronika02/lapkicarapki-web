@@ -1,15 +1,16 @@
 <template>
-<div>
-
   <div class="contentProduct">
     <div id="content-main" class="contentGroup">
       <ul class="content_allProducts">
-          <li v-for="allProduct in  $store.state.filtredProductData" :key="allProduct.idProduct">
+        <li v-for="allProduct in $store.state.filtredProductData" :key="allProduct.idProduct">
           <div class="oneProduct">
-            <div @click="goDetails(allProduct.idProduct); closeSidebar()">
-            <p>{{ allProduct.nameProduct }}</p>
-            <img :src="imageProduct(allProduct.urlImageProduct)" height="70%">
-            <p>Цена: {{ allProduct.priceProduct }}</p>
+            <div @click="goDetails(allProduct.idProduct); closeSidebar();">
+              <p>{{ allProduct.nameProduct }}</p>
+              <img
+                :src="imageProduct(allProduct.urlImageProduct)"
+                height="70%"
+              />
+              <p>Цена: {{ allProduct.priceProduct }}</p>
             </div>
             <button @click="addToBasket(allProduct)">Добавить в корзину</button>
           </div>
@@ -34,50 +35,48 @@
         </v-row>
       </v-container>
     </div>
-
   </div>
-  
-</div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
-  name: 'filtredProducts',
-  data () {
+  name: "filtredProducts",
+  data() {
     return {
       page: 1,
-      length: 5
-    }
+      length: 5,
+    };
   },
-  mounted () {},
-  computed: mapState([
-    'allProducts'
-  ]),
-  created () {},
+  mounted() {},
+  computed: mapState(["allProducts"]),
+  created() {},
   methods: {
-    imageProduct (imagePath) {
-      return require(`../static/${imagePath}`)
+    imageProduct(imagePath) {
+      return require(`../static/${imagePath}`);
     },
-    goDetails (idProduct) {
-      this.$router.push({name: 'detailsProduct', params:{Pid:idProduct}})
+    goDetails(idProduct) {
+      this.$router.push({ name: "detailsProduct", params: { Pid: idProduct } });
     },
-    closeSidebar () {
-      document.getElementById("sidebar").className = "sidebarClose"
-      document.getElementById("mainPage").className = "newMainPage"
+    closeSidebar() {
+      document.getElementById("sidebar").className = "sidebarClose";
+      document.getElementById("mainPage").className = "newMainPage";
     },
-    addToBasket (allProduct) {
-      this.$store.commit('SETProductToBasket', allProduct)
+    addToBasket(allProduct) {
+      this.$store.commit("SETProductToBasket", allProduct);
     },
     getFilterValues: function (pageproduct) {
-        console.log(this.$store.state.valueMin)
-        console.log(this.$store.state.valueMax)
-      this.$store.dispatch('ProductsFilter', { min: this.$store.state.valueMin, max: this.$store.state.valueMax, page:pageproduct})
-    }
-  }
-}
+      console.log(this.$store.state.valueMin);
+      console.log(this.$store.state.valueMax);
+      this.$store.dispatch("ProductsFilter", {
+        min: this.$store.state.valueMin,
+        max: this.$store.state.valueMax,
+        page: pageproduct,
+      });
+    },
+  },
+};
 </script>
 
 <style>
-
 </style>

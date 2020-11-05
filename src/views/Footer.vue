@@ -44,6 +44,8 @@ export default {
   margin-top: -10px;
   padding-top: 20px;
   background: rgb(141, 206, 157);
+  border-radius: 0px 0px 2px 2px;
+  box-shadow: 0 0px, -1px 0px, 0px 1px, 1px 0px;
   display: flex;
   justify-content: space-around;
 }
@@ -101,7 +103,6 @@ export default {
 }
 
 .social_network {
-  /* width: ; */
   display: flex;
   justify-content: space-between;
 }

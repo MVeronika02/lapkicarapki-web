@@ -1,30 +1,23 @@
 <template>
   <div class="nav_block">
-    <nav class="main_nav">
+    <!-- <nav class="main_nav"> -->
       <ul class="main_nav_btn_list">
         <li
           v-for="animal in animals"
           :key="animal.key"
           class="main_nav_btn_list_item"
           @mouseover="allCategoryAnimals(animal.key)"
-          @click="
-            categoriesForOneAnimal(animal.key);
-          "
-        >
+          @click="categoriesForOneAnimal(animal.key);">
           <a class="main_nav_btn_list_item_a">{{ animal.name }}</a>
           <ul class="main_nav_btn_list_item_dropdown">
-            <li
-              v-for="allCategory in $store.state.filtredCategory"
-              :key="allCategory.id_category"
-            >
-              <a class="main_nav_btn_list_item_dropdown_a">{{
-                allCategory.name_category
-              }}</a>
+            <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.id_category">
+              <a class="main_nav_btn_list_item_dropdown_a">{{ allCategory.name_category }}</a>
             </li>
           </ul>
         </li>
       </ul>
-    </nav>
+    <!-- </nav> -->
+
   </div>
 </template>
 
@@ -58,10 +51,7 @@ export default {
     categoriesForOneAnimal: function (idAnimal) {
       this.$router.push({ name: "categories", params: { Pid: idAnimal } })
       this.$store.commit("filterCategoryOneAnimal", idAnimal);
-    },
-    // goToCategories: function (idAnimal) {
-    //   this.$router.push({ name: "categories", params: { Pid: idAnimal } });
-    // }
+    }
   },
 };
 </script>
@@ -70,41 +60,47 @@ export default {
 
 .nav_block {
   height: 50px;
-  box-shadow: -1px 0, 0px 0.5px, -0.5px 0, 1px 0;
+  box-shadow: -1px 0, 0px 0px, 0px 0, 1px 0;
+  background-color: var(--main-bg-color-nav);
 }
 
 :root {
-  --main-bg-color-nav: rgb(141, 206, 157);;
+  --main-bg-color-nav: rgb(141, 206, 157);
 }
 
-.main_nav {
-  /* position: relative; */
-  /* z-index: 0; */
-  width: 100%;
-  background-color: var(--main-bg-color-nav);
-}
 .main_nav_btn_list {
+  width: 100%;
+  height: 50px;
   position: relative;
   text-align: center;
+  box-shadow: 0 -8px rgb(20, 163, 91) inset;
+  transition: 0.2s;
 }
 .main_nav_btn_list_item {
-  /* position: absolute; */
   display: inline-block;
   background-color: var(--main-bg-color-nav);
   width: 200px;
   height: 50px;
   padding-top: 10px;
+  box-shadow: 0 -8px rgb(20, 163, 91) inset;
+  transition: 0.2s;
+}
+
+.main_nav_btn_list_item:hover {
+  background-color: rgb(33, 147, 90);
+  box-shadow: 1px 1px 1px rgb(12, 12, 12) inset;
 }
 
 .main_nav_btn_list_item_dropdown {
   display: none;
-  background: rgb(141, 206, 157);
+  background: rgb(33, 147, 90);
+  border-radius: 2px;
+  box-shadow: 1px -1px 0px rgb(34, 33, 33) inset;
   list-style-type: none;
   width: 300px;
   position: absolute;
   height: 350px;
   z-index: 99999;
-  /* margin-left: -50px; */
   align-items: space-between;
   text-align: left;
 }
@@ -126,22 +122,18 @@ export default {
   color: black !important;
 }
 
-.main_nav_btn_list_item:hover {
-  background-color: rgb(99, 170, 40);
-}
-
 .main_nav_btn_list_item .main_nav_btn_list_item_dropdown {
   display: none;
 }
 
 .main_nav_btn_list_item:hover .main_nav_btn_list_item_dropdown {
-  /* position: absolute; */
   display: block;
   top: 100%;
   left: auto;
 }
 
-.main_nav_btn_list_item:hover .main_nav_btn_list_item_dropdown {
+
+/* .main_nav_btn_list_item:hover .main_nav_btn_list_item_dropdown {
   position: absolute;
   display: block;
   top: 100%;
@@ -150,6 +142,6 @@ export default {
 
 .main_nav_btn_list > li:nth-child(6) .main_nav_btn_list_item_dropdown {
   left: auto;
-}
+} */
 
 </style>

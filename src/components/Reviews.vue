@@ -211,7 +211,6 @@ export default {
   font-size: 16px;
   height: 40px;
   width: 150px;
-  /* float: right; */
   margin: 40px 20px;
 }
 

@@ -143,7 +143,6 @@ export default {
 
 .buyer_info {
   width: 95%;
-  /* margin-bottom: 20px; */
 }
 
 .buyer_info > p {

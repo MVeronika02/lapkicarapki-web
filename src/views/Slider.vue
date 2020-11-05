@@ -61,8 +61,6 @@ export default {
   data() {
     return {
       settingsMainSlider: {
-        // dots: true,
-        // dotsClass: "slick-dots custom-dot-class",
         arrows: false,
         edgeFriction: 0.35,
         infinite: false,
@@ -83,7 +81,6 @@ export default {
 
 <style>
 .slider_block {
-  /* width: 60%; */
   height: 500px;
   padding-top: 50px;
   background: rgb(47, 149, 180);
