@@ -37,13 +37,8 @@
             >Войти
           </button>
         </a>
-        <a href="#sign_up_wrapper">
-          <button class="btn_sign_up">
-            <i class="fas fa-user-plus" style="margin-right: 10px"></i
-            >Регистрация
-          </button>
-        </a>
       </div>
+
       <div :class="$store.state.ninja ? 'block_profile_open' : 'block_profile'">
         <button class="block_profile_open_btn" @click="openProfile">
           Личный кабинет
@@ -52,12 +47,14 @@
       </div>
       </div>
     </div>
+    
 
     <div id="sign_in_wrapper" class="sign_in_overlay">
-      <div class="sign_in_popup">
+      <div id="popup" class="sign_in_popup">
         <a class="sign_in_close" href="#" @click="$emit('close')">&times;</a>
         <form id="form_sign_in" method="get" @submit.prevent="userLogin">
-          <h2>Форма входа</h2>
+          <button class="form_btn_sign_in">Войти</button>
+          <button class="form_btn_up" @click="openSignUp">Регистрация</button>
           <div>
             <label>Логин</label><br />
             <input
@@ -96,14 +93,10 @@
 
           <button class="btn_sign_in">Войти</button>
         </form>
-      </div>
-    </div>
 
-    <div id="sign_up_wrapper" class="sign_up_overlay">
-      <div class="sign_up_popup">
-        <a class="sign_up_close" href="#">&times;</a>
-        <form id="form_sign_up" method="post" @submit.prevent="recordUser">
-          <h2>Новый пользователь</h2>
+        <form id="form_sign_up"  method="post" @submit.prevent="recordUser">
+          <button class="form_btn_sign_in" @click="closeSignUp">Войти</button>
+          <button class="form_btn_up" @click="openSignUp">Регистрация</button>
           <div>
             <label>Логин</label><br />
             <input
@@ -228,6 +221,14 @@ export default {
       //   (error) => {
       //     console.log(error);
       //   };
+    },
+    openSignUp() {
+      document.getElementById('form_sign_up').style.display = 'block';
+      document.getElementById('form_sign_in').style.display = 'none';
+    },
+    closeSignUp() {
+      document.getElementById('form_sign_up').style.display = 'none';
+      document.getElementById('form_sign_in').style.display = 'block';
     },
     recordUser(event) {
       console.log(this.userData);
@@ -407,7 +408,26 @@ hr {
 .close_form_sign_in {
   display: none;
 }
-.btn_sign_up {
+
+.form_btn_sign_in {
+  width: 80px;
+  height: 30px;
+  border-radius: 2px;
+  font-size: 14px;
+  background: rgb(145, 155, 148);
+  margin-right: 10px;
+}
+
+.form_btn_up {
+  width: 130px;
+  height: 30px;
+  border-radius: 2px;
+  font-size: 14px;
+  background: rgb(145, 155, 148);
+  margin-bottom: 15px;
+}
+
+/* .btn_sign_up {
   width: 130px;
   height: 30px;
   border-radius: 2px;
@@ -425,7 +445,7 @@ hr {
 .btn_sign_up:active {
   background: rgb(33, 147, 90);
   box-shadow: 0 3px rgb(33, 147, 90) inset;
-}
+} */
 
 .block_profile {
   display: none;
@@ -441,8 +461,19 @@ hr {
   width: 120px;
   margin-right: 10px;
   font-size: 14px;
-  background: orange;
+  background: rgb(141, 206, 157);
+  box-shadow: 0 -3px rgb(20, 163, 91) inset;
+  transition: 0.2s;
   color: black;
+}
+
+.block_profile_open_btn:hover {
+  background: rgb(53, 167, 110);
+}
+
+.block_profile_open_btn:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
 .sign_in_overlay {
@@ -481,8 +512,8 @@ hr {
 
 .sign_in_close {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 0px;
+  right: 20px;
   transition: all 200ms;
   font-size: 30px;
   font-weight: bold;
@@ -499,54 +530,6 @@ hr {
   height: 40px;
   margin-bottom: 10px;
   border: 1px solid black;
-}
-
-.sign_up_overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  transition: opacity 500ms;
-  visibility: hidden;
-  opacity: 0;
-}
-.sign_up_overlay:target {
-  visibility: visible;
-  opacity: 1;
-  z-index: 999999;
-}
-
-.sign_up_popup {
-  margin: 70px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 5px;
-  width: 20%;
-  position: relative;
-  transition: all 5s ease-in-out;
-}
-
-.sign_up_popup h2 {
-  margin-top: 0;
-  color: #333;
-  font-family: Tahoma, Arial, sans-serif;
-}
-
-.sign_up_close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  transition: all 200ms;
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #333;
-}
-
-.sign_up_close:hover {
-  color: #06d85f;
 }
 
 .form_sign_up_input {
@@ -600,6 +583,14 @@ hr {
 }
 
 .block_userNotExists_open {
+  display: block;
+}
+
+#form_sign_up {
+  display: none;
+}
+
+#form_sign_in {
   display: block;
 }
 </style>
