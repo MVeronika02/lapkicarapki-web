@@ -106,7 +106,7 @@ export default {
 }
 
 .main_nav_btn_list_item_dropdown > li{
-  margin: 10px 0;
+  /* margin: 10px 0; */
 }
 
 .main_nav_btn_list_item_dropdown_a {

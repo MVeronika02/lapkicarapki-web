@@ -63,7 +63,7 @@ body {
 }
 
 .mainPage {
-  width: 88%;
+  width: 100%;
   display: grid;
   grid-template-areas:
     "header header header"
@@ -72,8 +72,7 @@ body {
     "footer footer footer";
   grid-template-rows: 200px 50px auto 200px;
   grid-template-columns: 15% 1fr 15%;
-  grid-gap: 10px;
-  margin: 0 auto;
+  margin: 0;
   padding: 0px;
   z-index: 5;
   position: relative;
@@ -81,7 +80,6 @@ body {
 
 .header {
   grid-area: header;
-  padding: 10px 0 0 0;
 }
 
 .content_grid {

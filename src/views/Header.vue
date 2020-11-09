@@ -6,11 +6,12 @@
       <a class="header_details_nav_a">НАШИ АДРЕСА</a>
     </div>
     <hr />
-    <a href="/" height="190px">
-      <img src="../assets/img/animalPaws.svg" class="logo_img" />
-    </a>
+    
 
     <div class="buttons">
+      <a href="/" height="190px">
+        <img src="../assets/img/animalPaws.svg" class="logo_img" />
+      </a>
       <div class="buttons_search_block">
         <input type="text" class="input_search" placeholder="Поиск.." />
         <i class="fa fa-search" aria-hidden="true"></i>
@@ -283,6 +284,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center ;
   position: relative;
 }
 
@@ -311,18 +313,18 @@ hr {
   background-color: black;
   color: black;
   height: 1px;
-  width: 80%;
-  margin-left: 150px;
+  width: 100%;
 }
 
 .logo_img {
-  width: 60%;
-  margin: 25px 5px 5px 50px;
+  width: 150px;
 }
 
 .buttons {
-  width: 80%;
-  margin: 50px 0 0 50px;
+  width: 85%;
+  height: 180px;
+  display: flex;
+  align-items: center;
 }
 
 .buttons_block {

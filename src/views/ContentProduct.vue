@@ -56,17 +56,17 @@ export default {
 <style>
 .main_content {
   height: 100%;
-  margin-top: -10px;
   padding: 10px 5px 0px 5px;
   background: rgb(230, 230, 250, 0.95);
-  /* border-radius: 2px; */
   box-shadow: 0 0px, 0 1px, -1px 0, 1px 0;
 }
 .content_wrapper {
+  width: 85%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom:30px;
+  margin-left: 130px;
 }
 
 .product_unit {
@@ -104,8 +104,6 @@ export default {
 .product_unit:hover {
   box-shadow: 0 0 10px rgb(34, 33, 33);
   border-radius: 4px;
-  /* border: 5px; */
-  /* outline: 2px solid rgb(107, 106, 106); */
 }
 
 </style>

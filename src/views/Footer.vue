@@ -41,7 +41,6 @@ export default {
 <style>
 .footer_block {
   height: 100%;
-  margin-top: -10px;
   padding-top: 20px;
   background: rgb(141, 206, 157);
   border-radius: 0px 0px 2px 2px;
@@ -63,6 +62,7 @@ export default {
 }
 
 .nav_footer_a {
+  margin-bottom: 5px;
   color: black !important;
   font-size: 0.8em;
 }
@@ -83,6 +83,7 @@ export default {
 }
 
 .footer_contacts_a {
+  margin-bottom: 5px;
   color: black !important;
   font-size: 0.8em;
 }
