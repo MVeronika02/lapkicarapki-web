@@ -1,5 +1,6 @@
 <template>
   <div class="basket_details">
+    <div class="basket_details_block">
     <h3 class="basket_name">Ваша корзина ({{ $store.state.cartCount }})</h3>
     <div class="basket_details_info">
       <table
@@ -69,8 +70,9 @@
         <p>Товара на: {{ totalPrice }} тг</p>
         <hr />
         <p>К оплате: {{ totalPrice }} тг</p>
-        <v-btn @click="goToOrdering()">Оформить заказ</v-btn>
+        <button class="ordering_btn" @click="goToOrdering()">Оформить заказ</button>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -90,7 +92,7 @@ export default {
     if (this.$store.state.basketContent.length == 0) {
       this.totalCheck = false
     }
-
+    
   },
   mounted() {
     this.$store.commit("saveBasket");
@@ -102,7 +104,13 @@ export default {
       for (let allProduct of this.$store.state.basketContent) {
         total += allProduct.totalPrice;
       }
+      if (total == 0) {
+        this.totalCheck = false
+      }
+      // this.$router.push({ name: "Header", params: { totalPrice: total } });
+      // console.log(total)
       return total.toFixed(2);
+      
     },
   },
   methods: {
@@ -129,7 +137,13 @@ export default {
 <style>
 .basket_details {
   background: rgb(230, 230, 250, 0.95);
-  padding: 10px;
+}
+
+.basket_details_block {
+  width: 85%;
+  min-height: 500px;
+  margin-left: 100px;
+  padding-bottom: 100px;
   display: flex;
   flex-direction: column;
 }
@@ -139,17 +153,18 @@ export default {
   font-size: 44px;
   color: darkslateblue;
   height: 70px;
-  margin-left: 20px;
+  margin: 20px 0 20px 20px;
 }
 
 .basket_details_info {
   display: flex;
-  /* flex-direction: row; */
 }
 
 .basket_details_table {
   width: 60%;
   display: block;
+  padding-right: 10px;
+  margin: 0 0 100px 20px; 
 }
 
 .basket_table_row_1 {
@@ -162,11 +177,10 @@ export default {
 /* границы ячеек первого ряда таблицы */
 th {
   font-size: 22px;
-  /* text-align: left; */
 }
 
 .row_1_th_name {
-  width: 500px;
+  width: 460px;
   text-align: left;
 }
 
@@ -274,24 +288,44 @@ th {
 }
 
 hr {
-  border: none; /* Убираем границу */
-  background-color: grey; /* Цвет линии */
-  height: 2px; /* Толщина линии */
+  border: none;
+  background-color: grey;
+  height: 2px;
 }
 
 .ordering {
-  margin-left: 40px;
-  width: 25%;
+  margin: 20px 0 0 80px;
+  width: 350px;
   height: 400px;
   box-shadow: 0 0 5px;
   background: darkseagreen;
-  padding: 15px;
+  padding: 20px;
 }
 
 .ordering p {
-  width: 500px;
+  width: 300px;
   font-size: 22px;
   margin: 40px 0;
+}
+
+.ordering_btn {
+  height: 40px;
+  width: 180px;
+  border-radius: 2px;
+  font-size: 14px;
+  background-color: rgb(141, 206, 157);
+  box-shadow: 0 -3px rgb(20, 163, 91) inset;
+  transition: 0.2s;
+  color: black;
+}
+
+.ordering_btn:hover {
+  background: rgb(53, 167, 110);
+}
+
+.ordering_btn:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
 .ordering_closed {

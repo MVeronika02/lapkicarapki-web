@@ -5,13 +5,14 @@ import Axios from 'axios'
 Vue.use(Vuex)
 let basketContent = window.localStorage.getItem('basketContent')
 let cartCount = window.localStorage.getItem('cartCount')
-
+let backendServerUrl = "http://localhost:5000"
 export default new Vuex.Store({
   state: {
     allCategoryAnimal: [],
     allProducts: [],
     filtredCategory: [],
     filterCategoryOneAnimal: [],
+    filterProductsForOneCategory: [],
     basketContent: basketContent ? JSON.parse(basketContent) : [],
     cartCount: cartCount ? parseInt(cartCount) : 0,
     productPageNumber: 0,
@@ -43,11 +44,19 @@ export default new Vuex.Store({
     SETAllCategory: (state, categoryAll) => {
       state.allCategoryAnimal = categoryAll
     },
-    SETProducts: (state, allProducts) => {
-      state.allProducts = allProducts
-    },
+    // SETProducts: (state, allProducts) => {
+    //   console.log(allProducts, 'all')
+    //   state.allProducts = allProducts
+      
+    // },
     SETfiltredProducts: (state, filtredProducts) => {
       state.filtredProductData = filtredProducts
+    },
+    SETProductToPage: (state, selectedPage) => {
+      state.allProducts = selectedPage
+    },
+    SETCountProductPage: (state, countPage) => {
+      state.countProductPage = countPage
     },
     filterCategory: (state, idAnimal) => {
       state.filtredCategory = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
@@ -55,11 +64,9 @@ export default new Vuex.Store({
     filterCategoryOneAnimal: (state, idAnimal) => {
       state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
     },
-    SETProductToPage: (state, selectedPage) => {
-      state.allProducts = selectedPage
-    },
-    SETCountProductPage: (state, countPage) => {
-      state.countProductPage = countPage
+    filterProductsForOneCategory: (state, products) => {
+      console.log(products, "pro")
+      state.filterProductsForOneCategory = products
     },
     SETFilterKey: (state, key) => {
       state.filtredProductKey = key
@@ -107,10 +114,11 @@ export default new Vuex.Store({
         if (newItemRemove) {
           newItemRemove.quantity--
           newItemRemove.totalPrice = newItemRemove.quantity * newItemRemove.priceProduct
-          if (state.cartCount > 0) {
-            state.cartCount--
-          }
+          
         }
+      }
+      if (state.cartCount > 0) {
+        state.cartCount--
       }
 
     },
@@ -128,30 +136,38 @@ export default new Vuex.Store({
   },
 
   // Действия
-
   actions: {
     SETCategory: async (context) => {
-      await Axios.get('http://localhost:5000/categories')
+      await Axios.get(backendServerUrl + '/categories')
         .then(categoryAll => {
           context.commit('SETAllCategory', categoryAll.data.result)
         })
     },
     ProductsFilter: async (context, payload) => {
-      await Axios.get('http://localhost:5000/products?valueMin=' + payload.min + '&valueMax=' + payload.max + '&limit=5&numberpage=' + payload.page)
+      await Axios.get(backendServerUrl + '/products?valueMin=' + payload.min + '&valueMax=' + payload.max + '&limit=5&numberpage=' + payload.page)
         .then(filtredProducts => {
           context.commit('SETfiltredProducts', filtredProducts.data.result)
         })
 
     },
     ProductsOnPage: async (context, page) => {
-      await Axios.get('http://localhost:5000/paginationcontent?limit=12&numberpage=' + page)
+      await Axios.get(backendServerUrl + '/paginationcontent?limit=12&numberpage=' + page)
         .then(resultBackend => {
           context.commit('SETProductToPage', resultBackend.data.result.product)
+          // context.commit('filterProductsForOneCategory', resultBackend.data.result.product)
           context.commit('SETCountProductPage', resultBackend.data.result.count_page)
         })
     },
+    ProductsForOneCategory: async (context, payload) => {
+      await Axios.get(backendServerUrl + '/products?animal=' + payload.idAnimal + '&category=' + payload.idCategory)
+        .then(productsCategory => {
+          // context.commit('SETProductToPage', resultBackend.data.result.product)
+          context.commit('filterProductsForOneCategory', productsCategory.data.result.product)
+          // context.commit('SETCountProductPage', resultBackend.data.result.count_page)
+        })
+    },
     UserLogin: async (context, payload) => {
-      await Axios.get('http://localhost:5000/user?login=' + payload.login + '&password=' + payload.password)
+      await Axios.get(backendServerUrl + '/user?login=' + payload.login + '&password=' + payload.password)
         .then(answerBool => {
           context.commit('SETUser', answerBool.data)
           console.log(answerBool.data, 'lllllll')
@@ -159,7 +175,7 @@ export default new Vuex.Store({
     },
     ReviewsOnPage: async (context, payload) => {
       await Axios.get(
-        "http://localhost:5000/inforeviews?productid=" + payload.id + "&offset=" + payload.page + "&limit=3"
+        backendServerUrl + "/inforeviews?productid=" + payload.id + "&offset=" + payload.page + "&limit=3"
       ).then((reviewsProduct) => {
         context.commit('SETReviews', reviewsProduct.data.count_page)
         context.commit('SETReviewsToPage', reviewsProduct.data.result)

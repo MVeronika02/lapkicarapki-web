@@ -1,10 +1,9 @@
 <template>
 <div class="content_categories">
-  <sidebar/>
   <div class="categories_block" >
     <ul class="categories_block_ul">
-      <li v-for="allCategory in $store.state.filterCategoryOneAnimal" :key="allCategory.id_category" class="categories_block_li">
-          <p class="categories_block_name">{{ allCategory.name_category }}</p>
+      <li v-for="allCategory in $store.state.filterCategoryOneAnimal" :key="allCategory.id_category" @click="toProductsCategory(allCategory.id_animal, allCategory.id_category)" class="categories_block_li">
+          <div class="categories_block_name"><h3>{{ allCategory.name_category }}</h3></div>
           <img :src="imageCategory(allCategory.url_image_category)" class="categories_block_img"/>
       </li> 
     </ul>
@@ -13,22 +12,22 @@
 </template>
 
 <script>
-import Sidebar from '../components/Sidebar.vue'
 export default {
   name: 'categories',
   data () {
     return {
-      prodCategory: this.$route.params.Pid,
+      productCategory: this.$route.params.Products,
       allCateegoriesAnimal: {}
     }
-  },
-  components: {
-    Sidebar
   },
   methods:  {
     imageCategory(imagePath) {
       return require(`../static/categoryImg/${imagePath}`);
     },
+    toProductsCategory(idAnimal, idCategory) {
+      this.$router.push({ name: "productsCategory", params: { Category: idAnimal, Products: idCategory } })
+      this.$store.dispatch("ProductsForOneCategory", { idAnimal: idAnimal, idCategory: idCategory });
+    }
   }
 }
 </script>
@@ -39,6 +38,7 @@ export default {
   display: flex;
   flex-direction: row;
 }
+
 
 .categories_block_ul {
   width: 80%;
@@ -51,19 +51,21 @@ export default {
 
 .categories_block_li {
   list-style-type: none;
-  width: 40%;
-  height: 330px;
+  width: 280px;
+  height: 300px;
   border-radius: 3px;
-  /* border-width: 1.5px;
-  border-style: ridge; */
   margin: 10px 0 20px 20px;
   text-align: center;
-  background: rgb(188, 208, 209);
 }
 
 .categories_block_name {
-  font-size: 22px;
-  margin: 5px 0px 15px 0;
+  font-size: 14px;
+  height: 30px;
+  background: rgb(141, 206, 157);
+}
+
+.categories_block_name:hover {
+  background: rgb(53, 167, 110);
 }
 
 .categories_block_img {

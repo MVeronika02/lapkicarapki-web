@@ -8,6 +8,7 @@ import Basket from '../components/Basket.vue'
 import FiltredProducts from '../views/FiltredProducts.vue'
 import Sidebar from '../components/Sidebar.vue'
 import Categories from '../components/Categories.vue'
+import ProductsCategory from '../components/ProductsCategory.vue'
 import Order from '../components/Order.vue'
 import Login from '../components/Login.vue'
 import Dashboard from '../components/Dashboard.vue'
@@ -35,6 +36,11 @@ const routes = [
         path: 'categories/:Pid',
         name: 'categories',
         component: Categories
+      },
+      {
+        path: 'productsCategory/:Pid',
+        name: 'productsCategory',
+        component: ProductsCategory
       },
       {
         path: '/',

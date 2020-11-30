@@ -4,11 +4,12 @@
       <div
         class="product_unit"
         v-for="allProduct in  $store.state.allProducts"
-        :key="allProduct.idProduct"
-        @click="goDetails(allProduct.idProduct)">
-        <p class="product_unit_name">{{ allProduct.nameProduct }}</p>
-        <img :src="imageProduct(allProduct.urlImageProduct)" class="product_unit_img" />
-        <p>Цена: {{ allProduct.priceProduct }}</p>
+        :key="allProduct.idProduct">
+        <div class="product_unit_info" @click="goDetails(allProduct.idProduct)">
+          <p class="product_unit_name">{{ allProduct.nameProduct }}</p>
+          <img :src="imageProduct(allProduct.urlImageProduct)" class="product_unit_img" />
+          <p>Цена: {{ allProduct.priceProduct }}</p>
+        </div>
         <button class="btn_add_basket" @click="addToBasket(allProduct)">Добавить в корзину</button>
       </div>
     </div>
@@ -73,10 +74,16 @@ export default {
   height: 355px;
   width: 250px;
   margin-top: 12px;
-  padding: 10px;
+  padding-top: 10px;
   box-shadow: 0 0 5px;
   border-radius: 2px;
   background: rgb(141, 206, 157);
+  text-align: center;
+}
+
+.product_unit_info {
+  height: 300px;
+  width: 250px;
   text-align: center;
 }
 

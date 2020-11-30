@@ -16,14 +16,16 @@
         <input type="text" class="input_search" placeholder="Поиск.." />
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
-      <div class="buttons_block">
+      <div class="buttons_block" >
         <button class="basket_btn" @click="openBasket()">
           <i
             class="fa fa-shopping-cart"
             aria-hidden="true"
             style="margin-right: 10px"
           ></i
-          >Корзина ({{ $store.state.cartCount }})
+          >Корзина</br>
+
+          <span>Товара: {{ $store.state.cartCount }} </br> На сумму: {{ totalPrice }}</span>
         </button>
       
       <div :class="$store.state.ninja ? 'sign_in_close_block' : 'sign_in'">
@@ -38,13 +40,12 @@
           </button>
         </a>
       </div>
-
+      </div>
       <div :class="$store.state.ninja ? 'block_profile_open' : 'block_profile'">
         <button class="block_profile_open_btn" @click="openProfile">
           Личный кабинет
         </button>
         <button class="block_profile_open_btn" @click="logout">Выйти</button>
-      </div>
       </div>
     </div>
     
@@ -198,7 +199,20 @@ export default {
     };
   },
   mounted() {
-    this.$store.commit("SETProducts");
+    // this.$store.commit("SETProducts");
+    this.$store.commit("saveBasket");
+  },
+  computed: {
+    totalPrice() {
+      let total = 0;
+      for (let allProduct of this.$store.state.basketContent) {
+        total += allProduct.totalPrice;
+      }
+      if (total == 0) {
+        this.totalCheck = false
+      }
+      return total.toFixed(2);
+    },
   },
   methods: {
     openBasket: function () {
@@ -329,7 +343,7 @@ hr {
 }
 
 .buttons_block {
-  width: 28%;
+  width: 18%;
   display: inline-block;
   margin-left: 100px;
 } 
@@ -355,14 +369,16 @@ hr {
 }
 
 .basket_btn {
-  height: 30px;
-  width: 120px;
+  height: 70px;
+  width: 180px;
+  padding-left: 10px;
   border-radius: 2px;
   font-size: 14px;
   background-color: rgb(141, 206, 157);
   box-shadow: 0 -3px rgb(20, 163, 91) inset;
   transition: 0.2s;
   color: black;
+  text-align: left;
 }
 
 .basket_btn:hover {
@@ -427,26 +443,6 @@ hr {
   margin-bottom: 15px;
 }
 
-/* .btn_sign_up {
-  width: 130px;
-  height: 30px;
-  border-radius: 2px;
-  font-size: 14px;
-  background: rgb(141, 206, 157);
-  box-shadow: 0 -3px rgb(20, 163, 91) inset;
-  transition: 0.2s;
-  color: black;
-}
-
-.btn_sign_up:hover {
-  background: rgb(53, 167, 110);
-}
-
-.btn_sign_up:active {
-  background: rgb(33, 147, 90);
-  box-shadow: 0 3px rgb(33, 147, 90) inset;
-} */
-
 .block_profile {
   display: none;
   color: #06d85f;
@@ -459,6 +455,7 @@ hr {
 
 .block_profile_open_btn {
   width: 120px;
+  height: 30px;
   margin-right: 10px;
   font-size: 14px;
   background: rgb(141, 206, 157);

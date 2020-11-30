@@ -1,11 +1,6 @@
 <template>
   <div class="details_container">
-    <!-- <div class="images_product_block">
-    <img
-      :src="imageProduct(allDetailProduct.urlImageProduct)"
-      width="400px"
-      height="400px"
-    /> -->
+    <div class="details_container_block">
     <div class="slider_product_image">
       <div class="slider_block_top">
         <VueSlickCarousel
@@ -14,7 +9,7 @@
           :asNavFor="$refs.c2"
         >
           <div>
-            <img :src="imageProduct(allDetailProduct.urlImageProduct)" />
+            <img :src="imageProduct(allDetailProduct.urlImageProduct)"/>
           </div>
         </VueSlickCarousel>
       </div>
@@ -70,18 +65,18 @@
         allDetailProduct.nameProduct
       }}</span>
       <div class="details_container_info_actions">
-        <v-btn class="info_actions_btn">
+        <btn class="info_actions_btn">
           <i class="fab fa-gratipay"></i>
           <span>Отложить</span>
-        </v-btn>
-        <v-btn class="info_actions_btn">
+        </btn>
+        <btn class="info_actions_btn">
           <i class="fas fa-sync-alt"></i>
           <span>Сравнить</span>
-        </v-btn>
-        <v-btn class="info_actions_btn">
+        </btn>
+        <btn class="info_actions_btn">
           <i class="fas fa-share-alt-square"></i>
           <span>Купить</span>
-        </v-btn>
+        </btn>
       </div>
 
       <span class="details_container_info_price"
@@ -93,6 +88,7 @@
       >
         Добавить в корзину
       </button>
+    </div>
     </div>
 
     <div class="details_container_cards">
@@ -135,6 +131,7 @@
         </v-tabs-items>
       </v-card>
     </div>
+    
   </div>
 </template>
 
@@ -194,27 +191,33 @@ export default {
 
 <style>
 .details_container {
-  width: 100%;
-  border: 1px solid black;
-  box-shadow: 0 0 5px;
   background: rgb(230, 230, 250, 0.95);
+}
+
+.details_container_block {
+  width: 70%;
+  margin-left: 150px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .slider_product_image {
-  width: 500px;
+  width: 465px;
+  height: 530px;
+  margin: 20px 0px 30px 0px;
+  padding-left: 15px;
   display: flex;
-  margin: 20px 50px 0 0;
   flex-direction: column;
+  background: rgb(141, 206, 157);
+  border-radius: 2px;
 }
 
 .slider_block_top {
   width: 400px !important;
   height: 350px;
-  margin-left: 20px;
+  margin: 20px 0 0 20px;
 }
 
 .slider_block_top img {
@@ -223,7 +226,7 @@ export default {
 }
 
 .slider_SubSlider {
-  margin-top: 15px;
+  margin-top: 40px;
   margin-left: 20px;
   width: 390px;
   height: 100px;
@@ -237,7 +240,7 @@ export default {
 }
 
 .details_container_info {
-  margin-top: 10px;
+  margin: 10px 0px 0 50px;
   display: flex;
   flex-direction: column;
 }
@@ -245,25 +248,36 @@ export default {
 .details_container_info_nameProduct {
   font-weight: 400;
   font-size: 2.5em;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .details_container_info_actions {
-  width: 100%;
-  margin-bottom: 20px;
+  width: 90%;
+  margin: 0 0 20px 50px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
 .info_actions_btn {
-  font-size: 1.5em;
-  background-color: #2e7d32 !important;
+  width: 110px;
+  height: 30px;
+  border-radius: 2px;
+  background-color: rgb(141, 206, 157);
+  box-shadow: 0 -3px rgb(20, 163, 91) inset;
   margin-right: 30px;
+  padding-top: 2px;
+  text-align: center;
+  cursor: pointer; 
 }
 
 .info_actions_btn:hover {
-  background: darkgray !important;
+  background: rgb(53, 167, 110);
+}
+
+.info_actions_btn:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
 .details_container_info_price {
@@ -272,27 +286,33 @@ export default {
 }
 
 .details_container_info_btn_basket {
-  width: 200px;
-  height: 50px;
-  border-radius: 5px;
+  width: 300px;
+  height: 40px;
+  border-radius: 4px;
   margin-top: 40px;
-  background-color: #2e7d32;
+  background-color: rgb(141, 206, 157);
+  box-shadow: 0 -5px rgb(20, 163, 91) inset;
   font-size: 18px;
 }
 
 .details_container_info_btn_basket:hover {
-  color: darkgray;
+  background: rgb(53, 167, 110);
+}
+
+.details_container_info_btn_basket:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
 .details_container_cards {
   margin-top: 40px;
   width: 100%;
-  height: 300px;
+  height: 250px;
 }
 
 .details_container_cards_content_p {
   width: 100%;
-  height: 40%;
+  height: 150px;
   z-index: 1;
   font-size: 20px;
 }

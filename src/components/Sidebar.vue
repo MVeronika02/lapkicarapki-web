@@ -1,6 +1,8 @@
 <template>
 <div class="sidebar_open" :class="{sidebarClose: closeBar}">
-<div class="left_sidebar">
+  <div class="sidebar_name">
+    <h3>ПОДБОР ПАРАМЕТРОВ</h3>
+  </div>
   <div class="filters_container">
     <p class="price_name">Цена: </p>
     <div class="slider">
@@ -36,7 +38,7 @@
       </v-range-slider>
     </div>
 
-    <div class="select-weight">
+    <div class="select_weight">
       <p><select size="5" multiple name="hero[]">
         <option>Выберите вес</option>
         <option value="weight0">< 1 кг</option>
@@ -46,16 +48,15 @@
       </select></p>
     </div>
   </div>
-  <div class="btn-filter">
-    <v-btn  @click.native="$store.commit('SETFilterKey', true); getFilterValues()">
+  <!-- <div class="btn_filter"> -->
+    <v-btn class="btn_filter_v" @click.native="$store.commit('SETFilterKey', true); getFilterValues()">
       <router-link
         to="/filtred"
       >
         Применить
       </router-link>
       </v-btn>
-  </div>
-</div>
+  <!-- </div> -->
 </div>
 </template>
 
@@ -92,6 +93,7 @@ export default {
       var valueMin = this.range[0]
       var valueMax = this.range[1]
       this.$store.dispatch('ProductsFilter', { min: valueMin, max: valueMax, page:1})
+      // this.$router.push("/profile");
     }
   }
 }
@@ -100,10 +102,14 @@ export default {
 <style>
 
 .sidebar_open {
-  width: 40%;
+  display: block;
+  width: 400px;
+  height: 600px;
+  background: rgb(141, 206, 157);
+  margin: 20px 0 0 150px;
 }
 
-.left_sidebar {
+/* .left_sidebar {
   left: -350px;
   width: 100%;
   height: 1000px;
@@ -116,10 +122,16 @@ export default {
   opacity: 1;
   visibility: visible;
   overflow: hidden;
-}
+} */
 
 .sidebarClose {
   display: none;
+}
+
+.sidebar_name {
+  height: 40px;
+  text-align: center;
+  background: rgb(20, 163, 91);
 }
 
 .filters_container {
@@ -128,7 +140,7 @@ export default {
   align-items: center;
   justify-content: center;
   align-content: space-around;
-  width: 100%;
+  width: 300px;
 }
 
 .price_name {
@@ -141,7 +153,7 @@ export default {
   margin-bottom: 20px;
 }
 
-.select-weight {
+.select_weight {
   height: 150px;
 }
 
@@ -150,13 +162,33 @@ export default {
 }
 
 .btn-filter {
-  background-color: #4CAF50;
+  /* background-color: #4CAF50; */
   color: white;
   padding: 6px;
-  margin-left: 150px;
+  margin-left: 100px;
   font-size: 16px;
   cursor: pointer;
+  /* text-align: center; */
 }
+
+.btn_filter_v {
+  width: 180px;
+  height: 50px;
+  margin-left: 120px;
+  color: black;
+  background-color: rgb(141, 206, 157);
+  box-shadow: 0 -6px rgb(20, 163, 91) inset;
+  transition: 0.2s;
+}
+
+.btn_filter_v:hover {
+  background: rgb(53, 167, 110);
+}
+
+.btn_filter_v a {
+  color:black !important;
+}
+
 
 @media only screen and (max-device-width: 520px) {
 

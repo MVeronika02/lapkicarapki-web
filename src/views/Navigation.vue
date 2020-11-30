@@ -41,7 +41,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.commit("SETProducts");
+    // this.$store.commit("SETProducts");
     this.$store.dispatch("SETCategory");
   },
   methods: {
