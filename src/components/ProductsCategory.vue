@@ -1,14 +1,24 @@
 <template>
 <div class="content_products_category">
-  <sidebar/>
-  <div class="productsOfCategory_block">
-    <ul class="productsOfCategory_ul">
-      <li v-for="allProducts in $store.state.filterProductsForOneCategory" :key="allProducts.idProduct">
-        <div class="products_block_name"><h3>{{ allProducts.nameProduct }}</h3></div>
-        <img :src="imageProduct(allProducts.urlImageProduct)" class="product_img"/>
-        <p>Цена: {{ allProducts.priceProduct }}</p>
-      </li> 
-    </ul>
+  <div class="content_products_category_block">
+    <sidebar/>
+    <div class="productsOfCategory_block">
+      <ul class="productsOfCategory_ul">
+        <li v-for="allProducts in $store.state.filterProductsForOneCategory" :key="allProducts.idProduct" class="productsOfCategory_ul_li">
+          <p class="products_block_name">{{ allProducts.nameProduct }}</p>
+          <img :src="imageProduct(allProducts.urlImageProduct)" class="product_img"/>
+          <p>Цена: {{ allProducts.priceProduct }}</p>
+          <button class="btn_add_basket" @click="addToBasket(allProducts)">Добавить в корзину</button>
+        </li> 
+      </ul>
+    </div>
+    <v-pagination
+      v-model="page"
+      class="pt-4 pb-2"
+      :length="$store.state.countProductPage"
+      total-visible="5"
+      @input="showPage(page)"
+    ></v-pagination>
   </div>
 </div>
 </template>
@@ -20,6 +30,7 @@ export default {
   name: 'productsCategory',
   data () {
     return {
+      page: 1,
       prodCategory: this.$route.params.Products,
       categoryAnimal: this.$route.params.Category
     }
@@ -27,9 +38,18 @@ export default {
   components: {
     Sidebar
   },
+  created() {
+    this.$store.dispatch("ProductsForOneCategoryPage", 1);
+  },
   methods: {
     imageProduct(imagePath) {
       return require(`../static/${imagePath}`);
+    },
+    addToBasket(allProducts) {
+      this.$store.commit("SETProductToBasket", allProducts);
+    },
+    showPage(page) {
+      this.$store.dispatch("ProductsForOneCategoryPage", page);
     },
   }
 
@@ -39,18 +59,49 @@ export default {
 <style>
 .content_products_category {
   background: rgb(230, 230, 250, 0.95);
+}
+
+.content_products_category_block {
+  width: 80%;
+  margin-left: 160px;
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .productsOfCategory_block {
-  height: 500px;
+  width: 1000px;
+  margin: 20px 0 0 100px;
+  padding: 0;
 }
 
 .productsOfCategory_ul {
-  height: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.productsOfCategory_ul_li {
+  list-style-type: none;
+  height: 365px;
+  width: 250px;
+  margin-bottom: 20px;
+  margin-right: 50px;
+  padding-top: 10px;
+  box-shadow: 0 0 5px;
+  border-radius: 2px;
+  background: rgb(141, 206, 157);
+  text-align: center;
+}
+
+.productsOfCategory_ul_li:hover {
+  box-shadow: 0 0 10px rgb(34, 33, 33);
+  border-radius: 4px;
 }
 
 .product_img {
   height: 200px;
+  margin-bottom: 10px;
 }
 </style>

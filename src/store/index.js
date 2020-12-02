@@ -166,6 +166,14 @@ export default new Vuex.Store({
           // context.commit('SETCountProductPage', resultBackend.data.result.count_page)
         })
     },
+    ProductsForOneCategoryPage: async (context, page) => {
+      await Axios.get(backendServerUrl + '/paginationproducts?limit=12&numberpage=' + page)
+        .then(resultBackend => {
+          // context.commit('SETProductToPage', resultBackend.data.result.product)
+          context.commit('filterProductsForOneCategory', resultBackend.data.result.product)
+          // context.commit('SETCountProductPage', resultBackend.data.result.count_page)
+        })
+    },
     UserLogin: async (context, payload) => {
       await Axios.get(backendServerUrl + '/user?login=' + payload.login + '&password=' + payload.password)
         .then(answerBool => {

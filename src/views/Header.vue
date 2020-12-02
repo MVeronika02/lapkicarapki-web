@@ -1,9 +1,9 @@
 <template>
   <div class="header_details">
     <div class="header_details_nav">
-      <a class="header_details_nav_a">ДОСТАВКА И ОПЛАТА</a>
-      <a class="header_details_nav_a">КОНТАКТЫ</a>
-      <a class="header_details_nav_a">НАШИ АДРЕСА</a>
+      <a @click="openDelivery()" class="header_details_nav_a">ДОСТАВКА И ОПЛАТА</a>
+      <a @click="openContacts()" class="header_details_nav_a">КОНТАКТЫ</a>
+      <a @click="openAboutUs()" class="header_details_nav_a">О НАС</a>
     </div>
     <hr />
     
@@ -22,9 +22,9 @@
             class="fa fa-shopping-cart"
             aria-hidden="true"
             style="margin-right: 10px"
-          ></i
-          >Корзина</br>
-
+          ></i>
+          Корзина
+          </br>
           <span>Товара: {{ $store.state.cartCount }} </br> На сумму: {{ totalPrice }}</span>
         </button>
       
@@ -215,6 +215,15 @@ export default {
     },
   },
   methods: {
+    openDelivery: function () {
+      this.$router.push("/delivery");
+    },
+    openContacts: function () {
+      this.$router.push("/contacts");
+    },
+    openAboutUs: function () {
+      this.$router.push("/aboutUs");
+    },
     openBasket: function () {
       this.$router.push("/basket");
       // let config = {

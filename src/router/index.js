@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store'
 import Home from '../views/Home.vue'
+import Delivery from '../components/Delivery.vue'
+import Contacts from '../components/Contacts.vue'
+import AboutUs from '../components/AboutUs.vue'
 import ContentProduct from '../views/ContentProduct.vue'
 import DetailsProduct from '../components/DetailsProduct.vue'
 import Basket from '../components/Basket.vue'
@@ -27,9 +30,24 @@ const routes = [
     component: Home,
     children: [
       {
+        path: '/delivery',
+        name: 'delivery',
+        component: Delivery
+      },
+      {
+        path: '/contacts',
+        name: 'contacts',
+        component: Contacts
+      },
+      {
+        path: '/aboutUs',
+        name: 'aboutUs',
+        component: AboutUs
+      },
+      {
 
         path: '/',
-        name: 'Content',
+        name: 'content',
         component: ContentProduct
       },
       {

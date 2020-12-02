@@ -1,7 +1,7 @@
 <template>
 <div class="sidebar_open" :class="{sidebarClose: closeBar}">
   <div class="sidebar_name">
-    <h3>ПОДБОР ПАРАМЕТРОВ</h3>
+    <h4>ПОДБОР ПАРАМЕТРОВ</h4>
   </div>
   <div class="filters_container">
     <p class="price_name">Цена: </p>
@@ -49,13 +49,13 @@
     </div>
   </div>
   <!-- <div class="btn_filter"> -->
-    <v-btn class="btn_filter_v" @click.native="$store.commit('SETFilterKey', true); getFilterValues()">
+    <button class="btn_filter_v" @click.native="$store.commit('SETFilterKey', true); getFilterValues()">
       <router-link
         to="/filtred"
       >
         Применить
       </router-link>
-      </v-btn>
+      </button>
   <!-- </div> -->
 </div>
 </template>
@@ -103,10 +103,10 @@ export default {
 
 .sidebar_open {
   display: block;
-  width: 400px;
+  width: 300px;
   height: 600px;
   background: rgb(141, 206, 157);
-  margin: 20px 0 0 150px;
+  margin: 20px 0 50px 10px;
 }
 
 /* .left_sidebar {
@@ -130,6 +130,7 @@ export default {
 
 .sidebar_name {
   height: 40px;
+  padding-top: 10px;
   text-align: center;
   background: rgb(20, 163, 91);
 }
@@ -161,31 +162,32 @@ export default {
   height: 150px;
 }
 
-.btn-filter {
+/* .btn-filter { */
   /* background-color: #4CAF50; */
-  color: white;
+  /* color: white;
   padding: 6px;
   margin-left: 100px;
   font-size: 16px;
-  cursor: pointer;
+  cursor: pointer; */
   /* text-align: center; */
-}
+/* } */
 
 .btn_filter_v {
   width: 180px;
-  height: 50px;
-  margin-left: 120px;
-  color: black;
-  background-color: rgb(141, 206, 157);
-  box-shadow: 0 -6px rgb(20, 163, 91) inset;
+  height: 40px;
+  margin-left: 60px;
+  /* color: black; */
+  background-color: rgb(232, 238, 234);
+  box-shadow: 0 -4px rgb(20, 163, 91) inset;
   transition: 0.2s;
 }
 
 .btn_filter_v:hover {
-  background: rgb(53, 167, 110);
+  background: rgb(20, 163, 91);
 }
 
 .btn_filter_v a {
+  text-decoration: none;
   color:black !important;
 }
 

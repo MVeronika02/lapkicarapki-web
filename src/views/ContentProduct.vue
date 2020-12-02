@@ -26,7 +26,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  name: "Content",
+  name: "content",
   data() {
     return {
       page: 1,
