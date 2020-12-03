@@ -25,8 +25,9 @@ export default {
       return require(`../static/categoryImg/${imagePath}`);
     },
     toProductsCategory(idAnimal, idCategory) {
-      this.$router.push({ name: "productsCategory", params: { Category: idAnimal, Products: idCategory } })
+      this.$router.push({ name: "productsCategory", params: { Animal: idAnimal, Category: idCategory } })
       this.$store.dispatch("ProductsForOneCategory", { idAnimal: idAnimal, idCategory: idCategory });
+      // this.$store.dispatch("ProductsForOneCategoryPage", { idAnimal: idAnimal, idCategory: idCategory });
     }
   }
 }

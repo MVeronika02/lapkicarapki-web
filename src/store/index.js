@@ -20,6 +20,7 @@ export default new Vuex.Store({
     valueMin: 0,
     valueMax: 0,
     countProductPage: 0,
+    countCategoryProductPage: 0,
     allReviews: [],
     countPageReview: 0,
     user: Boolean,
@@ -63,6 +64,9 @@ export default new Vuex.Store({
     },
     filterCategoryOneAnimal: (state, idAnimal) => {
       state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
+    },
+    SETCountCategoryProductPage: (state, countPage) => {
+      state.countCategoryProductPage = countPage
     },
     filterProductsForOneCategory: (state, products) => {
       console.log(products, "pro")
@@ -137,10 +141,35 @@ export default new Vuex.Store({
 
   // Действия
   actions: {
+    //Все категории продуктов для животных
     SETCategory: async (context) => {
       await Axios.get(backendServerUrl + '/categories')
         .then(categoryAll => {
           context.commit('SETAllCategory', categoryAll.data.result)
+        })
+    },
+    //Товары на страницах(пагинация контента)
+    ProductsOnPage: async (context, page) => {
+      await Axios.get(backendServerUrl + '/paginationcontent?limit=12&numberpage=' + page)
+        .then(resultBackend => {
+          context.commit('SETProductToPage', resultBackend.data.result.product)
+          context.commit('SETCountProductPage', resultBackend.data.result.count_page)
+        })
+    },
+    //Товары для 1 категории
+    // ProductsForOneCategory: async (context, payload) => {
+    //   await Axios.get(backendServerUrl + '/productsonecategory?animal=' + payload.idAnimal + '&category=' + payload.idCategory)
+    //     .then(productsCategory => {
+    //       context.commit('filterProductsForOneCategory', productsCategory.data.result.product)
+    //     })
+    // },
+    //Товары для 1 категории на страницах(пагинация)
+    ProductsForOneCategoryPage: async (context, payload) => {
+      await Axios.get(backendServerUrl + '/paginationproductsonecategory?limit=12&numberpage=' + payload.page + '&animal=' + payload.idAnimal + '&category=' + payload.idCategory)
+        .then(resultBackend => {
+          context.commit('filterProductsForOneCategory', resultBackend.data.result.product)
+          context.commit('SETCountCategoryProductPage', resultBackend.data.result.count_page)
+          console.log(resultBackend)
         })
     },
     ProductsFilter: async (context, payload) => {
@@ -149,30 +178,6 @@ export default new Vuex.Store({
           context.commit('SETfiltredProducts', filtredProducts.data.result)
         })
 
-    },
-    ProductsOnPage: async (context, page) => {
-      await Axios.get(backendServerUrl + '/paginationcontent?limit=12&numberpage=' + page)
-        .then(resultBackend => {
-          context.commit('SETProductToPage', resultBackend.data.result.product)
-          // context.commit('filterProductsForOneCategory', resultBackend.data.result.product)
-          context.commit('SETCountProductPage', resultBackend.data.result.count_page)
-        })
-    },
-    ProductsForOneCategory: async (context, payload) => {
-      await Axios.get(backendServerUrl + '/products?animal=' + payload.idAnimal + '&category=' + payload.idCategory)
-        .then(productsCategory => {
-          // context.commit('SETProductToPage', resultBackend.data.result.product)
-          context.commit('filterProductsForOneCategory', productsCategory.data.result.product)
-          // context.commit('SETCountProductPage', resultBackend.data.result.count_page)
-        })
-    },
-    ProductsForOneCategoryPage: async (context, page) => {
-      await Axios.get(backendServerUrl + '/paginationproducts?limit=12&numberpage=' + page)
-        .then(resultBackend => {
-          // context.commit('SETProductToPage', resultBackend.data.result.product)
-          context.commit('filterProductsForOneCategory', resultBackend.data.result.product)
-          // context.commit('SETCountProductPage', resultBackend.data.result.count_page)
-        })
     },
     UserLogin: async (context, payload) => {
       await Axios.get(backendServerUrl + '/user?login=' + payload.login + '&password=' + payload.password)

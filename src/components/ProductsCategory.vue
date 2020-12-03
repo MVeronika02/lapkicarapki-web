@@ -15,7 +15,7 @@
     <v-pagination
       v-model="page"
       class="pt-4 pb-2"
-      :length="$store.state.countProductPage"
+      :length="$store.state.countCategoryProductPage"
       total-visible="5"
       @input="showPage(page)"
     ></v-pagination>
@@ -31,15 +31,16 @@ export default {
   data () {
     return {
       page: 1,
-      prodCategory: this.$route.params.Products,
-      categoryAnimal: this.$route.params.Category
+      idCategory: this.$route.params.Category,
+      idAnimal: this.$route.params.Animal
     }
   },
   components: {
     Sidebar
   },
   created() {
-    this.$store.dispatch("ProductsForOneCategoryPage", 1);
+    console.log(this.idAnimal, this.idCategory, 'tototo')
+    this.$store.dispatch("ProductsForOneCategoryPage", { page: 1, idAnimal: this.idAnimal, idCategory: this.idCategory });
   },
   methods: {
     imageProduct(imagePath) {
@@ -49,7 +50,7 @@ export default {
       this.$store.commit("SETProductToBasket", allProducts);
     },
     showPage(page) {
-      this.$store.dispatch("ProductsForOneCategoryPage", page);
+      this.$store.dispatch("ProductsForOneCategoryPage", { page: page, idAnimal: this.idAnimal, idCategory: this.idCategory });
     },
   }
 

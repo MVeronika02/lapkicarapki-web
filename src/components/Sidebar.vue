@@ -41,7 +41,7 @@
     <div class="select_weight">
       <p><select size="5" multiple name="hero[]">
         <option>Выберите вес</option>
-        <option value="weight0">< 1 кг</option>
+        <option value="weight0">&#60; 1 кг</option>
         <option selected value="weight1">1-2 кг</option>
         <option value="weight2">2-5 кг</option>
         <option value="weight3">5-10 кг</option>
