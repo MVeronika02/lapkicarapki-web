@@ -32,15 +32,21 @@ export default {
     return {
       page: 1,
       idCategory: this.$route.params.Category,
-      idAnimal: this.$route.params.Animal
+      idAnimal: this.$route.params.Animal,
+      pid: this.$route.params.Pid
     }
   },
   components: {
     Sidebar
   },
   created() {
-    console.log(this.idAnimal, this.idCategory, 'tototo')
+    console.log(this.idAnimal, this.idCategory, this.pid, 'tototo')
+    console.log(this.$route, 'sssss')
+
     this.$store.dispatch("ProductsForOneCategoryPage", { page: 1, idAnimal: this.idAnimal, idCategory: this.idCategory });
+  },
+  mounted() {
+    this.$store.commit("saveIdCategory");
   },
   methods: {
     imageProduct(imagePath) {

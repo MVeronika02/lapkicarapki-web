@@ -1,10 +1,10 @@
 <template>
   <div class="profile_content">
-    <div class="profile_data_user">
-      <h2>Личные данные:</h2>
-      <h4>Имя: {{ $store.state.user.metaData.user_name }}</h4>
-      <h4>Телефон: {{ $store.state.user.metaData.user_phone }}</h4>
-      <h4>E-mail: {{ $store.state.user.metaData.user_email }}</h4>
+    <h3 class="profile_data_user_name">Личные данные</h3>
+    <div class="profile_content_block">
+      <h2>Имя: {{ $store.state.userData.user_name }}</h2>
+      <h2>Телефон: {{ $store.state.userData.user_phone }}</h2>
+      <h2>E-mail: {{ $store.state.userData.user_email }}</h2>
     </div>
   </div>
 </template>
@@ -21,18 +21,22 @@ export default {
 
 <style>
 .profile_content {
-  padding-top: 20px;
-  height: 300px;
-  background: burlywood;
+  background: rgb(230, 230, 250, 0.95);
+  padding: 20px 0 50px 0;
 }
 
-.profile_data_user {
-  margin: 0px 0 0 70px;
-  padding: 5px 0 0 15px;
-  background: cornsilk;
-  opacity: 0.8;
-  width: 20%;
-  height: 80%;
-  border-style: groove;
+.profile_content_block {
+  width: 80%;
+  margin-left: 160px;
+  height: 700px;
+}
+
+.profile_data_user_name {
+  height: 60px;
+  width: 80%;
+  margin: 20px 0 20px 160px;
+  background: rgb(141, 206, 157);
+  padding-top: 10px;
+  text-align: center;
 }
 </style>

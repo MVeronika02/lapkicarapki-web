@@ -15,6 +15,8 @@ export default new Vuex.Store({
     filterProductsForOneCategory: [],
     basketContent: basketContent ? JSON.parse(basketContent) : [],
     cartCount: cartCount ? parseInt(cartCount) : 0,
+    idAnimalInLocalStorage: 0,
+    idCategoryInLocalStorage: 0,
     productPageNumber: 0,
     filtredProductData: [],
     valueMin: 0,
@@ -71,6 +73,17 @@ export default new Vuex.Store({
     filterProductsForOneCategory: (state, products) => {
       console.log(products, "pro")
       state.filterProductsForOneCategory = products
+      // window.localStorage.setItem('idAnimalInLocalStorage', products.id_animal)
+      // window.localStorage.setItem('idCategoryInLocalStorage', products.id_category)
+      // console.log(localStorage.getItem('idAnimalInLocalStorage', 'idCategoryInLocalStorage'), 'idinstore')
+    },
+    saveIdAnimal: (state) => {
+      window.localStorage.setItem('idAnimalInLocalStorage', state.idAnimalInLocalStorage)
+      // console.log(localStorage.getItem('idAnimalInLocalStorage'), 'idinstore')
+    },
+    saveIdCategory: (state) => {
+      window.localStorage.setItem('idCategoryInLocalStorage', state.idCategoryInLocalStorage)
+      // console.log(localStorage.getItem('idAnimalInLocalStorage'), 'idinstore')
     },
     SETFilterKey: (state, key) => {
       state.filtredProductKey = key
@@ -169,7 +182,7 @@ export default new Vuex.Store({
         .then(resultBackend => {
           context.commit('filterProductsForOneCategory', resultBackend.data.result.product)
           context.commit('SETCountCategoryProductPage', resultBackend.data.result.count_page)
-          console.log(resultBackend)
+          console.log(resultBackend.data.result.product)
         })
     },
     ProductsFilter: async (context, payload) => {

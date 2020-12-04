@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
+import Home from '../App.vue'
+
 import Delivery from '../components/Delivery.vue'
 import Contacts from '../components/Contacts.vue'
 import AboutUs from '../components/AboutUs.vue'
@@ -45,21 +47,27 @@ const routes = [
         component: AboutUs
       },
       {
-
         path: '/',
         name: 'content',
         component: ContentProduct
       },
       {
-        path: 'categories/:Pid',
+        path: 'categories/:idAnimal',
         name: 'categories',
-        component: Categories
+        component: Categories,
+        children: [
+          {
+            path: 'productsCategory/:idSubCategory',
+            name: 'productsCategory',
+            component: ProductsCategory
+          },
+        ]
       },
-      {
-        path: 'productsCategory/:Pid',
-        name: 'productsCategory',
-        component: ProductsCategory
-      },
+      // {
+      //   path: 'productsCategory/:Pid',
+      //   name: 'productsCategory',
+      //   component: ProductsCategory
+      // },
       {
         path: '/',
         name: 'Sidebar',

@@ -2,7 +2,7 @@
 <div class="content_categories">
   <div class="categories_block" >
     <ul class="categories_block_ul">
-      <li v-for="allCategory in $store.state.filterCategoryOneAnimal" :key="allCategory.id_category" @click="toProductsCategory(allCategory.id_animal, allCategory.id_category)" class="categories_block_li">
+      <li v-for="allCategory in $store.state.filterCategoryOneAnimal" :key="allCategory.id_category" @click="toProductsCategory(allCategory.id_category)" class="categories_block_li">
           <div class="categories_block_name"><h3>{{ allCategory.name_category }}</h3></div>
           <img :src="imageCategory(allCategory.url_image_category)" class="categories_block_img"/>
       </li> 
@@ -20,14 +20,15 @@ export default {
       allCateegoriesAnimal: {}
     }
   },
+  // mounted() {
+  //   this.$store.commit("saveIdAnimal");
+  // },
   methods:  {
     imageCategory(imagePath) {
       return require(`../static/categoryImg/${imagePath}`);
     },
-    toProductsCategory(idAnimal, idCategory) {
-      this.$router.push({ name: "productsCategory", params: { Animal: idAnimal, Category: idCategory } })
-      this.$store.dispatch("ProductsForOneCategory", { idAnimal: idAnimal, idCategory: idCategory });
-      // this.$store.dispatch("ProductsForOneCategoryPage", { idAnimal: idAnimal, idCategory: idCategory });
+    toProductsCategory(idCategory) {
+      this.$router.push({ name: "productsCategory", params: {idSubCategory: idCategory } })
     }
   }
 }

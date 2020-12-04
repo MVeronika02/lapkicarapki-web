@@ -42,6 +42,7 @@ export default {
   },
   mounted() {
     // this.$store.commit("SETProducts");
+    this.$store.commit("saveIdAnimal");
     this.$store.dispatch("SETCategory");
   },
   methods: {
@@ -49,7 +50,7 @@ export default {
       this.$store.commit("filterCategory", idAnimal);
     },
     categoriesForOneAnimal: function (idAnimal) {
-      this.$router.push({ name: "categories", params: { Pid: idAnimal } })
+      this.$router.push({ name: "categories", params: { idAnimal: idAnimal } })
       this.$store.commit("filterCategoryOneAnimal", idAnimal);
     }
   },
