@@ -15,20 +15,14 @@
 export default {
   name: 'categories',
   data () {
-    return {
-      productCategory: this.$route.params.Products,
-      allCateegoriesAnimal: {}
-    }
+    return {}
   },
-  // mounted() {
-  //   this.$store.commit("saveIdAnimal");
-  // },
   methods:  {
     imageCategory(imagePath) {
       return require(`../static/categoryImg/${imagePath}`);
     },
     toProductsCategory(idCategory) {
-      this.$router.push({ name: "productsCategory", params: {idSubCategory: idCategory } })
+      this.$router.push({ name: "productsCategory", params: {idCategory: idCategory, pageNumber: 1} })
     }
   }
 }
@@ -44,26 +38,34 @@ export default {
 
 .categories_block_ul {
   width: 80%;
-  margin: 20px 0 0 100px;
+  margin: 20px 0 0 160px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .categories_block_li {
   list-style-type: none;
   width: 280px;
-  height: 300px;
+  height: 330px;
   border-radius: 3px;
-  margin: 10px 0 20px 20px;
+  box-shadow: 0 0 5px;
+  margin: 10px 0 20px 60px;
   text-align: center;
+}
+
+.categories_block_li:hover {
+  box-shadow: 0 0 8px rgb(34, 33, 33);
+  border-radius: 2px;
+
 }
 
 .categories_block_name {
   font-size: 14px;
-  height: 30px;
+  height: 50px;
+  padding-top: 10px;
   background: rgb(141, 206, 157);
+  text-align: center;
 }
 
 .categories_block_name:hover {
@@ -72,7 +74,7 @@ export default {
 
 .categories_block_img {
   width: 280px;
-  height: 250px;
+  height: 270px;
 }
 
 

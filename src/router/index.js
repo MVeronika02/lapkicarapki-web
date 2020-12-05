@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store'
-// import Home from '../views/Home.vue'
-import Home from '../App.vue'
+import Home from '../views/Home.vue'
+// import Home from '../App.vue'
 
 import Delivery from '../components/Delivery.vue'
 import Contacts from '../components/Contacts.vue'
@@ -52,22 +52,15 @@ const routes = [
         component: ContentProduct
       },
       {
-        path: 'categories/:idAnimal',
-        name: 'categories',
+        path: 'animal=:idAnimal',
+        name: 'animal',
         component: Categories,
-        children: [
-          {
-            path: 'productsCategory/:idSubCategory',
-            name: 'productsCategory',
-            component: ProductsCategory
-          },
-        ]
       },
-      // {
-      //   path: 'productsCategory/:Pid',
-      //   name: 'productsCategory',
-      //   component: ProductsCategory
-      // },
+      {
+        path: 'animal=:idAnimal/category=:idCategory/page=:pageNumber',
+        name: 'productsCategory',
+        component: ProductsCategory
+      },
       {
         path: '/',
         name: 'Sidebar',
@@ -79,7 +72,7 @@ const routes = [
         component: FiltredProducts
       },
       {
-        path: 'detailsProduct/:Pid',
+        path: 'details-product=:idProduct',
         name: 'detailsProduct',
         component: DetailsProduct,
         // meta: {

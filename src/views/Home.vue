@@ -42,7 +42,9 @@ export default {
     Navigation,
     ContentProduct,
     Footer
-  }
+  },
+  created() {
+  },
 }
 </script>
 

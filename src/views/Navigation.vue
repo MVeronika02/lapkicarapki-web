@@ -41,17 +41,15 @@ export default {
     };
   },
   mounted() {
-    // this.$store.commit("SETProducts");
-    this.$store.commit("saveIdAnimal");
     this.$store.dispatch("SETCategory");
   },
   methods: {
     allCategoryAnimals: function (idAnimal) {
       this.$store.commit("filterCategory", idAnimal);
     },
-    categoriesForOneAnimal: function (idAnimal) {
-      this.$router.push({ name: "categories", params: { idAnimal: idAnimal } })
-      this.$store.commit("filterCategoryOneAnimal", idAnimal);
+    categoriesForOneAnimal: function (idAnimalLocal) {
+      this.$router.push({ name: "animal", params: { idAnimal: idAnimalLocal } })
+      this.$store.commit("filterCategoryOneAnimal", idAnimalLocal);
     }
   },
 };

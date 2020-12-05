@@ -1,6 +1,6 @@
 <template>
   <div class="reviews_composition">
-    <div>
+    <div class="reviews_composition_btn">
       <a href="#popup-wrapper">
         <button class="btn_add_review">Оставить отзыв</button>
       </a>
@@ -204,14 +204,24 @@ export default {
   width: 100%;
 }
 
+.reviews_composition_btn {
+  height: 100px;
+}
+
 .btn_add_review {
-  background-color: #ff8000;
-  color: white;
+  background-color: rgb(141, 206, 157);
+  box-shadow: 0 -3px rgb(20, 163, 91) inset;
+  transition: 0.2s;
+  color: black;
   border-radius: 5px;
   font-size: 16px;
   height: 40px;
   width: 150px;
-  margin: 40px 20px;
+  margin: 20px 20px;
+}
+
+.btn_add_review:hover {
+  background: rgb(53, 167, 110);
 }
 
 .reviews_show {
@@ -402,5 +412,9 @@ hr {
   background-color: grey;
   color: grey;
   height: 0.5px;
+}
+
+.container {
+  padding: 0px !important;
 }
 </style>

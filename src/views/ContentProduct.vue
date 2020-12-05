@@ -36,18 +36,20 @@ export default {
   computed: mapState(["allProducts"]),
   created() {
     this.$store.dispatch("ProductsOnPage", 1);
+    this.$router.push({ name: "content", params: {pageNumber: 1} })
   },
   methods: {
     imageProduct(imagePath) {
       return require(`../static/${imagePath}`);
     },
-    goDetails(idProduct) {
-      this.$router.push({ name: "detailsProduct", params: { Pid: idProduct } });
+    goDetails(idProductLocal) {
+      this.$router.push({ name: "detailsProduct", params: { idProduct: idProductLocal } });
     },
     addToBasket(allProduct) {
       this.$store.commit("SETProductToBasket", allProduct);
     },
     showPage(page) {
+      this.$router.push({ name: "content", params: {pageNumber: page} })
       this.$store.dispatch("ProductsOnPage", page);
     },
   },

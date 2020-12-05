@@ -15,8 +15,6 @@ export default new Vuex.Store({
     filterProductsForOneCategory: [],
     basketContent: basketContent ? JSON.parse(basketContent) : [],
     cartCount: cartCount ? parseInt(cartCount) : 0,
-    idAnimalInLocalStorage: 0,
-    idCategoryInLocalStorage: 0,
     productPageNumber: 0,
     filtredProductData: [],
     valueMin: 0,
@@ -73,17 +71,6 @@ export default new Vuex.Store({
     filterProductsForOneCategory: (state, products) => {
       console.log(products, "pro")
       state.filterProductsForOneCategory = products
-      // window.localStorage.setItem('idAnimalInLocalStorage', products.id_animal)
-      // window.localStorage.setItem('idCategoryInLocalStorage', products.id_category)
-      // console.log(localStorage.getItem('idAnimalInLocalStorage', 'idCategoryInLocalStorage'), 'idinstore')
-    },
-    saveIdAnimal: (state) => {
-      window.localStorage.setItem('idAnimalInLocalStorage', state.idAnimalInLocalStorage)
-      // console.log(localStorage.getItem('idAnimalInLocalStorage'), 'idinstore')
-    },
-    saveIdCategory: (state) => {
-      window.localStorage.setItem('idCategoryInLocalStorage', state.idCategoryInLocalStorage)
-      // console.log(localStorage.getItem('idAnimalInLocalStorage'), 'idinstore')
     },
     SETFilterKey: (state, key) => {
       state.filtredProductKey = key
@@ -169,13 +156,6 @@ export default new Vuex.Store({
           context.commit('SETCountProductPage', resultBackend.data.result.count_page)
         })
     },
-    //Товары для 1 категории
-    // ProductsForOneCategory: async (context, payload) => {
-    //   await Axios.get(backendServerUrl + '/productsonecategory?animal=' + payload.idAnimal + '&category=' + payload.idCategory)
-    //     .then(productsCategory => {
-    //       context.commit('filterProductsForOneCategory', productsCategory.data.result.product)
-    //     })
-    // },
     //Товары для 1 категории на страницах(пагинация)
     ProductsForOneCategoryPage: async (context, payload) => {
       await Axios.get(backendServerUrl + '/paginationproductsonecategory?limit=12&numberpage=' + payload.page + '&animal=' + payload.idAnimal + '&category=' + payload.idCategory)
@@ -205,8 +185,6 @@ export default new Vuex.Store({
       ).then((reviewsProduct) => {
         context.commit('SETReviews', reviewsProduct.data.count_page)
         context.commit('SETReviewsToPage', reviewsProduct.data.result)
-        // this.allReviews = reviewsProduct.data.result;
-        // this.countPage = reviewsProduct.data.count_page;
         console.log(reviewsProduct.data.result, 'reviewsProduct.data.result')
       });
     }

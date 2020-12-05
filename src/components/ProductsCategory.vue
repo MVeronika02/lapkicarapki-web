@@ -5,19 +5,21 @@
     <div class="productsOfCategory_block">
       <ul class="productsOfCategory_ul">
         <li v-for="allProducts in $store.state.filterProductsForOneCategory" :key="allProducts.idProduct" class="productsOfCategory_ul_li">
-          <p class="products_block_name">{{ allProducts.nameProduct }}</p>
-          <img :src="imageProduct(allProducts.urlImageProduct)" class="product_img"/>
-          <p>Цена: {{ allProducts.priceProduct }}</p>
+          <div class="productsOfCategory_ul_li_div" @click="goDetails(allProducts.idProduct)">
+            <p class="products_block_name">{{ allProducts.nameProduct }}</p>
+            <img :src="imageProduct(allProducts.urlImageProduct)" class="product_img"/>
+            <p>Цена: {{ allProducts.priceProduct }}</p>
+          </div>
           <button class="btn_add_basket" @click="addToBasket(allProducts)">Добавить в корзину</button>
         </li> 
       </ul>
     </div>
     <v-pagination
-      v-model="page"
+      v-model="pageLocal"
       class="pt-4 pb-2"
       :length="$store.state.countCategoryProductPage"
       total-visible="5"
-      @input="showPage(page)"
+      @input="showPage(pageLocal)"
     ></v-pagination>
   </div>
 </div>
@@ -30,33 +32,31 @@ export default {
   name: 'productsCategory',
   data () {
     return {
-      page: 1,
-      idCategory: this.$route.params.Category,
-      idAnimal: this.$route.params.Animal,
-      pid: this.$route.params.Pid
+      idCategoryLocal: this.$route.params.idCategory,
+      idAnimalLocal: this.$route.params.idAnimal,
+      pageLocal: this.$route.params.pageNumber,
     }
   },
   components: {
     Sidebar
   },
   created() {
-    console.log(this.idAnimal, this.idCategory, this.pid, 'tototo')
     console.log(this.$route, 'sssss')
-
-    this.$store.dispatch("ProductsForOneCategoryPage", { page: 1, idAnimal: this.idAnimal, idCategory: this.idCategory });
-  },
-  mounted() {
-    this.$store.commit("saveIdCategory");
+    this.$store.dispatch("ProductsForOneCategoryPage", { page: this.pageLocal, idAnimal: this.idAnimalLocal, idCategory: this.idCategoryLocal });
   },
   methods: {
     imageProduct(imagePath) {
       return require(`../static/${imagePath}`);
     },
+    goDetails(idProductLocal) {
+      this.$router.push({ name: "detailsProduct", params: { idProduct: idProductLocal } });
+    },
     addToBasket(allProducts) {
       this.$store.commit("SETProductToBasket", allProducts);
     },
     showPage(page) {
-      this.$store.dispatch("ProductsForOneCategoryPage", { page: page, idAnimal: this.idAnimal, idCategory: this.idCategory });
+      this.$router.push({ name: "productsCategory", params: {pageNumber: page} })
+      this.$store.dispatch("ProductsForOneCategoryPage", { page: page, idAnimal: this.idAnimalLocal, idCategory: this.idCategoryLocal });
     },
   }
 
@@ -109,6 +109,7 @@ export default {
 
 .product_img {
   height: 200px;
+  width: 240px;
   margin-bottom: 10px;
 }
 </style>

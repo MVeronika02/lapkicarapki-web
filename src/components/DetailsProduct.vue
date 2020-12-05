@@ -1,13 +1,13 @@
 <template>
   <div class="details_container">
     <div class="details_container_block">
-    <div class="slider_product_image">
-      <div class="slider_block_top">
-        <VueSlickCarousel
-          v-bind="settingsMainSlider"
-          ref="c1"
-          :asNavFor="$refs.c2"
-        >
+      <div class="slider_product_image">
+        <div class="slider_block_top">
+          <VueSlickCarousel
+            v-bind="settingsMainSlider"
+            ref="c1"
+            :asNavFor="$refs.c2"
+          >
           <div>
             <img :src="imageProduct(allDetailProduct.urlImageProduct)"/>
           </div>
@@ -61,9 +61,9 @@
     </div>
 
     <div class="details_container_info">
-      <span class="details_container_info_nameProduct">{{
+      <p class="details_container_info_nameProduct">{{
         allDetailProduct.nameProduct
-      }}</span>
+      }}</p>
       <div class="details_container_info_actions">
         <btn class="info_actions_btn">
           <i class="fab fa-gratipay"></i>
@@ -95,8 +95,8 @@
       <v-card>
         <v-tabs
           v-model="tab"
-          background-color="green darken-3"
-          color="teal lighten-5"
+          background-color="green lighten-2"
+          color="black"
         >
           <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
           <v-tab href="#tab-1">Описание товара</v-tab>
@@ -173,7 +173,7 @@ export default {
   },
   mounted() {
     Axios.get(
-      "http://localhost:5000/detailsproduct?id=" + this.$route.params.Pid
+      "http://localhost:5000/detailsproduct?id=" + this.$route.params.idProduct
     ).then((detailsOnProduct) => {
       this.allDetailProduct = detailsOnProduct.data.result[0];
     });
@@ -192,10 +192,11 @@ export default {
 <style>
 .details_container {
   background: rgb(230, 230, 250, 0.95);
+  padding: 20px 0 0px 0;
 }
 
 .details_container_block {
-  width: 70%;
+  width: 1300px;
   margin-left: 150px;
   display: flex;
   flex-direction: row;
@@ -247,8 +248,9 @@ export default {
 
 .details_container_info_nameProduct {
   font-weight: 400;
-  font-size: 2.5em;
+  font-size: 2em;
   margin-bottom: 10px;
+  width: 500px;
 }
 
 .details_container_info_actions {
@@ -305,8 +307,8 @@ export default {
 }
 
 .details_container_cards {
-  margin-top: 40px;
-  width: 100%;
+  margin: 40px 0 0px 160px;
+  width: 80%;
   height: 250px;
 }
 
