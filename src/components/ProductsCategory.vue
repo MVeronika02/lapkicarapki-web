@@ -4,11 +4,11 @@
     <sidebar/>
     <div class="productsOfCategory_block">
       <ul class="productsOfCategory_ul">
-        <li v-for="allProducts in $store.state.filterProductsForOneCategory" :key="allProducts.idProduct" class="productsOfCategory_ul_li">
-          <div class="productsOfCategory_ul_li_div" @click="goDetails(allProducts.idProduct)">
-            <p class="products_block_name">{{ allProducts.nameProduct }}</p>
-            <img :src="imageProduct(allProducts.urlImageProduct)" class="product_img"/>
-            <p>Цена: {{ allProducts.priceProduct }}</p>
+        <li v-for="allProducts in $store.state.filterProductsForOneCategory" :key="allProducts.id_product" class="productsOfCategory_ul_li">
+          <div class="productsOfCategory_ul_li_div" @click="goDetails(allProducts.id_product)">
+            <p class="products_block_name">{{ allProducts.name_product }}</p>
+            <img :src="imageProduct(allProducts.url_image_product)" class="product_img"/>
+            <p>Цена: {{ allProducts.price_product }}</p>
           </div>
           <button class="btn_add_basket" @click="addToBasket(allProducts)">Добавить в корзину</button>
         </li> 
@@ -41,7 +41,6 @@ export default {
     Sidebar
   },
   created() {
-    console.log(this.$route, 'sssss')
     this.$store.dispatch("ProductsForOneCategoryPage", { page: this.pageLocal, idAnimal: this.idAnimalLocal, idCategory: this.idCategoryLocal });
   },
   methods: {

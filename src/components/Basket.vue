@@ -16,18 +16,18 @@
 
         <tr
           v-for="allProduct in $store.state.basketContent"
-          :key="allProduct.idProduct"
+          :key="allProduct.id_product"
           class="basket_table_row_2"
         >
           <td class="basket_table_img">
             <img
-              :src="imageProduct(allProduct.urlImageProduct)"
+              :src="imageProduct(allProduct.url_image_product)"
               width="80%"
               height="90%"
             />
           </td>
           <td class="basket_table_name_product">
-            <p>{{ allProduct.nameProduct }}</p>
+            <p>{{ allProduct.name_product }}</p>
           </td>
 
           <td class="basket_table_counter">
@@ -55,7 +55,7 @@
             </button>
           </td>
           <td class="basket_table_price_product">
-            <p>{{ allProduct.priceProduct }} тг</p>
+            <p>{{ allProduct.price_product }} тг</p>
           </td>
           <td class="basket_table_totalprice">
             <p>{{ allProduct.totalPrice }} тг</p>
@@ -92,7 +92,6 @@ export default {
     if (this.$store.state.basketContent.length == 0) {
       this.totalCheck = false
     }
-    
   },
   mounted() {
     this.$store.commit("saveBasket");
@@ -107,8 +106,6 @@ export default {
       if (total == 0) {
         this.totalCheck = false
       }
-      // this.$router.push({ name: "Header", params: { totalPrice: total } });
-      // console.log(total)
       return total.toFixed(2);
       
     },
@@ -116,10 +113,10 @@ export default {
   methods: {
     imageProduct(imagePath) {
       return require(`../static/${imagePath}`);
+      console.log(imagePath, "added");
     },
     addToBasket(allProduct) {
       this.$store.commit("SETProductToBasket", allProduct);
-      console.log("added");
     },
     minusProduct(allProduct) {
       this.$store.commit("removeProductFromBasket", allProduct);

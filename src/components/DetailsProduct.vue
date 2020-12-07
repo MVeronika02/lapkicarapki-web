@@ -9,7 +9,7 @@
             :asNavFor="$refs.c2"
           >
           <div>
-            <img :src="imageProduct(allDetailProduct.urlImageProduct)"/>
+            <img :src="imageProduct(allDetailProduct.url_image_product)" class="slider_block_top_img"/>
           </div>
         </VueSlickCarousel>
       </div>
@@ -22,37 +22,37 @@
         >
           <div border="2px solid #cb11ab;">
             <img
-              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              :src="imageProduct(allDetailProduct.url_image_product)"
               class="slider_SubSlider_img"
             />
           </div>
           <div>
             <img
-              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              :src="imageProduct(allDetailProduct.url_image_product)"
               class="slider_SubSlider_img"
             />
           </div>
           <div>
             <img
-              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              :src="imageProduct(allDetailProduct.url_image_product)"
               class="slider_SubSlider_img"
             />
           </div>
           <div>
             <img
-              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              :src="imageProduct(allDetailProduct.url_image_product)"
               class="slider_SubSlider_img"
             />
           </div>
           <div>
             <img
-              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              :src="imageProduct(allDetailProduct.url_image_product)"
               class="slider_SubSlider_img"
             />
           </div>
           <div>
             <img
-              :src="imageProduct(allDetailProduct.urlImageProduct)"
+              :src="imageProduct(allDetailProduct.url_image_product)"
               class="slider_SubSlider_img"
             />
           </div>
@@ -62,7 +62,7 @@
 
     <div class="details_container_info">
       <p class="details_container_info_nameProduct">{{
-        allDetailProduct.nameProduct
+        allDetailProduct.name_product
       }}</p>
       <div class="details_container_info_actions">
         <btn class="info_actions_btn">
@@ -80,7 +80,7 @@
       </div>
 
       <span class="details_container_info_price"
-        >{{ allDetailProduct.priceProduct }} тг</span
+        >{{ allDetailProduct.price_product }} тг</span
       >
       <button
         class="details_container_info_btn_basket"
@@ -109,7 +109,7 @@
             <v-card flat class="details_container_cards_content">
               <v-card-text>
                 <p class="details_container_cards_content_p">
-                  {{ allDetailProduct.descriptionProduct }}
+                  {{ allDetailProduct.description_product }}
                 </p>
               </v-card-text>
             </v-card>
@@ -125,7 +125,7 @@
 
           <v-tab-item id="tab-3">
             <v-card flat class="details_container_cards_content">
-              <Reviews v-bind:product-id="allDetailProduct.idProduct" />
+              <Reviews v-bind:product-id="allDetailProduct.id_product" />
             </v-card>
           </v-tab-item>
         </v-tabs-items>

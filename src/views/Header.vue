@@ -199,7 +199,6 @@ export default {
     };
   },
   mounted() {
-    // this.$store.commit("SETProducts");
     this.$store.commit("saveBasket");
   },
   computed: {

@@ -185,8 +185,6 @@ export default {
       this.$store.dispatch("ReviewsOnPage", { id: this.productId, page: page });
     },
     addReview(event) {
-      console.log(this.content);
-      console.log(this.productId);
       Axios.post,
         ("http://localhost:5000/reviews", this.content).then((response) => {
           console.log(response);

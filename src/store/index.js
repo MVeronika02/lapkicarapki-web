@@ -45,11 +45,6 @@ export default new Vuex.Store({
     SETAllCategory: (state, categoryAll) => {
       state.allCategoryAnimal = categoryAll
     },
-    // SETProducts: (state, allProducts) => {
-    //   console.log(allProducts, 'all')
-    //   state.allProducts = allProducts
-      
-    // },
     SETfiltredProducts: (state, filtredProducts) => {
       state.filtredProductData = filtredProducts
     },
@@ -69,7 +64,6 @@ export default new Vuex.Store({
       state.countCategoryProductPage = countPage
     },
     filterProductsForOneCategory: (state, products) => {
-      console.log(products, "pro")
       state.filterProductsForOneCategory = products
     },
     SETFilterKey: (state, key) => {
@@ -99,26 +93,23 @@ export default new Vuex.Store({
       window.localStorage.setItem('cartCount', state.cartCount)
     },
     SETProductToBasket: (state, allDetailProduct) => {
-      let newItem = state.basketContent.find(object => object.idProduct === allDetailProduct.idProduct)
-
+      let newItem = state.basketContent.find(object => object.id_product === allDetailProduct.id_product)
       if (newItem) {
         newItem.quantity++
-        newItem.totalPrice = newItem.quantity * newItem.priceProduct
+        newItem.totalPrice = newItem.quantity * newItem.price_product
       } else {
-        state.basketContent.push(allDetailProduct)
-
         Vue.set(allDetailProduct, 'quantity', 1)
-        Vue.set(allDetailProduct, 'totalPrice', allDetailProduct.priceProduct)
+        Vue.set(allDetailProduct, 'totalPrice', allDetailProduct.price_product)
+        state.basketContent.push(allDetailProduct)
       }
       state.cartCount++
     },
     removeProductFromBasket: (state, allDetailProduct) => {
-      let newItemRemove = state.basketContent.find(object => object.idProduct === allDetailProduct.idProduct)
+      let newItemRemove = state.basketContent.find(object => object.id_product === allDetailProduct.id_product)
       if (newItemRemove.quantity > 0) {
         if (newItemRemove) {
           newItemRemove.quantity--
-          newItemRemove.totalPrice = newItemRemove.quantity * newItemRemove.priceProduct
-          
+          newItemRemove.totalPrice = newItemRemove.quantity * newItemRemove.price_product
         }
       }
       if (state.cartCount > 0) {
@@ -162,7 +153,6 @@ export default new Vuex.Store({
         .then(resultBackend => {
           context.commit('filterProductsForOneCategory', resultBackend.data.result.product)
           context.commit('SETCountCategoryProductPage', resultBackend.data.result.count_page)
-          console.log(resultBackend.data.result.product)
         })
     },
     ProductsFilter: async (context, payload) => {
@@ -176,7 +166,6 @@ export default new Vuex.Store({
       await Axios.get(backendServerUrl + '/user?login=' + payload.login + '&password=' + payload.password)
         .then(answerBool => {
           context.commit('SETUser', answerBool.data)
-          console.log(answerBool.data, 'lllllll')
         })
     },
     ReviewsOnPage: async (context, payload) => {
@@ -185,7 +174,6 @@ export default new Vuex.Store({
       ).then((reviewsProduct) => {
         context.commit('SETReviews', reviewsProduct.data.count_page)
         context.commit('SETReviewsToPage', reviewsProduct.data.result)
-        console.log(reviewsProduct.data.result, 'reviewsProduct.data.result')
       });
     }
   }

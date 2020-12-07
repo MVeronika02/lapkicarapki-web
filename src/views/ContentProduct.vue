@@ -3,12 +3,12 @@
     <div class="content_wrapper">
       <div
         class="product_unit"
-        v-for="allProduct in  $store.state.allProducts"
-        :key="allProduct.idProduct">
-        <div class="product_unit_info" @click="goDetails(allProduct.idProduct)">
-          <p class="product_unit_name">{{ allProduct.nameProduct }}</p>
-          <img :src="imageProduct(allProduct.urlImageProduct)" class="product_unit_img" />
-          <p>Цена: {{ allProduct.priceProduct }}</p>
+        v-for="allProduct in $store.state.allProducts"
+        :key="allProduct.id_product">
+        <div class="product_unit_info" @click="goDetails(allProduct.id_product)">
+          <p class="product_unit_name">{{ allProduct.name_product }}</p>
+          <img :src="imageProduct(allProduct.url_image_product)" class="product_unit_img" />
+          <p>Цена: {{ allProduct.price_product }}</p>
         </div>
         <button class="btn_add_basket" @click="addToBasket(allProduct)">Добавить в корзину</button>
       </div>
@@ -32,7 +32,7 @@ export default {
       page: 1,
     };
   },
-  mounted() {},
+  mounted() {console.log(this.$store.state.allProducts, 'content')},
   computed: mapState(["allProducts"]),
   created() {
     this.$store.dispatch("ProductsOnPage", 1);

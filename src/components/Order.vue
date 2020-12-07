@@ -6,8 +6,8 @@
       <div class="buyer_info">
         <p class="buyer_info_title">Ваши данные</p>
         <form class="buyer_info_form">
-          <input type="text" class="buyer_info_form_input" placeholder="*Имя" required />
-          <input type="text" class="buyer_info_form_input" placeholder="*Фамилия" required />
+          <input type="text" class="buyer_info_form_input" v-model="writeOrderData.user_name" placeholder="*Имя" required/>
+          <input type="text" class="buyer_info_form_input" v-model="writeOrderData.user_surname" placeholder="*Фамилия" required />
           <input type="text" class="buyer_info_form_input" placeholder="*Номер телефона" required />
           <input
             type="text"
@@ -25,31 +25,31 @@
           <!-- <v-tabs v-model="tab" background-color="green darken-3" color="teal lighten-5"> -->
             <v-tabs v-model="tab" background-color="#8dce9d" color="lighten-5">
             <!-- <v-tabs-slider color="#14a35b"></v-tabs-slider> -->
-            <v-tab href="#tab-1" class="select_button">Пункт выдачи</v-tab>
-            <v-tab href="#tab-2" class="select_button">Доставка курьером</v-tab>
+            <v-tab href="#1" class="select_button">Пункт выдачи</v-tab>
+            <v-tab href="#2" class="select_button">Доставка курьером</v-tab>
           </v-tabs>
 
           <v-tabs-items v-model="tab">
-            <v-tab-item id="tab-1">
+            <v-tab-item id="1">
               <v-card flat height="170px">
                 <v-card-text>
                   <label for="markets" class="select_label">Выберите магазин: </label>
                   <select name="markets" id="markets" class="select_market">
                     <option value="value1" class="select_option">Магазин 1</option>
                     <option value="value2" selected>Магазин 2</option>
-                    <option value="value3">Магазин 3</option>
+                    <option value="value3" >Магазин 3</option>
                   </select>
                 </v-card-text>
               </v-card>
             </v-tab-item>
 
-            <v-tab-item id="tab-2">
+            <v-tab-item id="2">
               <v-card flat>
                 <v-card-text>
                   <form class="pick_up_point">
-                    <input type="text" class="pick_up_point_input" placeholder="*Улица" required />
-                    <input type="text" class="pick_up_point_input" placeholder="*Дом" required />
-                    <input type="text" class="pick_up_point_input" placeholder="Квартира" required />
+                    <input type="text" class="pick_up_point_input" v-model="writeOrderData.delivery.street" placeholder="*Улица" required />
+                    <input type="text" class="pick_up_point_input" v-model="writeOrderData.delivery.house" placeholder="*Дом" required />
+                    <input type="text" class="pick_up_point_input" v-model="writeOrderData.delivery.flat" placeholder="Квартира" required />
                     <input
                       type="text"
                       class="pick_up_point_input"
@@ -78,17 +78,17 @@
         </form>
       </div>
 
-      <button class="btn_next_step">Оформить заказ</button>
+      <button @click="createOrder()" class="btn_next_step">Оформить заказ</button>
     </div>
 
     <div class="check_basket">
       <p class="check_basket_name">Состав заказа</p>
       <div
         v-for="allProduct in $store.state.basketContent"
-        :key="allProduct.idProduct"
+        :key="allProduct.id_product"
         class="check_products"
       >
-        <p class="check_products_name">{{ allProduct.nameProduct }}</p>
+        <p class="check_products_name">{{ allProduct.name_product }}</p>
         <span class="check_products_counter">{{ allProduct.quantity }} шт.</span>
         <p class="check_products_price">{{ allProduct.totalPrice }} тг</p>
       </div>
@@ -107,6 +107,20 @@ export default {
   data() {
     return {
       tab: null,
+      writeOrderData: {
+        user_name: "",
+        user_surname: "",
+        user_phone: "",
+        user_email: "",
+        user_city: "",
+        shop_point_id: "",
+        delivery: {
+          street: "",
+          house : "",
+          flat: "",
+        },
+        delivery_type: ""
+      }
     };
   },
   mounted() {
@@ -126,6 +140,13 @@ export default {
     imageProduct(imagePath) {
       return require(`../static/${imagePath}`);
     },
+    createOrder() {
+      var e = document.getElementById("markets");
+      this.writeOrderData.shop_point = e.value
+      this.writeOrderData.delivery_type = this.tab
+      console.log("tab",this.tab)
+      console.log(this.writeOrderData)
+    }
   },
 };
 </script>
