@@ -25,7 +25,7 @@
           ></i>
           Корзина
           </br>
-          <span>Товара: {{ $store.state.cartCount }} </br> На сумму: {{ totalPrice }}</span>
+          <span>Товара: {{ $store.state.cartCount }} шт</br> На сумму: {{ totalPrice }} тг</span>
         </button>
       
       <div :class="$store.state.ninja ? 'sign_in_close_block' : 'sign_in'">
@@ -399,7 +399,7 @@ hr {
 }
 
 .sign_in {
-  height: 50px;
+  height: 30px;
   float: right;
   display: flex;
 }

@@ -8,23 +8,22 @@
         <form class="buyer_info_form">
           <input type="text" class="buyer_info_form_input" v-model="writeOrderData.user_name" placeholder="*Имя" required/>
           <input type="text" class="buyer_info_form_input" v-model="writeOrderData.user_surname" placeholder="*Фамилия" required />
-          <input type="text" class="buyer_info_form_input" placeholder="*Номер телефона" required />
+          <input type="text" class="buyer_info_form_input" v-model="writeOrderData.user_phone" placeholder="*Номер телефона" required />
           <input
             type="text"
             pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
             class="buyer_info_form_input"
+            v-model="writeOrderData.user_email"
             placeholder="*Адрес электронной почты"
             required
           />
-          <input type="text" class="buyer_info_form_input" placeholder="*Город" required />
+          <input type="text" class="buyer_info_form_input" v-model="writeOrderData.user_city" placeholder="*Город" required />
         </form>
       </div>
 
       <div class="block_select_delivery">
         <v-card class="delivery_buttons">
-          <!-- <v-tabs v-model="tab" background-color="green darken-3" color="teal lighten-5"> -->
             <v-tabs v-model="tab" background-color="#8dce9d" color="lighten-5">
-            <!-- <v-tabs-slider color="#14a35b"></v-tabs-slider> -->
             <v-tab href="#1" class="select_button">Пункт выдачи</v-tab>
             <v-tab href="#2" class="select_button">Доставка курьером</v-tab>
           </v-tabs>
@@ -35,9 +34,9 @@
                 <v-card-text>
                   <label for="markets" class="select_label">Выберите магазин: </label>
                   <select name="markets" id="markets" class="select_market">
-                    <option value="value1" class="select_option">Магазин 1</option>
-                    <option value="value2" selected>Магазин 2</option>
-                    <option value="value3" >Магазин 3</option>
+                    <option value="1" class="select_option">Магазин 1</option>
+                    <option value="2" selected>Магазин 2</option>
+                    <option value="3" >Магазин 3</option>
                   </select>
                 </v-card-text>
               </v-card>
@@ -53,6 +52,7 @@
                     <input
                       type="text"
                       class="pick_up_point_input"
+                      v-model="writeOrderData.delivery_date"
                       placeholder="*Дата доставки"
                       required
                     />
@@ -66,16 +66,18 @@
 
       <div class="block_pay">
         <p class="block_pay_name">Способ оплаты</p>
-        <form class="form_pay">
+          <button type="radio" id="check1" class="block_pay_btn" @click="select_pay(1)">Оплата онлайн</button>
+          <button type="radio" id="check1" class="block_pay_btn" @click="select_pay(2)">Наличными</button>
+        <!-- <form class="form_pay" id="payment">
           <p class="form_pay_input">
-            <input type="radio" id="check1" name="check" />
+            <input type="radio" id="check1" value="1pay" name="check" />
             <label for="check1">Оплата онлайн</label>
           </p>
           <p class="form_pay_input">
-            <input type="radio" id="check2" name="check" />
+            <input type="radio" id="check2" value="2pay" name="check" />
             <label for="check2">Наличными курьеру</label>
           </p>
-        </form>
+        </form> -->
       </div>
 
       <button @click="createOrder()" class="btn_next_step">Оформить заказ</button>
@@ -87,6 +89,7 @@
         v-for="allProduct in $store.state.basketContent"
         :key="allProduct.id_product"
         class="check_products"
+        id="checkdiv"
       >
         <p class="check_products_name">{{ allProduct.name_product }}</p>
         <span class="check_products_counter">{{ allProduct.quantity }} шт.</span>
@@ -100,7 +103,7 @@
 
 <script>
 import { mapState } from "vuex";
-var count = 0;
+import Axios from "axios";
 
 export default {
   name: "Order",
@@ -116,10 +119,12 @@ export default {
         shop_point_id: "",
         delivery: {
           street: "",
-          house : "",
+          house: "",
           flat: "",
         },
-        delivery_type: ""
+        delivery_date: "",
+        delivery_type: "",
+        payment_type: ""
       }
     };
   },
@@ -140,12 +145,25 @@ export default {
     imageProduct(imagePath) {
       return require(`../static/${imagePath}`);
     },
-    createOrder() {
+    select_pay(id) {
+      console.log(id, 'id')
+      this.writeOrderData.payment_type = id
+    },
+    createOrder(event) {
       var e = document.getElementById("markets");
-      this.writeOrderData.shop_point = e.value
+      this.writeOrderData.shop_point_id = e.value
       this.writeOrderData.delivery_type = this.tab
-      console.log("tab",this.tab)
       console.log(this.writeOrderData)
+      Axios.post("http://localhost:5000/placeorder", this.writeOrderData).then(
+        (response) => {
+          this.orderExists = response.data.success;
+          this.orderConfirm = response.data.confirm;
+          console.log(response);
+        }
+      ),
+        (error) => {
+          console.log(error);
+        };
     }
   },
 };
@@ -247,7 +265,19 @@ export default {
   border-radius: 2px;
 }
 
-.form_pay {
+.block_pay_btn {
+  width: 200px;
+  margin-right: 60px;
+  height: 60px;
+  border-radius: 2px;
+  border: 1px solid rgb(150, 221, 153);
+}
+
+.block_pay_btn:active {
+  background: rgb(20, 163, 91);
+}
+
+/* .form_pay {
   display: flex;
 }
 
@@ -256,7 +286,7 @@ export default {
   width: 30%;
   height: 50px;
   border: 1px solid green;
-}
+} */
 
 .btn_next_step {
   border-radius: 4px;
