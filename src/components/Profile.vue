@@ -1,27 +1,55 @@
 <template>
   <div class="profile_content">
     <div class="profile_content_block">
-        <button class="profile_info_name" @click="openInfo()">Личные данные</button>
-        <button class="profile_info_name" @click="openOrders()">Мои заказы</button>
+      <button class="profile_info_name" @click="openInfo()">
+        Личные данные
+      </button>
+      <button class="profile_info_name" @click="openOrders()">
+        Мои заказы
+      </button>
       <div class="profile_info" id="info">
         <h3 width="80px">Имя: {{ $store.state.userData.user_name }}</h3>
-        <h3>Телефон: {{ $store.state.userData.user_phone }}</h3>
         <h3>E-mail: {{ $store.state.userData.user_email }}</h3>
       </div>
       <div class="profile_orders" id="info_orders">
-        <ul v-for="order in infoOrders" :key="order.id_order" class="ul_order_block">
+        <ul
+          v-for="order in infoOrders"
+          :key="order.id_order"
+          class="ul_order_block"
+        >
           <li>
-            <p style="font-weight: bold;" class="order_block_p">Заказ № {{ order.id_order }}</p>
-            <p class="order_block_p"><strong>Количество товаров в заказе:</strong> {{ order.count_product }}</p>
-            <p class="order_block_p"><strong>Общая цена:</strong> {{ order.total_price_products }}</p>
-            <p class="order_block_p"><strong>Способ оплаты:</strong> {{ order.payment_type }}</p>
-            <p class="order_block_p"><strong>Доставка:</strong> {{ order.delivery_type }}</p>
-            <p class="order_block_p"><strong>Город доставки:</strong> {{ order.user_city }}</p>
-            <p class="order_block_p"><strong>Магазин:</strong> "{{ order.name_shop }}" </p>
-            <p class="order_block_p"><strong>Адрес:</strong> {{ order.adress_shop }}</p>
-            <p class="order_block_p"><strong>Часы работы:</strong> {{ order.working_hours }}</p>
+            <p style="font-weight: bold" class="order_block_p">
+              Заказ № {{ order.id_order }}
+            </p>
+            <p class="order_block_p">
+              <strong>Количество товаров в заказе:</strong>
+              {{ order.count_product }}
+            </p>
+            <p class="order_block_p">
+              <strong>Общая цена:</strong> {{ order.total_price_products }}
+            </p>
+            <p class="order_block_p">
+              <strong>Способ оплаты:</strong> {{ order.name_payment_method }}
+            </p>
+            <p class="order_block_p">
+              <strong>Доставка:</strong> {{ order.name_delivery_type }}
+            </p>
+            <p class="order_block_p">
+              <strong>Город доставки:</strong> {{ order.user_city }}
+            </p>
+            <p class="order_block_p">
+              <strong>Магазин:</strong> "{{ order.name_shop }}"
+            </p>
+            <p class="order_block_p">
+              <strong>Адрес:</strong> {{ order.address_shop }}
+            </p>
+            <p class="order_block_p">
+              <strong>Часы работы:</strong> {{ order.working_hours }}
+            </p>
             <ul v-for="product in order.product" :key="product.id_order">
-              <li><p>{{ product.name_product }}</p></li>
+              <li>
+                <p>{{ product.name_product }}</p>
+              </li>
             </ul>
             <!-- <p>{{ order.product.name_product }}</p> -->
           </li>
@@ -44,26 +72,25 @@ export default {
   name: "profile",
   data() {
     return {
-      infoOrders: {}
+      infoOrders: {},
     };
   },
   methods: {
     openInfo: function () {
-      document.getElementById('info').style.display = 'block';
-      document.getElementById('info_orders').style.display = 'none';
+      document.getElementById("info").style.display = "block";
+      document.getElementById("info_orders").style.display = "none";
     },
     openOrders: function () {
-      document.getElementById('info').style.display = 'none';
-      document.getElementById('info_orders').style.display = 'block';
+      document.getElementById("info").style.display = "none";
+      document.getElementById("info_orders").style.display = "block";
       Axios.get(
         "http://localhost:5000/myorders?id=" + this.$store.state.userData.id
       ).then((response) => {
-        this.infoOrders = response.data.result
-        console.log(this.infoOrders)
+        this.infoOrders = response.data.result;
+        console.log(this.infoOrders);
       });
-
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -112,5 +139,4 @@ export default {
 .order_block_p {
   margin: 5px !important;
 }
-
 </style>

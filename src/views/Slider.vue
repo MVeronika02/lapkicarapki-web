@@ -2,7 +2,7 @@
   <div class="slider_block">
     <div class="slider_block_carousel">
       <VueSlickCarousel v-bind="settingsMainSlider" ref="c1" :asNavFor="$refs.c2">
-        <div class="ttt">
+        <!-- <div class="ttt">
           <img src="../static/birdsShamp1.jpg" width="485px" height="320px" />
         </div>
         <div>
@@ -13,13 +13,13 @@
         </div>
         <div>
           <img src="../static/rodentCage1.jpg" width="485px" height="320px" />
-        </div>
+        </div> -->
       </VueSlickCarousel>
     </div>
     <div class="sub_slider">
       <VueSlickCarousel v-bind="settingsSubSlider" ref="c2" :asNavFor="$refs.c1">
         <div>
-          <img src="../static/birdsShamp1.jpg" width="50px" height="50px" />
+          <!-- <img src="../static/birdsShamp1.jpg" width="50px" height="50px" />
         </div>
         <div>
           <img src="../static/toyCats1.jpg" width="50px" height="50px" />
@@ -41,7 +41,7 @@
         </div>
 
         <div>
-          <img src="../static/rodentCage1.jpg" width="50px" height="50px" />
+          <img src="../static/rodentCage1.jpg" width="50px" height="50px" /> -->
         </div>
       </VueSlickCarousel>
     </div>

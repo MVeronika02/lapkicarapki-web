@@ -68,7 +68,7 @@
           <v-container class="max-width">
             <v-pagination
               v-model="page"
-              class="my-4"
+               class="pt-4 pb-2"
               :length="$store.state.countPageReview"
               total-visible="5"
               @input="showPage(page)"

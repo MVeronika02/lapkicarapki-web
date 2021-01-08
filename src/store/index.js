@@ -59,9 +59,7 @@ export default new Vuex.Store({
       state.filtredCategory = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
     },
     filterCategoryOneAnimal: (state, idAnimal) => {
-      console.log(idAnimal, 'idA')
       state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
-      console.log(state.filterCategoryOneAnimal, 'state.filterCategoryOneAnimal')
     },
     SETCountCategoryProductPage: (state, countPage) => {
       state.countCategoryProductPage = countPage
@@ -79,7 +77,6 @@ export default new Vuex.Store({
     SETUser: (state, resultBool) => {
       state.user = resultBool.success
       state.userData = resultBool.result
-      console.log(state.userData, 'state.userData ')
       window.localStorage.setItem('key', resultBool.token)
       state.localValue = localStorage.getItem('key')
     },
@@ -89,12 +86,7 @@ export default new Vuex.Store({
     SETReviews: (state, countReviews) => {
       state.countPageReview = countReviews
     },
-    // SETOrderData: (state, data) => {
-    //   console.log(data, 111)
-    //   state.orderData = data
-    // },
     
-
     // Корзина: добавление товара, показ товара в корзине, удаление
     saveBasket: (state) => {
       window.localStorage.setItem('basketContent', JSON.stringify(state.basketContent))

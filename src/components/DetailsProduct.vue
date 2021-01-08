@@ -308,8 +308,9 @@ export default {
 
 .details_container_cards {
   margin: 40px 0 0px 160px;
+  padding-bottom: 20px; 
   width: 80%;
-  height: 250px;
+  height: auto;
 }
 
 .details_container_cards_content_p {

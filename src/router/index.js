@@ -7,7 +7,7 @@ import Home from '../views/Home.vue'
 import Delivery from '../components/Delivery.vue'
 import Contacts from '../components/Contacts.vue'
 import AboutUs from '../components/AboutUs.vue'
-import ContentProduct from '../views/ContentProduct.vue'
+import HomeProducts from '../views/HomeProducts.vue'
 import DetailsProduct from '../components/DetailsProduct.vue'
 import Basket from '../components/Basket.vue'
 import FiltredProducts from '../views/FiltredProducts.vue'
@@ -50,8 +50,8 @@ const routes = [
       },
       {
         path: '/',
-        name: 'content',
-        component: ContentProduct
+        name: 'homeProducts',
+        component: HomeProducts
       },
       {
         path: 'animal=:idAnimal',

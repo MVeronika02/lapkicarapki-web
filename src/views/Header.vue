@@ -7,7 +7,6 @@
     </div>
     <hr />
     
-
     <div class="buttons">
       <a href="/" height="190px">
         <img src="../assets/img/animalPaws.svg" class="logo_img" />
@@ -49,15 +48,14 @@
       </div>
     </div>
     
-
     <div id="sign_in_wrapper" class="sign_in_overlay">
       <div id="popup" class="sign_in_popup">
         <a class="sign_in_close" href="#" @click="$emit('close')">&times;</a>
         <form id="form_sign_in" method="get" @submit.prevent="userLogin">
           <button class="form_btn_sign_in">Войти</button>
           <button class="form_btn_up" @click="openSignUp">Регистрация</button>
-          <div>
-            <label>Логин</label><br />
+          <div style="margin: 10px;">
+            <label style="margin-right: 150px;">Логин</label><br />
             <input
               type="text"
               required
@@ -65,7 +63,7 @@
               v-model="info.login"
             />
             <br />
-            <label>Пароль</label><br />
+            <label style="margin-right: 140px;">Пароль</label><br />
             <input
               type="password"
               required
@@ -92,30 +90,22 @@
             /> -->
           </div>
 
-          <button class="btn_sign_in">Войти</button>
+          <button type="button" class="btn_sign_in" @click="userLogin">Войти</button>
         </form>
 
-        <form id="form_sign_up"  method="post" @submit.prevent="recordUser">
-          <button class="form_btn_sign_in" @click="closeSignUp">Войти</button>
-          <button class="form_btn_up" @click="openSignUp">Регистрация</button>
-          <div>
-            <label>Логин</label><br />
+        <form id="form_sign_up" method="post" @submit.prevent="recordUser">
+          <button type="button" class="form_btn_sign_in" @click="closeSignUp">Войти</button>
+          <button type="button" class="form_btn_up" @click="openSignUp">Регистрация</button>
+          <div style="margin-bottom: 15px;">
+            <label style="margin-right: 120px;">*Ваше имя</label><br />
             <input
               type="text"
               required
               class="form_sign_up_input"
-              v-model="userData.login"
+              v-model="userData.name"
             />
             <br />
-            <label>Номер телефона</label><br />
-            <input
-              type="tel"
-              required
-              class="form_sign_up_input"
-              v-model="userData.tel"
-            />
-            <br />
-            <label>Электронная почта</label><br />
+            <label style="margin-right: 50px;">*Электронная почта</label><br />
             <input
               type="email"
               required
@@ -123,13 +113,29 @@
               v-model="userData.email"
             />
             <br />
-            <label>Пароль</label><br />
+            <label style="margin-right: 140px;">*Пароль</label><br />
             <input
+              id="password1"
               type="password"
               required
               class="form_sign_up_input"
               v-model="userData.password"
+              
             />
+            <br />
+            <label style="margin-right: 60px;">*Повторите пароль</label><br />
+            <input
+              id="password2"
+              type="password"
+              required
+              class="form_sign_up_input"
+              v-model="userData.repeat_password"
+              @input="checkPassword"
+            />
+
+            <div :class="differentCheckPassword ? 'block_userExists_open' : 'block_userExists_close'">
+              <p>Пароли не совпадают!</p>
+            </div>
 
             <div
               :class="
@@ -168,7 +174,7 @@
             /> -->
           </div>
 
-          <button class="form_btn_sign_up">Зарегистрироваться</button>
+          <button type="button" class="form_btn_sign_up" @click="recordUser">Зарегистрироваться</button>
         </form>
       </div>
     </div>
@@ -184,6 +190,7 @@ export default {
   components: {},
   data() {
     return {
+      differentCheckPassword: false,
       userExists: Boolean,
       userConfirm: Boolean,
       info: {
@@ -191,10 +198,10 @@ export default {
         password: "",
       },
       userData: {
-        login: "",
-        tel: "",
+        name: "",
         email: "",
         password: "",
+        repeat_password: ""
       },
     };
   },
@@ -208,12 +215,23 @@ export default {
         total += allProduct.totalPrice;
       }
       if (total == 0) {
-        this.totalCheck = false
+        this.totalCheck = false;
       }
       return total.toFixed(2);
     },
+    comparePassword() {
+      return true
+    }
   },
   methods: {
+    checkPassword: function (input) {
+      if (this.userData.password != this.userData.repeat_password) {
+        document.getElementById("password2").className = "dif_pas" 
+      } else {
+        document.getElementById("password2").className = "set_pas"
+      }
+
+    },
     openDelivery: function () {
       this.$router.push("/delivery");
     },
@@ -245,21 +263,24 @@ export default {
       //   };
     },
     openSignUp() {
-      document.getElementById('form_sign_up').style.display = 'block';
-      document.getElementById('form_sign_in').style.display = 'none';
+      document.getElementById("form_sign_up").style.display = "block";
+      document.getElementById("form_sign_in").style.display = "none";
     },
     closeSignUp() {
-      document.getElementById('form_sign_up').style.display = 'none';
-      document.getElementById('form_sign_in').style.display = 'block';
+      document.getElementById("form_sign_up").style.display = "none";
+      document.getElementById("form_sign_in").style.display = "block";
     },
     recordUser(event) {
-      console.log(this.userData);
+      if (this.userData.repeat_password != this.userData.password) {
+        this.differentCheckPassword = true
+        return
+      } else {   
+        this.differentCheckPassword = false
+      }
       Axios.post("http://localhost:5000/registration", this.userData).then(
         (response) => {
           this.userExists = response.data.success;
-          this.userConfirm = response.data.confirm;
-          console.log(response);
-        }
+          this.userConfirm = response.data.confirm;        }
       ),
         (error) => {
           console.log(error);
@@ -267,7 +288,6 @@ export default {
     },
     userLogin(event) {
       this.$store.dispatch("UserLogin", this.info);
-      console.log(localStorage.getItem("key"));
       if (
         localStorage.getItem("key") != "undefined" &&
         localStorage.getItem("key") != null
@@ -307,7 +327,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center ;
+  justify-content: center;
   position: relative;
 }
 
@@ -354,7 +374,7 @@ hr {
   width: 18%;
   display: inline-block;
   margin-left: 100px;
-} 
+}
 
 .buttons_search_block {
   width: 45%;
@@ -438,8 +458,19 @@ hr {
   height: 30px;
   border-radius: 2px;
   font-size: 14px;
-  background: rgb(145, 155, 148);
+  background: rgb(141, 206, 157);
+  box-shadow: 0 -3px rgb(20, 163, 91) inset;
+  transition: 0.2s;
   margin-right: 10px;
+}
+
+.form_btn_sign_in:hover {
+  background: rgb(53, 167, 110);
+}
+
+.form_btn_sign_in:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
 .form_btn_up {
@@ -447,8 +478,19 @@ hr {
   height: 30px;
   border-radius: 2px;
   font-size: 14px;
-  background: rgb(145, 155, 148);
+  background: rgb(141, 206, 157);
+  box-shadow: 0 -3px rgb(20, 163, 91) inset;
+  transition: 0.2s;
   margin-bottom: 15px;
+}
+
+.form_btn_up:hover {
+  background: rgb(53, 167, 110);
+}
+
+.form_btn_up:active {
+  background: rgb(33, 147, 90);
+  box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
 .block_profile {
@@ -506,6 +548,7 @@ hr {
   background: #fff;
   border-radius: 5px;
   width: 20%;
+  height: auto;
   transition: all 5s ease-in-out;
 }
 
@@ -534,6 +577,7 @@ hr {
   width: 200px;
   height: 40px;
   margin-bottom: 10px;
+  text-align: center;
   border: 1px solid black;
 }
 
@@ -541,12 +585,13 @@ hr {
   width: 200px;
   height: 40px;
   margin-bottom: 10px;
+  text-align: center;
   border: 1px solid black;
 }
 
 .form_btn_sign_up {
   width: 170px;
-  height: 30px;
+  height: 40px;
   border-radius: 2px;
   font-size: 14px;
   background: rgb(141, 206, 157);
@@ -593,9 +638,47 @@ hr {
 
 #form_sign_up {
   display: none;
+  text-align: center;
+  margin-top: 30px;
 }
 
 #form_sign_in {
   display: block;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.dif_pas {
+  border: 1px solid red;
+  width: 200px;
+  height: 40px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dif_pas:focus {
+  width: 200px;
+  height: 40px;
+  margin-bottom: 10px;
+  text-align: center;
+  outline: none !important;
+  border: 1px solid red;
+}
+
+.set_pas {
+  border: 1px solid Green;
+  width: 200px;
+  height: 40px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.set_pas:focus {
+  width: 200px;
+  height: 40px;
+  margin-bottom: 10px;
+  text-align: center;
+  outline: none !important;
+  border: 1px solid Green;
 }
 </style>

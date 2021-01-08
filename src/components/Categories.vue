@@ -71,7 +71,7 @@ export default {
   padding-top: 10px;
   background: rgb(141, 206, 157);
   text-align: center;
-  cursor: default;
+  cursor: default;  
 }
 
 .categories_block_name:hover {

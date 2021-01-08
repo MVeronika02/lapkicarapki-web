@@ -26,17 +26,17 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  name: "content",
+  name: "homeProducts",
   data() {
     return {
       page: 1,
     };
   },
-  mounted() {console.log(this.$store.state.allProducts, 'content')},
+  // mounted() {console.log(this.$store.state.allProducts, 'homeProducts')},
   computed: mapState(["allProducts"]),
   created() {
     this.$store.dispatch("ProductsOnPage", 1);
-    this.$router.push({ name: "content", params: {pageNumber: 1} })
+    this.$router.push({ name: "homeProducts", params: {pageNumber: 1} })
   },
   methods: {
     imageProduct(imagePath) {
@@ -49,7 +49,7 @@ export default {
       this.$store.commit("SETProductToBasket", allProduct);
     },
     showPage(page) {
-      this.$router.push({ name: "content", params: {pageNumber: page} })
+      this.$router.push({ name: "homeProducts", params: {pageNumber: page} })
       this.$store.dispatch("ProductsOnPage", page);
     },
   },

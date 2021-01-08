@@ -2,7 +2,6 @@
   <div class="order_container">
     <div class="form_order">
       <h1>ОФОРМЛЕНИЕ ЗАКАЗА</h1>
-
       <div class="buyer_info">
         <p class="buyer_info_title">Ваши данные</p>
         <form class="buyer_info_form">
@@ -247,13 +246,14 @@ export default {
       this.writeOrderData.id_user = this.$store.state.userData.id;
       console.log(this.writeOrderData);
       Axios.post("http://localhost:5000/placeorder", this.writeOrderData)
-      .then(response => {
+        .then((response) => {
           console.log("--------", response);
           // let data = JSON.parse(response.config.data);
           // this.$store.commit("SETOrderData", data);
-        }).catch(err => {
-          console.log("ERROR POST");
         })
+        .catch((err) => {
+          console.log("ERROR POST");
+        });
 
       console.log(localStorage.getItem("basketContent"));
       this.$store.state.basketContent = [];

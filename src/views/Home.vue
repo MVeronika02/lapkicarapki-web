@@ -26,7 +26,7 @@
 
 import Header from '../views/Header.vue'
 import Navigation from '../views/Navigation.vue'
-import ContentProduct from '../views/ContentProduct.vue'
+import HomeProducts from '../views/HomeProducts.vue'
 import Footer from '../views/Footer.vue'
 
 export default {
@@ -40,7 +40,7 @@ export default {
   components: {
     Header,
     Navigation,
-    ContentProduct,
+    HomeProducts,
     Footer
   },
   created() {
@@ -70,7 +70,7 @@ body {
   grid-template-areas:
     "header header header"
     "nav nav nav"
-    "content content content"
+    "homeProducts homeProducts homeProducts"
     "footer footer footer";
   grid-template-rows: 200px 50px auto 200px;
   grid-template-columns: 15% 1fr 15%;
@@ -85,7 +85,7 @@ body {
 }
 
 .content_grid {
-  grid-area: content;
+  grid-area: homeProducts;
   padding: 0;
 }
 
