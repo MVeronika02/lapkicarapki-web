@@ -18,6 +18,8 @@ import Order from '../components/Order.vue'
 import Login from '../components/Login.vue'
 import Dashboard from '../components/Dashboard.vue'
 import Profile from '../components/Profile.vue'
+import MyInfo from '../components/MyInfo.vue'
+import MyOrders from '../components/MyOrders.vue'
 import middlewarePipeline from './middlewarePipeline'
 import guest from './middleware/guest'
 import auth from './middleware/auth'
@@ -110,6 +112,18 @@ const routes = [
         path: '/profile',
         name: 'profile',
         component: Profile,
+        children: [
+          {
+            path: '/my-info',
+            name: 'MyInfo',
+            component: MyInfo
+          },
+          {
+            path: '/my-orders',
+            name: 'MyOrders',
+            component: MyOrders
+          }
+        ]
       },
       {
         path: '/slider',

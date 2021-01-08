@@ -31,6 +31,7 @@ export default new Vuex.Store({
     // }, 
     ninja: false,
     localValue: 0,
+    orderData: []
   },
 
   getters: {
@@ -42,7 +43,7 @@ export default new Vuex.Store({
 
   //Мутации
   mutations: {
-    SETAllCategory: (state, categoryAll) => {
+    SETAllCategory (state, categoryAll) {
       state.allCategoryAnimal = categoryAll
     },
     SETfiltredProducts: (state, filtredProducts) => {
@@ -58,7 +59,9 @@ export default new Vuex.Store({
       state.filtredCategory = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
     },
     filterCategoryOneAnimal: (state, idAnimal) => {
+      console.log(idAnimal, 'idA')
       state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
+      console.log(state.filterCategoryOneAnimal, 'state.filterCategoryOneAnimal')
     },
     SETCountCategoryProductPage: (state, countPage) => {
       state.countCategoryProductPage = countPage
@@ -76,6 +79,7 @@ export default new Vuex.Store({
     SETUser: (state, resultBool) => {
       state.user = resultBool.success
       state.userData = resultBool.result
+      console.log(state.userData, 'state.userData ')
       window.localStorage.setItem('key', resultBool.token)
       state.localValue = localStorage.getItem('key')
     },
@@ -85,6 +89,10 @@ export default new Vuex.Store({
     SETReviews: (state, countReviews) => {
       state.countPageReview = countReviews
     },
+    // SETOrderData: (state, data) => {
+    //   console.log(data, 111)
+    //   state.orderData = data
+    // },
     
 
     // Корзина: добавление товара, показ товара в корзине, удаление
@@ -106,6 +114,7 @@ export default new Vuex.Store({
     },
     removeProductFromBasket: (state, allDetailProduct) => {
       let newItemRemove = state.basketContent.find(object => object.id_product === allDetailProduct.id_product)
+      
       if (newItemRemove.quantity > 0) {
         if (newItemRemove) {
           newItemRemove.quantity--
@@ -178,3 +187,4 @@ export default new Vuex.Store({
     }
   }
 })
+

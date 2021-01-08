@@ -2,7 +2,12 @@
 <div class="content_categories">
   <div class="categories_block" >
     <ul class="categories_block_ul">
-      <li v-for="allCategory in $store.state.filterCategoryOneAnimal" :key="allCategory.id_category" @click="toProductsCategory(allCategory.id_category)" class="categories_block_li">
+      <li 
+        class="categories_block_li"
+        v-for="allCategory in $store.state.filterCategoryOneAnimal" 
+        :key="allCategory.id_category" 
+        @click="toProductsCategory(allCategory.id_category)" 
+      >
           <div class="categories_block_name"><h3>{{ allCategory.name_category }}</h3></div>
           <img :src="imageCategory(allCategory.url_image_category)" class="categories_block_img"/>
       </li> 
@@ -66,6 +71,7 @@ export default {
   padding-top: 10px;
   background: rgb(141, 206, 157);
   text-align: center;
+  cursor: default;
 }
 
 .categories_block_name:hover {

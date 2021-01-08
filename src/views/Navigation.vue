@@ -1,23 +1,23 @@
 <template>
   <div class="nav_block">
-    <!-- <nav class="main_nav"> -->
       <ul class="main_nav_btn_list">
         <li
           v-for="animal in animals"
           :key="animal.key"
           class="main_nav_btn_list_item"
           @mouseover="allCategoryAnimals(animal.key)"
-          @click="categoriesForOneAnimal(animal.key);">
-          <a class="main_nav_btn_list_item_a">{{ animal.name }}</a>
+        >
+          <a class="main_nav_btn_list_item_a" v-on:click="categoriesForOneAnimal(animal.key)">{{ animal.name }}</a>
           <ul class="main_nav_btn_list_item_dropdown">
-            <li v-for="allCategory in $store.state.filtredCategory" :key="allCategory.id_category">
-              <a class="main_nav_btn_list_item_dropdown_a">{{ allCategory.name_category }}</a>
+            <li 
+              v-for="allCategory in $store.state.filtredCategory" 
+              :key="allCategory.id_category" 
+            >
+              <a class="main_nav_btn_list_item_dropdown_a" v-on:click="toProductsCategory(allCategory.id_category, animal.key)">{{ allCategory.name_category }}</a>
             </li>
           </ul>
         </li>
       </ul>
-    <!-- </nav> -->
-
   </div>
 </template>
 
@@ -40,16 +40,25 @@ export default {
       ]
     };
   },
+
   mounted() {
     this.$store.dispatch("SETCategory");
   },
+
   methods: {
     allCategoryAnimals: function (idAnimal) {
       this.$store.commit("filterCategory", idAnimal);
     },
+
     categoriesForOneAnimal: function (idAnimalLocal) {
+      console.log("parent li")
       this.$router.push({ name: "animal", params: { idAnimal: idAnimalLocal } })
       this.$store.commit("filterCategoryOneAnimal", idAnimalLocal);
+    },
+
+    toProductsCategory(idCategoryLocal, idAnimalLocal) {
+      console.log(idCategoryLocal, idAnimalLocal,'category')
+      this.$router.push({name: "productsCategory", params: {idCategory: idCategoryLocal, idAnimal: idAnimalLocal, pageNumber: 1} })
     }
   },
 };
@@ -131,16 +140,5 @@ export default {
   left: auto;
 }
 
-
-/* .main_nav_btn_list_item:hover .main_nav_btn_list_item_dropdown {
-  position: absolute;
-  display: block;
-  top: 100%;
-  left: auto;
-}
-
-.main_nav_btn_list > li:nth-child(6) .main_nav_btn_list_item_dropdown {
-  left: auto;
-} */
 
 </style>

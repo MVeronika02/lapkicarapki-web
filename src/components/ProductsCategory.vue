@@ -1,65 +1,103 @@
 <template>
-<div class="content_products_category">
-  <div class="content_products_category_block">
-    <sidebar/>
-    <div class="productsOfCategory_block">
-      <ul class="productsOfCategory_ul">
-        <li v-for="allProducts in $store.state.filterProductsForOneCategory" :key="allProducts.id_product" class="productsOfCategory_ul_li">
-          <div class="productsOfCategory_ul_li_div" @click="goDetails(allProducts.id_product)">
-            <p class="products_block_name">{{ allProducts.name_product }}</p>
-            <img :src="imageProduct(allProducts.url_image_product)" class="product_img"/>
-            <p>Цена: {{ allProducts.price_product }}</p>
-          </div>
-          <button class="btn_add_basket" @click="addToBasket(allProducts)">Добавить в корзину</button>
-        </li> 
-      </ul>
+  <div class="content_products_category">
+    <div class="content_products_category_block">
+      <sidebar />
+      <div class="productsOfCategory_block">
+        <ul class="productsOfCategory_ul">
+          <li
+            v-for="allProducts in $store.state.filterProductsForOneCategory"
+            :key="allProducts.id_product"
+            class="productsOfCategory_ul_li"
+          >
+            <div
+              class="productsOfCategory_ul_li_div"
+              @click="goDetails(allProducts.id_product)"
+            >
+              <p class="products_block_name">{{ allProducts.name_product }}</p>
+              <img
+                :src="imageProduct(allProducts.url_image_product)"
+                class="product_img"
+              />
+              <p>Цена: {{ allProducts.price_product }}</p>
+            </div>
+            <button class="btn_add_basket" @click="addToBasket(allProducts)">
+              Добавить в корзину
+            </button>
+          </li>
+        </ul>
+      </div>
+      <v-pagination
+        v-model="pageLocal"
+        class="pt-4 pb-2"
+        :length="$store.state.countCategoryProductPage"
+        total-visible="5"
+        @input="showPage(pageLocal)"
+      ></v-pagination>
     </div>
-    <v-pagination
-      v-model="pageLocal"
-      class="pt-4 pb-2"
-      :length="$store.state.countCategoryProductPage"
-      total-visible="5"
-      @input="showPage(pageLocal)"
-    ></v-pagination>
   </div>
-</div>
 </template>
 
 <script>
-import Sidebar from '../components/Sidebar.vue'
+import Sidebar from "../components/Sidebar.vue";
 
 export default {
-  name: 'productsCategory',
-  data () {
-    return {
-      idCategoryLocal: this.$route.params.idCategory,
-      idAnimalLocal: this.$route.params.idAnimal,
-      pageLocal: this.$route.params.pageNumber,
-    }
+  name: "productsCategory",
+  data() {
+    return {};
   },
   components: {
-    Sidebar
+    Sidebar,
   },
+  computed: {
+    routeParams() {
+      return this.$route.params;
+    },
+  },
+
+  watch: {
+    routeParams() {
+      this.$store.dispatch("ProductsForOneCategoryPage", {
+        page: this.$route.params.pageNumber,
+        idAnimal: this.$route.params.idAnimal,
+        idCategory: this.$route.params.idCategory,
+      });
+    },
+  },
+
   created() {
-    this.$store.dispatch("ProductsForOneCategoryPage", { page: this.pageLocal, idAnimal: this.idAnimalLocal, idCategory: this.idCategoryLocal });
+    this.$store.dispatch("ProductsForOneCategoryPage", {
+      page: this.$route.params.pageNumber,
+      idAnimal: this.$route.params.idAnimal,
+      idCategory: this.$route.params.idCategory,
+    });
   },
+
   methods: {
     imageProduct(imagePath) {
       return require(`../static/${imagePath}`);
     },
     goDetails(idProductLocal) {
-      this.$router.push({ name: "detailsProduct", params: { idProduct: idProductLocal } });
+      this.$router.push({
+        name: "detailsProduct",
+        params: { idProduct: idProductLocal },
+      });
     },
     addToBasket(allProducts) {
       this.$store.commit("SETProductToBasket", allProducts);
     },
     showPage(page) {
-      this.$router.push({ name: "productsCategory", params: {pageNumber: page} })
-      this.$store.dispatch("ProductsForOneCategoryPage", { page: page, idAnimal: this.idAnimalLocal, idCategory: this.idCategoryLocal });
+      this.$router.push({
+        name: "productsCategory",
+        params: { pageNumber: page },
+      });
+      this.$store.dispatch("ProductsForOneCategoryPage", {
+        page: page,
+        idAnimal: this.$route.params.idAnimal,
+        idCategory: this.$route.params.idCategory,
+      });
     },
-  }
-
-}
+  },
+};
 </script>
 
 <style>
