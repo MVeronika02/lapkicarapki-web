@@ -6,6 +6,11 @@ Vue.use(Vuex)
 let basketContent = window.localStorage.getItem('basketContent')
 let cartCount = window.localStorage.getItem('cartCount')
 let backendServerUrl = "http://localhost:5000"
+
+axios.defaults.headers.common = {
+  "Authorization": "Bearer Asdsadfsdfasd",
+};
+
 export default new Vuex.Store({
   state: {
     allCategoryAnimal: [],
@@ -31,7 +36,9 @@ export default new Vuex.Store({
     // }, 
     ninja: false,
     localValue: 0,
-    orderData: []
+    orderData: [],
+    allOrders: [],
+    countPageOrders: 0
   },
 
   getters: {
@@ -85,6 +92,10 @@ export default new Vuex.Store({
     },
     SETReviews: (state, countReviews) => {
       state.countPageReview = countReviews
+    },
+    Orders: (state, infoOrders) => {
+      state.allOrders = infoOrders.result
+      state.countPageOrders = infoOrders.count_page
     },
     
     // Корзина: добавление товара, показ товара в корзине, удаление
@@ -175,6 +186,12 @@ export default new Vuex.Store({
       ).then((reviewsProduct) => {
         context.commit('SETReviews', reviewsProduct.data.count_page)
         context.commit('SETReviewsToPage', reviewsProduct.data.result)
+      });
+    },
+    getUserOrders: async (context, payload) => {
+      await Axios.get("http://localhost:5000/myorders?id=" + payload.id + "&offset=" + payload.page + "&limit=6"
+      ).then((response) => {
+        context.commit('Orders', response.data)
       });
     }
   }

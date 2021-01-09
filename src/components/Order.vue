@@ -189,16 +189,10 @@ export default {
         delivery_date: "",
         delivery_type: "",
         payment_type: "",
-        products: [
-          // {
-          //   id_product: 0,
-          //   count: 0,
-          //   price: 0,
-          // }
-        ],
+        products: [],
         total_price: 0,
         count_products: 0,
-        id_user: 0,
+        id_user: 0
       },
     };
   },
@@ -243,19 +237,21 @@ export default {
         this.writeOrderData.total_price += basket[i].totalPrice;
         this.writeOrderData.count_products += basket[i].quantity;
       }
-      this.writeOrderData.id_user = this.$store.state.userData.id;
-      console.log(this.writeOrderData);
+      
+      if (this.$store.state.userData.id == "undefined") {
+        this.writeOrderData.id_user = 0
+      }
+      //   this.writeOrderData.id_user = this.$store.state.userData.id;
+      // }
+      console.log(this.writeOrderData.id_user, 'user')
+      
       Axios.post("http://localhost:5000/placeorder", this.writeOrderData)
         .then((response) => {
           console.log("--------", response);
-          // let data = JSON.parse(response.config.data);
-          // this.$store.commit("SETOrderData", data);
         })
         .catch((err) => {
           console.log("ERROR POST");
         });
-
-      console.log(localStorage.getItem("basketContent"));
       this.$store.state.basketContent = [];
       this.$store.state.cartCount = [];
       alert("Ваш заказ создан! Вы можете получить его по номеру телефона");

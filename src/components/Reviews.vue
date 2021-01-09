@@ -165,7 +165,7 @@ import Axios from "axios";
 
 export default {
   name: "Reviews",
-  props: ["productId"],
+  // props: ["productId"],
   data() {
     return {
       page: 1,

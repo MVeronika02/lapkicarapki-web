@@ -112,9 +112,7 @@ export default {
   },
   methods: {
     imageProduct(imagePath) {
-      return require(`../static/${imagePath}`);
-      console.log(imagePath, "added");
-    },
+      return require(`../static/${imagePath}`);    },
     addToBasket(allProduct) {
       this.$store.commit("SETProductToBasket", allProduct);
     },
