@@ -7,9 +7,6 @@ let basketContent = window.localStorage.getItem('basketContent')
 let cartCount = window.localStorage.getItem('cartCount')
 let backendServerUrl = "http://localhost:5000"
 
-axios.defaults.headers.common = {
-  "Authorization": "Bearer Asdsadfsdfasd",
-};
 
 export default new Vuex.Store({
   state: {
@@ -28,14 +25,11 @@ export default new Vuex.Store({
     countCategoryProductPage: 0,
     allReviews: [],
     countPageReview: 0,
-    user: Boolean,
-    userData: [],
+    userInfo: {},
     // user : {
     //   metaData : {},
     //   presence: undefined
     // }, 
-    ninja: false,
-    localValue: 0,
     orderData: [],
     allOrders: [],
     countPageOrders: 0
@@ -81,11 +75,8 @@ export default new Vuex.Store({
       state.valueMin = value[0]
       state.valueMax = value[1]
     },
-    SETUser: (state, resultBool) => {
-      state.user = resultBool.success
-      state.userData = resultBool.result
-      window.localStorage.setItem('key', resultBool.token)
-      state.localValue = localStorage.getItem('key')
+    userInfo: (state, userInfo) => {
+      state.userInfo = userInfo
     },
     SETReviewsToPage: (state, selectedReviews) => {
       state.allReviews = selectedReviews
@@ -174,22 +165,16 @@ export default new Vuex.Store({
         })
 
     },
-    UserLogin: async (context, payload) => {
-      await Axios.get(backendServerUrl + '/user?login=' + payload.login + '&password=' + payload.password)
-        .then(answerBool => {
-          context.commit('SETUser', answerBool.data)
-        })
-    },
     ReviewsOnPage: async (context, payload) => {
       await Axios.get(
-        backendServerUrl + "/inforeviews?productid=" + payload.id + "&offset=" + payload.page + "&limit=3"
+        backendServerUrl + '/inforeviews?productid=' + payload.id + '&offset=' + payload.page + '&limit=3'
       ).then((reviewsProduct) => {
         context.commit('SETReviews', reviewsProduct.data.count_page)
         context.commit('SETReviewsToPage', reviewsProduct.data.result)
       });
     },
     getUserOrders: async (context, payload) => {
-      await Axios.get("http://localhost:5000/myorders?id=" + payload.id + "&offset=" + payload.page + "&limit=6"
+      await Axios.get(backendServerUrl + '/myorders?offset=' + payload.page + '&limit=6'
       ).then((response) => {
         context.commit('Orders', response.data)
       });

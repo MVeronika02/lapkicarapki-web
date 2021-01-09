@@ -27,7 +27,7 @@
           <span>Товара: {{ $store.state.cartCount }} шт</br> На сумму: {{ totalPrice }} тг</span>
         </button>
       
-      <div :class="$store.state.ninja ? 'sign_in_close_block' : 'sign_in'">
+      <div :class="this.presenceUser ? 'sign_in_close_block' : 'sign_in'">
         <a href="#sign_in_wrapper">
           <button class="btn_sign_in">
             <i
@@ -40,7 +40,7 @@
         </a>
       </div>
       </div>
-      <div :class="$store.state.ninja ? 'block_profile_open' : 'block_profile'">
+      <div :class="this.presenceUser ? 'block_profile_open' : 'block_profile'">
         <button class="block_profile_open_btn" @click="openProfile">
           Личный кабинет
         </button>
@@ -57,24 +57,24 @@
           <div style="margin: 10px;">
             <label style="margin-right: 150px;">Логин</label><br />
             <input
+              id="sigin_login"
               type="text"
               required
               class="form_sign_in_input"
-              v-model="info.login"
             />
             <br />
             <label style="margin-right: 140px;">Пароль</label><br />
             <input
+              id="sigin_password"
               type="password"
               required
               class="form_sign_in_input"
-              v-model="info.password"
             />
             <div
               :class="
-                $store.state.user
-                  ? 'block_wrong_close'
-                  : 'block_wrong_user_open'
+                this.incorectCredentials
+                  ? 'block_wrong_user_open'
+                  : 'block_wrong_close'
               "
             >
               <p>*Неверный логин или пароль</p>
@@ -90,7 +90,7 @@
             /> -->
           </div>
 
-          <button type="button" class="btn_sign_in" @click="userLogin">Войти</button>
+          <button href="#" type="button" class="btn_sign_in" @click="userLogin">Войти</button>
         </form>
 
         <form id="form_sign_up" method="post" @submit.prevent="recordUser">
@@ -120,7 +120,6 @@
               required
               class="form_sign_up_input"
               v-model="userData.password"
-              
             />
             <br />
             <label style="margin-right: 60px;">*Повторите пароль</label><br />
@@ -193,17 +192,23 @@ export default {
       differentCheckPassword: false,
       userExists: Boolean,
       userConfirm: Boolean,
-      info: {
-        login: "",
-        password: "",
-      },
+      presenceUser: false,
+      incorectCredentials: false,
       userData: {
         name: "",
         email: "",
         password: "",
-        repeat_password: ""
+        repeat_password: "",
       },
     };
+  },
+  created() {
+    if (
+      localStorage.getItem("key") != "undefined" &&
+      localStorage.getItem("key") != null
+    ) {
+      this.presenceUser = true;
+    }
   },
   mounted() {
     this.$store.commit("saveBasket");
@@ -219,19 +224,16 @@ export default {
       }
       return total.toFixed(2);
     },
-    comparePassword() {
-      return true
-    }
   },
   methods: {
     checkPassword: function (input) {
       if (this.userData.password != this.userData.repeat_password) {
-        document.getElementById("password2").className = "dif_pas" 
+        document.getElementById("password2").className = "dif_pas";
       } else {
-        document.getElementById("password2").className = "set_pas"
+        document.getElementById("password2").className = "set_pas";
       }
-
     },
+
     openDelivery: function () {
       this.$router.push("/delivery");
     },
@@ -243,24 +245,6 @@ export default {
     },
     openBasket: function () {
       this.$router.push("/basket");
-      // let config = {
-      //   headers: {},
-      // };
-      // if (localStorage.getItem("key") != "undefined" && localStorage.getItem("key") != null) {
-      //   config.headers = { TOKEN: localStorage.getItem("key") };
-      // }
-      // Axios.get("http://localhost:5000/check_access", config).then(
-      //   (response) => {
-      //     if (response.data.success == true) {
-      //       this.$router.push("/basket");
-      //     } else {
-      //       alert("Вам необходимо зарегистрироваться");
-      //     }
-      //   }
-      // ),
-      //   (error) => {
-      //     console.log(error);
-      //   };
     },
     openSignUp() {
       document.getElementById("form_sign_up").style.display = "block";
@@ -272,46 +256,47 @@ export default {
     },
     recordUser(event) {
       if (this.userData.repeat_password != this.userData.password) {
-        this.differentCheckPassword = true
-        return
-      } else {   
-        this.differentCheckPassword = false
+        this.differentCheckPassword = true;
+        return;
+      } else {
+        this.differentCheckPassword = false;
       }
       Axios.post("http://localhost:5000/registration", this.userData).then(
         (response) => {
           this.userExists = response.data.success;
-          this.userConfirm = response.data.confirm;        }
+          this.userConfirm = response.data.confirm;
+        }
       ),
         (error) => {
           console.log(error);
         };
     },
     userLogin(event) {
-      this.$store.dispatch("UserLogin", this.info);
-      if (
-        localStorage.getItem("key") != "undefined" &&
-        localStorage.getItem("key") != null
-      ) {
-        this.$store.state.ninja = true;
-        document.getElementById("sign_in_wrapper").className =
-          "close_form_sign_in";
-      } else {
-        this.$store.state.ninja = false;
-      }
+      var loginInput = document.getElementById("sigin_login");
+      var passwordInput = document.getElementById("sigin_password");
+      Axios.get("http://localhost:5000" + '/login?login=' + loginInput.value + '&password=' + passwordInput.value)
+          .then(response => {
+            if (response.data.success) {
+              window.localStorage.setItem('key', response.data.token)
+              this.presenceUser = true;
+              Axios.defaults.headers.common = {
+                "Authorization": "Bearer " + response.data.token ,
+              };
+              document.getElementById("sign_in_wrapper").style.display = "none";
+              this.$store.commit('userInfo', response.data.result)
+            } else {
+              this.incorectCredentials = true
+            }
+        })
     },
     logout() {
       localStorage.removeItem("key");
       var localValue = localStorage.getItem("key");
-      this.$store.state.ninja = false;
+      this.presenceUser = false;
       this.$router.push("/");
     },
     openProfile: function () {
-      if (
-        localStorage.getItem("key") != "undefined" &&
-        localStorage.getItem("key") != null
-      ) {
-        this.$router.push("/profile");
-      }
+      this.$router.push("/profile");
     },
   },
 };
@@ -524,6 +509,7 @@ hr {
 }
 
 .sign_in_overlay {
+  visibility: hidden;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -531,9 +517,9 @@ hr {
   right: 0;
   background: rgba(0, 0, 0, 0.7);
   transition: opacity 500ms;
-  visibility: hidden;
   opacity: 0;
 }
+
 .sign_in_overlay:target {
   visibility: visible;
   opacity: 1;

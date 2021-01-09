@@ -79,19 +79,19 @@ export default {
   data() {
     return {
       page: 1,
-      idUser: this.$store.state.userData.id,
+      // idUser: this.$store.state.userData.id,
       infoOrders: {},
     };
   },
   created() {
-    this.$store.dispatch("getUserOrders", { id: this.idUser, page: 1 });
+    this.$store.dispatch("getUserOrders", { page: 1 });
   },
   methods: {
     imageProduct(imagePath) {
       return require(`../static/${imagePath}`);
     },
     showPage(page) {
-      this.$store.dispatch("getUserOrders", { id: this.idUser, page: page });
+      this.$store.dispatch("getUserOrders", { page: page });
     },
   },
 };

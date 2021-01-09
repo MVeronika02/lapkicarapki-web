@@ -2,8 +2,8 @@
   <div class="info_content">
     <div class="info_content_name"><h3>Данные</h3></div>
     <div class="info_content_block">
-      <h3 width="80px">Имя: {{ $store.state.userData.user_name }}</h3>
-      <h3>E-mail: {{ $store.state.userData.user_email }}</h3>
+      <h3 width="80px">Имя: {{ $store.state.userInfo.user_name }}</h3>
+      <h3>E-mail: {{ $store.state.userInfo.user_email }}</h3>
     </div>
   </div>
 </template>
