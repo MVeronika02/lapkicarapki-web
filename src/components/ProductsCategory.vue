@@ -5,22 +5,22 @@
       <div class="productsOfCategory_block">
         <ul class="productsOfCategory_ul">
           <li
-            v-for="allProducts in $store.state.filterProductsForOneCategory"
-            :key="allProducts.id_product"
+            v-for="product in $store.state.productsOneCategory.data"
+            :key="product.id_product"
             class="productsOfCategory_ul_li"
           >
             <div
               class="productsOfCategory_ul_li_div"
-              @click="goDetails(allProducts.id_product)"
+              @click="goDetails(product.id_product)"
             >
-              <p class="products_block_name">{{ allProducts.name_product }}</p>
+              <p class="products_block_name">{{ product.name_product }}</p>
               <img
-                :src="imageProduct(allProducts.url_image_product)"
+                :src="imageProduct(product.url_image_product)"
                 class="product_img"
               />
-              <p>Цена: {{ allProducts.price_product }}</p>
+              <p>Цена: {{ product.price_product }}</p>
             </div>
-            <button class="btn_add_basket" @click="addToBasket(allProducts)">
+            <button class="btn_add_basket" @click="addToBasket(product)">
               Добавить в корзину
             </button>
           </li>
@@ -29,7 +29,7 @@
       <v-pagination
         v-model="pageLocal"
         class="pt-4 pb-2"
-        :length="$store.state.countCategoryProductPage"
+        :length="$store.state.productsOneCategory.countPage"
         total-visible="5"
         @input="showPage(page)"
       ></v-pagination>
@@ -84,8 +84,8 @@ export default {
         params: { idProduct: idProductLocal },
       });
     },
-    addToBasket(allProducts) {
-      this.$store.commit("SETProductToBasket", allProducts);
+    addToBasket(product) {
+      this.$store.commit("productsToBasket", product);
     },
     showPage(page) {
       this.$router.push({

@@ -61,7 +61,7 @@ export default {
 
   methods: {
     allCategoryAnimals: function (idAnimal) {
-      this.$store.commit("filterCategory", idAnimal);
+      this.$store.commit("filterCategoriesForDropdownList", idAnimal);
     },
 
     categoriesForOneAnimal: function (idAnimalLocal) {

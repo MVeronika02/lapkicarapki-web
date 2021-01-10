@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 var count = 0;
 export default {
   name: "Basket",
@@ -96,7 +96,7 @@ export default {
   mounted() {
     this.$store.commit("saveBasket");
   },
-  computed: mapState(["allProducts"]),
+  // computed: mapState(["allProducts"]),
   computed: {
     totalPrice() {
       let total = 0;
@@ -114,7 +114,7 @@ export default {
     imageProduct(imagePath) {
       return require(`../static/${imagePath}`);    },
     addToBasket(allProduct) {
-      this.$store.commit("SETProductToBasket", allProduct);
+      this.$store.commit("productsToBasket", allProduct);
     },
     minusProduct(allProduct) {
       this.$store.commit("removeProductFromBasket", allProduct);

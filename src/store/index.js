@@ -10,25 +10,31 @@ let backendServerUrl = "http://localhost:5000"
 
 export default new Vuex.Store({
   state: {
-    allCategoryAnimal: [],
-    allProducts: [],
+    categoriesProducts: [],
+    allProducts: {
+      countPage: 0,
+      data: [] 
+    },
     filtredCategory: [],
     filterCategoryOneAnimal: [],
-    filterProductsForOneCategory: [],
+    productsOneCategory: {
+      countPage: 0,
+      data: []
+    },
+    allProductReviews: {
+      countPage: 0,
+      data: []
+    },
+    allUserOrders: {
+      countPage: 0,
+      data: []
+    },
     basketContent: basketContent ? JSON.parse(basketContent) : [],
     cartCount: cartCount ? parseInt(cartCount) : 0,
-    productPageNumber: 0,
-    filtredProductData: [],
+    filtredProducts: [],
     valueMin: 0,
     valueMax: 0,
-    countProductPage: 0,
-    countCategoryProductPage: 0,
-    allReviews: [],
-    countPageReview: 0,
     userInfo: {},
-    orderData: [],
-    allOrders: [],
-    countPageOrders: 0
   },
 
   getters: {
@@ -40,53 +46,60 @@ export default new Vuex.Store({
 
   //Мутации
   mutations: {
-    allCategory (state, categoryFromDB) {
-      state.allCategoryAnimal = categoryFromDB
+    //Запись всех категории товаров для животных в переменную state.categoriesProducts
+    allCategories (state, categoryFromDB) {
+      state.categoriesProducts = categoryFromDB
     },
-    SETfiltredProducts: (state, filtredProducts) => {
-      state.filtredProductData = filtredProducts
-    },
-    SETProductToPage: (state, selectedPage) => {
-      state.allProducts = selectedPage.result.product
-      state.countProductPage = selectedPage.result.count_page
-      
-    },
-    filterCategory: (state, idAnimal) => {
-      state.filtredCategory = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
+    //Фильтрация категорий товаров для конкретного вида животных по id животного и запись отфильтрованных категорий в переменную state.filtredCategory
+    filterCategoriesForDropdownList: (state, idAnimal) => {
+      state.filtredCategory = state.categoriesProducts.filter(object => object.id_animal === idAnimal)
     },
     filterCategoryOneAnimal: (state, idAnimal) => {
-      state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
+      state.filterCategoryOneAnimal = state.categoriesProducts.filter(object => object.id_animal === idAnimal)
     },
+    //Товары, отфильтрованные по цене
+    filterProductsByPrice: (state, products) => {
+      state.filtredProducts = products
+    },
+    //Показ товаров на каждой странице (пагинация)
+    showProductsOnPage: (state, selectedPage) => {
+      state.allProducts.data = selectedPage.result.product
+      state.allProducts.countPage = selectedPage.result.count_page 
+    },
+    //Фильтр товаров для каждой категории, их запись в переменную state.productsOneCategory
     filterProductsForOneCategory: (state, products) => {
-      state.filterProductsForOneCategory = products.result.product
-      state.countCategoryProductPage = products.result.count_page
+      state.productsOneCategory.data = products.result.product
+      state.productsOneCategory.countPage = products.result.count_page
     },
-    SETFilterKey: (state, key) => {
-      state.filtredProductKey = key
-    },
-    SETvalueMinMax: (state, value) => {
+    // max, min значения для бегунка диапазона цены товара в Sidebar
+    valueMinMaxSidebar: (state, value) => {
       state.valueMin = value[0]
       state.valueMax = value[1]
     },
-    userInfo: (state, userInfo) => {
-      state.userInfo = userInfo
+    // Данные о пользователя из БД при входе на сайт, запись данных в переменную state.userInfo
+    userInfo: (state, userData) => {
+      state.userInfo = userData
     },
-    SETReviewsToPage: (state, selectedReviews) => {
-      state.allReviews = selectedReviews.result
-      state.countPageReview = selectedReviews.count_page
+    // Все отзывы о товаре, их записаь в переменную state.allProductReviews, пагинация
+    reviewsToPage: (state, selectedReviews) => {
+      state.allProductReviews.data = selectedReviews.result
+      state.allProductReviews.countPage = selectedReviews.count_page
       
     },
-    Orders: (state, infoOrders) => {
-      state.allOrders = infoOrders.result
-      state.countPageOrders = infoOrders.count_page
+    // Все заказы данного пользователя, их записаь в переменную state.userOrders, пгинация
+    userOrders: (state, infoOrders) => {
+      state.allUserOrders.data = infoOrders.result
+      state.allUserOrders.countPage = infoOrders.count_page
     },
     
-    // Корзина: добавление товара, показ товара в корзине, удаление
+    //КОРЗИНА
+    // Сохранение данных о товарах и общем количетсве в localStorage
     saveBasket: (state) => {
       window.localStorage.setItem('basketContent', JSON.stringify(state.basketContent))
       window.localStorage.setItem('cartCount', state.cartCount)
     },
-    SETProductToBasket: (state, allDetailProduct) => {
+    // Добавление товара в корзину, общее количество и цену
+    productsToBasket: (state, allDetailProduct) => {
       let newItem = state.basketContent.find(object => object.id_product === allDetailProduct.id_product)
       if (newItem) {
         newItem.quantity++
@@ -98,6 +111,7 @@ export default new Vuex.Store({
       }
       state.cartCount++
     },
+    //Удаление товара из корзины поштучно
     removeProductFromBasket: (state, allDetailProduct) => {
       let newItemRemove = state.basketContent.find(object => object.id_product === allDetailProduct.id_product)
       
@@ -112,6 +126,7 @@ export default new Vuex.Store({
       }
 
     },
+    // Удаление товара из корзины полностью
     removeAllProduct: (state, allDetailProduct) => {
       let index = state.basketContent.indexOf(allDetailProduct)
       if (index > -1) {
@@ -131,14 +146,14 @@ export default new Vuex.Store({
     getCategories: async (context) => {
       await Axios.get(backendServerUrl + '/categories')
         .then(categoryFromDB => {
-          context.commit('allCategory', categoryFromDB.data.result)
+          context.commit('allCategories', categoryFromDB.data.result)
         })
     },
     //Товары на страницах(пагинация контента)
     getProductsOnPage: async (context, page) => {
       await Axios.get(backendServerUrl + '/paginationcontent?limit=12&numberpage=' + page)
         .then(resultBackend => {
-          context.commit('SETProductToPage', resultBackend.data)
+          context.commit('showProductsOnPage', resultBackend.data)
         })
     },
     //Товары для 1 категории на страницах(пагинация)
@@ -151,8 +166,8 @@ export default new Vuex.Store({
     //Товары, отфильтрованные по цене
     getFilterProductsByPrice: async (context, payload) => {
       await Axios.get(backendServerUrl + '/products?valueMin=' + payload.min + '&valueMax=' + payload.max + '&limit=5&numberpage=' + payload.page)
-        .then(filtredProducts => {
-          context.commit('SETfiltredProducts', filtredProducts.data.result)
+        .then(products => {
+          context.commit('filterProductsByPrice', products.data.result)
         })
 
     },
@@ -162,14 +177,14 @@ export default new Vuex.Store({
       await Axios.get(
         backendServerUrl + '/inforeviews?productid=' + payload.id + '&offset=' + payload.page + '&limit=3'
       ).then((reviewsProduct) => {
-        context.commit('SETReviewsToPage', reviewsProduct.data)
+        context.commit('reviewsToPage', reviewsProduct.data)
       });
     },
     //Все заказы пользователя
     getUserOrders: async (context, payload) => {
       await Axios.get(backendServerUrl + '/myorders?offset=' + payload.page + '&limit=6'
       ).then((response) => {
-        context.commit('Orders', response.data)
+        context.commit('userOrders', response.data)
       });
     }
   }

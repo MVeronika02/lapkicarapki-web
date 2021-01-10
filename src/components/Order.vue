@@ -166,7 +166,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 import Axios from "axios";
 
 export default {
@@ -199,7 +199,7 @@ export default {
   mounted() {
     this.$store.commit("saveBasket");
   },
-  computed: mapState(["allProducts"]),
+  // computed: mapState(["allProducts"]),
   computed: {
     totalPrice() {
       let total = 0;

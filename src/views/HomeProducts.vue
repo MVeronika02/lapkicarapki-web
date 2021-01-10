@@ -3,20 +3,20 @@
     <div class="content_wrapper">
       <div
         class="product_unit"
-        v-for="allProduct in $store.state.allProducts"
-        :key="allProduct.id_product">
-        <div class="product_unit_info" @click="goDetails(allProduct.id_product)">
-          <p class="product_unit_name">{{ allProduct.name_product }}</p>
-          <img :src="imageProduct(allProduct.url_image_product)" class="product_unit_img" />
-          <p>Цена: {{ allProduct.price_product }}</p>
+        v-for="product in $store.state.allProducts.data"
+        :key="product.id_product">
+        <div class="product_unit_info" @click="goDetails(product.id_product)">
+          <p class="product_unit_name">{{ product.name_product }}</p>
+          <img :src="imageProduct(product.url_image_product)" class="product_unit_img" />
+          <p>Цена: {{ product.price_product }}</p>
         </div>
-        <button class="btn_add_basket" @click="addToBasket(allProduct)">Добавить в корзину</button>
+        <button class="btn_add_basket" @click="addToBasket(product)">Добавить в корзину</button>
       </div>
     </div>
     <v-pagination
       v-model="page"
       class="pt-4 pb-2"
-      :length="$store.state.countProductPage"
+      :length="$store.state.allProducts.countPage"
       total-visible="5"
       @input="showPage(page)"
     ></v-pagination>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
   name: "homeProducts",
   data() {
@@ -33,7 +33,7 @@ export default {
     };
   },
   // mounted() {console.log(this.$store.state.allProducts, 'homeProducts')},
-  computed: mapState(["allProducts"]),
+  // computed: mapState(["allProducts"]),
   created() {
     this.$store.dispatch("getProductsOnPage", 1);
     this.$router.push({ name: "homeProducts", params: {pageNumber: 1} })
@@ -45,8 +45,8 @@ export default {
     goDetails(idProductLocal) {
       this.$router.push({ name: "detailsProduct", params: { idProduct: idProductLocal } });
     },
-    addToBasket(allProduct) {
-      this.$store.commit("SETProductToBasket", allProduct);
+    addToBasket(product) {
+      this.$store.commit("productsToBasket", product);
     },
     showPage(page) {
       this.$router.push({ name: "homeProducts", params: {pageNumber: page} })

@@ -183,7 +183,7 @@ export default {
       return require(`../static/${imagePath}`);
     },
     addToBasket(allDetailProduct) {
-      this.$store.commit("SETProductToBasket", allDetailProduct);
+      this.$store.commit("productsToBasket", allDetailProduct);
     },
   },
 };

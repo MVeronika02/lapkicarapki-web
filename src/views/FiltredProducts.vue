@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
   name: "filtredProducts",
   data() {
@@ -49,7 +49,7 @@ export default {
     };
   },
   mounted() {},
-  computed: mapState(["allProducts"]),
+  // computed: mapState(["allProducts"]),
   created() {},
   methods: {
     imageProduct(imagePath) {
@@ -63,7 +63,7 @@ export default {
       document.getElementById("mainPage").className = "newMainPage";
     },
     addToBasket(allProduct) {
-      this.$store.commit("SETProductToBasket", allProduct);
+      this.$store.commit("productsToBasket", allProduct);
     },
     getFilterValues: function (pageproduct) {
       console.log(this.$store.state.valueMin);

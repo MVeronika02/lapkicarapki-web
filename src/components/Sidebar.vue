@@ -49,7 +49,7 @@
     </div>
   </div>
   <!-- <div class="btn_filter"> -->
-    <button class="btn_filter_v" @click.native="$store.commit('SETFilterKey', true); getFilterValues()">
+    <button class="btn_filter_v" @click="getFilterValues()">
       <router-link
         to="/filtred"
       >
@@ -78,18 +78,18 @@ export default {
     }
   },
   mounted () {
-    this.$store.commit('SETAllCategory')
-    this.$store.commit('SETfiltredProducts')
+    this.$store.commit('allCategories')
+    this.$store.commit('filterProductsByPrice')
   },
   computed: mapState([
-    'allCategoryAnimal'
+    'categoriesProducts'
   ]),
   created () {
     this.$store.dispatch('getCategories')
   },
   methods: {
     getFilterValues: function () {
-      this.$store.commit('SETvalueMinMax', [this.range[0], this.range[1]])
+      this.$store.commit('valueMinMaxSidebar', [this.range[0], this.range[1]])
       var valueMin = this.range[0]
       var valueMax = this.range[1]
       this.$store.dispatch('getFilterProductsByPrice', { min: valueMin, max: valueMax, page:1})

@@ -7,14 +7,14 @@
     </div>
     <ul>
       <li
-        v-for="allReview in $store.state.allReviews"
-        :key="allReview.idReview"
+        v-for="review in $store.state.allProductReviews.data"
+        :key="review.idReview"
         class="reviews_show"
       >
         <div class="reviews_show_header">
-          <p class="reviews_show_header_p">{{ allReview.reviewer_name }}</p>
+          <p class="reviews_show_header_p">{{ review.reviewer_name }}</p>
 
-          <div v-if="allReview.numbers_of_stars == 5">
+          <div v-if="review.numbers_of_stars == 5">
             <div class="rating-mini">
               <span class="active"></span>
               <span class="active"></span>
@@ -24,7 +24,7 @@
             </div>
           </div>
 
-          <div v-else-if="allReview.numbers_of_stars == 4">
+          <div v-else-if="review.numbers_of_stars == 4">
             <div class="rating-mini">
               <span class="active"></span>
               <span class="active"></span>
@@ -33,7 +33,7 @@
             </div>
           </div>
 
-          <div v-else-if="allReview.numbers_of_stars == 3">
+          <div v-else-if="review.numbers_of_stars == 3">
             <div class="rating-mini">
               <span class="active"></span>
               <span class="active"></span>
@@ -41,23 +41,23 @@
             </div>
           </div>
 
-          <div v-else-if="allReview.numbers_of_stars == 2">
+          <div v-else-if="review.numbers_of_stars == 2">
             <div class="rating-mini">
               <span class="active"></span>
               <span class="active"></span>
             </div>
           </div>
 
-          <div v-else-if="allReview.numbers_of_stars == 1">
+          <div v-else-if="review.numbers_of_stars == 1">
             <div class="rating-mini">
               <span class="active"></span>
             </div>
           </div>
 
-          <p class="reviews_show_header_date">{{ allReview.review_date }}</p>
+          <p class="reviews_show_header_date">{{ review.review_date }}</p>
         </div>
 
-        <p class="reviews_composition_text">{{ allReview.text_review }}</p>
+        <p class="reviews_composition_text">{{ review.text_review }}</p>
         <hr />
       </li>
     </ul>
@@ -69,7 +69,7 @@
             <v-pagination
               v-model="page"
                class="pt-4 pb-2"
-              :length="$store.state.countPageReview"
+              :length="$store.state.allProductReviews.countPage"
               total-visible="5"
               @input="showPage(page)"
             ></v-pagination>
