@@ -68,7 +68,7 @@ export default {
     getFilterValues: function (pageproduct) {
       console.log(this.$store.state.valueMin);
       console.log(this.$store.state.valueMax);
-      this.$store.dispatch("ProductsFilter", {
+      this.$store.dispatch("getFilterProductsByPrice", {
         min: this.$store.state.valueMin,
         max: this.$store.state.valueMax,
         page: pageproduct,

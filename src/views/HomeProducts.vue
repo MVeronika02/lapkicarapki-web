@@ -35,7 +35,7 @@ export default {
   // mounted() {console.log(this.$store.state.allProducts, 'homeProducts')},
   computed: mapState(["allProducts"]),
   created() {
-    this.$store.dispatch("ProductsOnPage", 1);
+    this.$store.dispatch("getProductsOnPage", 1);
     this.$router.push({ name: "homeProducts", params: {pageNumber: 1} })
   },
   methods: {
@@ -50,7 +50,7 @@ export default {
     },
     showPage(page) {
       this.$router.push({ name: "homeProducts", params: {pageNumber: page} })
-      this.$store.dispatch("ProductsOnPage", page);
+      this.$store.dispatch("getProductsOnPage", page);
     },
   },
 };

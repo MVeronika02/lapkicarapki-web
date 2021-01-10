@@ -85,14 +85,14 @@ export default {
     'allCategoryAnimal'
   ]),
   created () {
-    this.$store.dispatch('SETCategory')
+    this.$store.dispatch('getCategories')
   },
   methods: {
     getFilterValues: function () {
       this.$store.commit('SETvalueMinMax', [this.range[0], this.range[1]])
       var valueMin = this.range[0]
       var valueMax = this.range[1]
-      this.$store.dispatch('ProductsFilter', { min: valueMin, max: valueMax, page:1})
+      this.$store.dispatch('getFilterProductsByPrice', { min: valueMin, max: valueMax, page:1})
       // this.$router.push("/profile");
     }
   }

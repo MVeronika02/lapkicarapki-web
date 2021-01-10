@@ -56,7 +56,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("SETCategory");
+    this.$store.dispatch("getCategories");
   },
 
   methods: {

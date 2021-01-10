@@ -165,7 +165,7 @@ import Axios from "axios";
 
 export default {
   name: "Reviews",
-  // props: ["productId"],
+  props: ["productId"],
   data() {
     return {
       page: 1,
@@ -178,11 +178,12 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("ReviewsOnPage", { id: this.productId, page: 1 });
+    console.log(this.productId, 'this.productId')
+    this.$store.dispatch("getProductReviewsOnPage", { id: this.productId, page: 1 });
   },
   methods: {
     showPage(page, productId) {
-      this.$store.dispatch("ReviewsOnPage", { id: this.productId, page: page });
+      this.$store.dispatch("getProductReviewsOnPage", { id: this.productId, page: page });
     },
     addReview(event) {
       Axios.post,

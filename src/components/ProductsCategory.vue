@@ -31,7 +31,7 @@
         class="pt-4 pb-2"
         :length="$store.state.countCategoryProductPage"
         total-visible="5"
-        @input="showPage(pageLocal)"
+        @input="showPage(page)"
       ></v-pagination>
     </div>
   </div>
@@ -43,7 +43,9 @@ import Sidebar from "../components/Sidebar.vue";
 export default {
   name: "productsCategory",
   data() {
-    return {};
+    return {
+      pageLocal: 1
+    };
   },
   components: {
     Sidebar,
@@ -56,7 +58,7 @@ export default {
 
   watch: {
     routeParams() {
-      this.$store.dispatch("ProductsForOneCategoryPage", {
+      this.$store.dispatch("getProductsForOneCategoryOnPage", {
         page: this.$route.params.pageNumber,
         idAnimal: this.$route.params.idAnimal,
         idCategory: this.$route.params.idCategory,
@@ -65,7 +67,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("ProductsForOneCategoryPage", {
+    this.$store.dispatch("getProductsForOneCategoryOnPage", {
       page: this.$route.params.pageNumber,
       idAnimal: this.$route.params.idAnimal,
       idCategory: this.$route.params.idCategory,
@@ -90,7 +92,7 @@ export default {
         name: "productsCategory",
         params: { pageNumber: page },
       });
-      this.$store.dispatch("ProductsForOneCategoryPage", {
+      this.$store.dispatch("getProductsForOneCategoryOnPage", {
         page: page,
         idAnimal: this.$route.params.idAnimal,
         idCategory: this.$route.params.idCategory,

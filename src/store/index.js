@@ -26,10 +26,6 @@ export default new Vuex.Store({
     allReviews: [],
     countPageReview: 0,
     userInfo: {},
-    // user : {
-    //   metaData : {},
-    //   presence: undefined
-    // }, 
     orderData: [],
     allOrders: [],
     countPageOrders: 0
@@ -44,17 +40,16 @@ export default new Vuex.Store({
 
   //Мутации
   mutations: {
-    SETAllCategory (state, categoryAll) {
-      state.allCategoryAnimal = categoryAll
+    allCategory (state, categoryFromDB) {
+      state.allCategoryAnimal = categoryFromDB
     },
     SETfiltredProducts: (state, filtredProducts) => {
       state.filtredProductData = filtredProducts
     },
     SETProductToPage: (state, selectedPage) => {
-      state.allProducts = selectedPage
-    },
-    SETCountProductPage: (state, countPage) => {
-      state.countProductPage = countPage
+      state.allProducts = selectedPage.result.product
+      state.countProductPage = selectedPage.result.count_page
+      
     },
     filterCategory: (state, idAnimal) => {
       state.filtredCategory = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
@@ -62,11 +57,9 @@ export default new Vuex.Store({
     filterCategoryOneAnimal: (state, idAnimal) => {
       state.filterCategoryOneAnimal = state.allCategoryAnimal.filter(object => object.id_animal === idAnimal)
     },
-    SETCountCategoryProductPage: (state, countPage) => {
-      state.countCategoryProductPage = countPage
-    },
     filterProductsForOneCategory: (state, products) => {
-      state.filterProductsForOneCategory = products
+      state.filterProductsForOneCategory = products.result.product
+      state.countCategoryProductPage = products.result.count_page
     },
     SETFilterKey: (state, key) => {
       state.filtredProductKey = key
@@ -79,10 +72,9 @@ export default new Vuex.Store({
       state.userInfo = userInfo
     },
     SETReviewsToPage: (state, selectedReviews) => {
-      state.allReviews = selectedReviews
-    },
-    SETReviews: (state, countReviews) => {
-      state.countPageReview = countReviews
+      state.allReviews = selectedReviews.result
+      state.countPageReview = selectedReviews.count_page
+      
     },
     Orders: (state, infoOrders) => {
       state.allOrders = infoOrders.result
@@ -136,43 +128,44 @@ export default new Vuex.Store({
   // Действия
   actions: {
     //Все категории продуктов для животных
-    SETCategory: async (context) => {
+    getCategories: async (context) => {
       await Axios.get(backendServerUrl + '/categories')
-        .then(categoryAll => {
-          context.commit('SETAllCategory', categoryAll.data.result)
+        .then(categoryFromDB => {
+          context.commit('allCategory', categoryFromDB.data.result)
         })
     },
     //Товары на страницах(пагинация контента)
-    ProductsOnPage: async (context, page) => {
+    getProductsOnPage: async (context, page) => {
       await Axios.get(backendServerUrl + '/paginationcontent?limit=12&numberpage=' + page)
         .then(resultBackend => {
-          context.commit('SETProductToPage', resultBackend.data.result.product)
-          context.commit('SETCountProductPage', resultBackend.data.result.count_page)
+          context.commit('SETProductToPage', resultBackend.data)
         })
     },
     //Товары для 1 категории на страницах(пагинация)
-    ProductsForOneCategoryPage: async (context, payload) => {
+    getProductsForOneCategoryOnPage: async (context, payload) => {
       await Axios.get(backendServerUrl + '/paginationproductsonecategory?limit=12&numberpage=' + payload.page + '&animal=' + payload.idAnimal + '&category=' + payload.idCategory)
         .then(resultBackend => {
-          context.commit('filterProductsForOneCategory', resultBackend.data.result.product)
-          context.commit('SETCountCategoryProductPage', resultBackend.data.result.count_page)
+          context.commit('filterProductsForOneCategory', resultBackend.data)
         })
     },
-    ProductsFilter: async (context, payload) => {
+    //Товары, отфильтрованные по цене
+    getFilterProductsByPrice: async (context, payload) => {
       await Axios.get(backendServerUrl + '/products?valueMin=' + payload.min + '&valueMax=' + payload.max + '&limit=5&numberpage=' + payload.page)
         .then(filtredProducts => {
           context.commit('SETfiltredProducts', filtredProducts.data.result)
         })
 
     },
-    ReviewsOnPage: async (context, payload) => {
+    //Отзывы о товаре
+    getProductReviewsOnPage: async (context, payload) => {
+      console.log(payload)
       await Axios.get(
         backendServerUrl + '/inforeviews?productid=' + payload.id + '&offset=' + payload.page + '&limit=3'
       ).then((reviewsProduct) => {
-        context.commit('SETReviews', reviewsProduct.data.count_page)
-        context.commit('SETReviewsToPage', reviewsProduct.data.result)
+        context.commit('SETReviewsToPage', reviewsProduct.data)
       });
     },
+    //Все заказы пользователя
     getUserOrders: async (context, payload) => {
       await Axios.get(backendServerUrl + '/myorders?offset=' + payload.page + '&limit=6'
       ).then((response) => {

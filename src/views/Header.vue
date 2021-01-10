@@ -27,18 +27,15 @@
           <span>Товара: {{ $store.state.cartCount }} шт</br> На сумму: {{ totalPrice }} тг</span>
         </button>
       
-      <div :class="this.presenceUser ? 'sign_in_close_block' : 'sign_in'">
-        <a href="#sign_in_wrapper">
-          <button class="btn_sign_in">
-            <i
-              class="fa fa-user"
-              style="margin-right: 10px"
-              aria-hidden="true"
-            ></i
-            >Войти
-          </button>
-        </a>
-      </div>
+        <div :class="this.presenceUser ? 'sign_in_close_block' : 'sign_in'">
+            <button class="btn_sign_in" @click="showSigninOverlay()">
+              <i
+                class="fa fa-user"
+                style="margin-right: 10px"
+                aria-hidden="true"
+              ></i>Войти
+            </button>
+        </div>
       </div>
       <div :class="this.presenceUser ? 'block_profile_open' : 'block_profile'">
         <button class="block_profile_open_btn" @click="openProfile">
@@ -48,13 +45,12 @@
       </div>
     </div>
     
-    <div id="sign_in_wrapper" class="sign_in_overlay">
+    <div id="signin_wrapper" :class="this.keySiginOverlay ? 'signin_overlay_on' : 'signin_overlay_off'">
       <div id="popup" class="sign_in_popup">
-        <a class="sign_in_close" href="#" @click="$emit('close')">&times;</a>
-        <form id="form_sign_in" method="get" @submit.prevent="userLogin">
+        <a class="sign_in_close" @click="showSigninOverlay()">&times;</a>
+        <form id="form_sign_in" method="get" @submit.prevent="login()">
           <button class="form_btn_sign_in">Войти</button>
           <button class="form_btn_up" @click="openSignUp">Регистрация</button>
-          <div style="margin: 10px;">
             <label style="margin-right: 150px;">Логин</label><br />
             <input
               id="sigin_login"
@@ -70,13 +66,7 @@
               required
               class="form_sign_in_input"
             />
-            <div
-              :class="
-                this.incorectCredentials
-                  ? 'block_wrong_user_open'
-                  : 'block_wrong_close'
-              "
-            >
+            <div :class="this.incorectCredentials ? 'block_wrong_user_open' : 'block_wrong_close'">
               <p>*Неверный логин или пароль</p>
             </div>
 
@@ -88,9 +78,8 @@
               required
               class="form_sign_in_input"
             /> -->
-          </div>
 
-          <button href="#" type="button" class="btn_sign_in" @click="userLogin">Войти</button>
+          <button href="#" type="button" class="btn_sign_in" @click="login()">Войти</button>
         </form>
 
         <form id="form_sign_up" method="post" @submit.prevent="recordUser">
@@ -194,6 +183,7 @@ export default {
       userConfirm: Boolean,
       presenceUser: false,
       incorectCredentials: false,
+      keySiginOverlay: false,
       userData: {
         name: "",
         email: "",
@@ -226,6 +216,15 @@ export default {
     },
   },
   methods: {
+    showSigninOverlay: function () {
+      var loginInput = document.getElementById("sigin_login");
+      var passwordInput = document.getElementById("sigin_password");
+      this.incorectCredentials = false
+      passwordInput.value = ""
+      loginInput.value= "" 
+      this.keySiginOverlay = !this.keySiginOverlay
+    },
+
     checkPassword: function (input) {
       if (this.userData.password != this.userData.repeat_password) {
         document.getElementById("password2").className = "dif_pas";
@@ -271,19 +270,21 @@ export default {
           console.log(error);
         };
     },
-    userLogin(event) {
+    login(event) {
       var loginInput = document.getElementById("sigin_login");
       var passwordInput = document.getElementById("sigin_password");
       Axios.get("http://localhost:5000" + '/login?login=' + loginInput.value + '&password=' + passwordInput.value)
           .then(response => {
             if (response.data.success) {
               window.localStorage.setItem('key', response.data.token)
-              this.presenceUser = true;
+              this.presenceUser = !this.presenceUser;
+              this.keySiginOverlay = !this.keySiginOverlay
               Axios.defaults.headers.common = {
                 "Authorization": "Bearer " + response.data.token ,
               };
-              document.getElementById("sign_in_wrapper").style.display = "none";
               this.$store.commit('userInfo', response.data.result)
+              loginInput.value= ""
+              passwordInput.value = ""
             } else {
               this.incorectCredentials = true
             }
@@ -291,9 +292,7 @@ export default {
     },
     logout() {
       localStorage.removeItem("key");
-      var localValue = localStorage.getItem("key");
       this.presenceUser = false;
-      this.$router.push("/");
     },
     openProfile: function () {
       this.$router.push("/profile");
@@ -508,7 +507,7 @@ hr {
   box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
-.sign_in_overlay {
+.signin_overlay_off {
   visibility: hidden;
   position: fixed;
   top: 0;
@@ -520,8 +519,15 @@ hr {
   opacity: 0;
 }
 
-.sign_in_overlay:target {
+.signin_overlay_on {
   visibility: visible;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
   opacity: 1;
   z-index: 999999;
 }
@@ -533,7 +539,7 @@ hr {
   padding: 20px;
   background: #fff;
   border-radius: 5px;
-  width: 20%;
+  width: 14.5%;
   height: auto;
   transition: all 5s ease-in-out;
 }
