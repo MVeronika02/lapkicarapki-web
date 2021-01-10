@@ -172,6 +172,7 @@
 <script>
 import { mapState } from "vuex";
 import Axios from "axios";
+import Config from '../../globalConfig.js'
 
 export default {
   name: "Header",
@@ -260,7 +261,7 @@ export default {
       } else {
         this.differentCheckPassword = false;
       }
-      Axios.post("http://localhost:5000/registration", this.userData).then(
+      Axios.post(Config.backendServerUrl + "/registration", this.userData).then(
         (response) => {
           this.userExists = response.data.success;
           this.userConfirm = response.data.confirm;
@@ -273,7 +274,7 @@ export default {
     login(event) {
       var loginInput = document.getElementById("sigin_login");
       var passwordInput = document.getElementById("sigin_password");
-      Axios.get("http://localhost:5000" + '/login?login=' + loginInput.value + '&password=' + passwordInput.value)
+      Axios.get(Config.backendServerUrl + '/login?login=' + loginInput.value + '&password=' + passwordInput.value)
           .then(response => {
             if (response.data.success) {
               window.localStorage.setItem('key', response.data.token)

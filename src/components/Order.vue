@@ -166,8 +166,8 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
 import Axios from "axios";
+import Config from '../../globalConfig.js'
 
 export default {
   name: "Order",
@@ -245,7 +245,7 @@ export default {
       // }
       console.log(this.writeOrderData.id_user, 'user')
       
-      Axios.post("http://localhost:5000/placeorder", this.writeOrderData)
+      Axios.post(Config.backendServerUrl + "/place_order", this.writeOrderData)
         .then((response) => {
           console.log("--------", response);
         })

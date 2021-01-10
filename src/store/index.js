@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
-
+import config from '../../globalConfig.js'
 Vue.use(Vuex)
 let basketContent = window.localStorage.getItem('basketContent')
 let cartCount = window.localStorage.getItem('cartCount')
-let backendServerUrl = "http://localhost:5000"
+let backendServerUrl = config.backendServerUrl
 
 
 export default new Vuex.Store({
@@ -68,8 +68,8 @@ export default new Vuex.Store({
     },
     //Фильтр товаров для каждой категории, их запись в переменную state.productsOneCategory
     filterProductsForOneCategory: (state, products) => {
-      state.productsOneCategory.data = products.result.product
-      state.productsOneCategory.countPage = products.result.count_page
+      state.productsOneCategory.data = products.product
+      state.productsOneCategory.countPage = products.count_page
     },
     // max, min значения для бегунка диапазона цены товара в Sidebar
     valueMinMaxSidebar: (state, value) => {
@@ -151,14 +151,14 @@ export default new Vuex.Store({
     },
     //Товары на страницах(пагинация контента)
     getProductsOnPage: async (context, page) => {
-      await Axios.get(backendServerUrl + '/paginationcontent?limit=12&numberpage=' + page)
+      await Axios.get(backendServerUrl + '/content?limit=12&numberpage=' + page)
         .then(resultBackend => {
           context.commit('showProductsOnPage', resultBackend.data)
         })
     },
     //Товары для 1 категории на страницах(пагинация)
     getProductsForOneCategoryOnPage: async (context, payload) => {
-      await Axios.get(backendServerUrl + '/paginationproductsonecategory?limit=12&numberpage=' + payload.page + '&animal=' + payload.idAnimal + '&category=' + payload.idCategory)
+      await Axios.get(backendServerUrl + '/products_one_category?limit=12&numberpage=' + payload.page + '&animal=' + payload.idAnimal + '&category=' + payload.idCategory)
         .then(resultBackend => {
           context.commit('filterProductsForOneCategory', resultBackend.data)
         })
@@ -175,14 +175,14 @@ export default new Vuex.Store({
     getProductReviewsOnPage: async (context, payload) => {
       console.log(payload)
       await Axios.get(
-        backendServerUrl + '/inforeviews?productid=' + payload.id + '&offset=' + payload.page + '&limit=3'
+        backendServerUrl + '/info_reviews?productid=' + payload.id + '&offset=' + payload.page + '&limit=3'
       ).then((reviewsProduct) => {
         context.commit('reviewsToPage', reviewsProduct.data)
       });
     },
     //Все заказы пользователя
     getUserOrders: async (context, payload) => {
-      await Axios.get(backendServerUrl + '/myorders?offset=' + payload.page + '&limit=6'
+      await Axios.get(backendServerUrl + '/my_orders?offset=' + payload.page + '&limit=6'
       ).then((response) => {
         context.commit('userOrders', response.data)
       });

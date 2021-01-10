@@ -34,22 +34,22 @@ const routes = [
     component: Home,
     children: [
       {
-        path: '/delivery',
+        path: 'delivery',
         name: 'delivery',
         component: Delivery
       },
       {
-        path: '/contacts',
+        path: 'contacts',
         name: 'contacts',
         component: Contacts
       },
       {
-        path: '/aboutUs',
+        path: 'aboutUs',
         name: 'aboutUs',
         component: AboutUs
       },
       {
-        path: '/',
+        path: '',
         name: 'homeProducts',
         component: HomeProducts
       },
@@ -63,13 +63,13 @@ const routes = [
         name: 'productsCategory',
         component: ProductsCategory
       },
+      // {
+      //   path: '/',
+      //   name: 'Sidebar',
+      //   component: Sidebar
+      // },
       {
-        path: '/',
-        name: 'Sidebar',
-        component: Sidebar
-      },
-      {
-        path: '/filtred',
+        path: 'filtred',
         name: 'filtredProducts',
         component: FiltredProducts
       },
@@ -77,24 +77,19 @@ const routes = [
         path: 'details-product=:idProduct',
         name: 'detailsProduct',
         component: DetailsProduct,
-        // meta: {
-        //   middleware: [
-        //     guest
-        //   ]
-        // }
       },
       {
-        path: '/basket',
+        path: 'basket',
         name: 'Basket',
         component: Basket
       },
       {
-        path: '/order',
+        path: 'order',
         name: 'Order',
         component: Order
       },
       {
-        path: '/login',
+        path: 'login',
         name: 'Login',
         component: Login,
         meta: {
@@ -104,34 +99,34 @@ const routes = [
         }
       },
       {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: Dashboard,
-      },
-      {
-        path: '/profile',
+        path: 'profile',
         name: 'profile',
         component: Profile,
         children: [
           {
-            path: '/my-info',
+            path: 'my-info',
             name: 'MyInfo',
             component: MyInfo
           },
           {
-            path: '/my-orders',
+            path: 'my-orders',
             name: 'MyOrders',
             component: MyOrders
           }
         ]
       },
       {
-        path: '/slider',
+        path: 'slider',
         name: 'Slider',
         component: Slider
       },
     ]
-  }
+  },
+  // {
+  //   path: '/',
+  //   name: 'homeProducts',
+  //   component: HomeProducts
+  // },
 ]
 
 const router = new VueRouter({

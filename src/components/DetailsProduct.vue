@@ -142,7 +142,7 @@ import { mapState } from "vuex";
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
-
+import Config from '../../globalConfig.js'
 export default {
   name: "detailsProduct",
   components: {
@@ -173,7 +173,7 @@ export default {
   },
   mounted() {
     Axios.get(
-      "http://localhost:5000/detailsproduct?id=" + this.$route.params.idProduct
+      Config.backendServerUrl + "/details_product?id=" + this.$route.params.idProduct
     ).then((detailsOnProduct) => {
       this.allDetailProduct = detailsOnProduct.data.result[0];
     });

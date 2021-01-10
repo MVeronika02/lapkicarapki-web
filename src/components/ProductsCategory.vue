@@ -31,7 +31,7 @@
         class="pt-4 pb-2"
         :length="$store.state.productsOneCategory.countPage"
         total-visible="5"
-        @input="showPage(page)"
+        @input="showPage(pageLocal)"
       ></v-pagination>
     </div>
   </div>
@@ -57,7 +57,10 @@ export default {
   },
 
   watch: {
-    routeParams() {
+    routeParams(from, to) {
+      if (from.idCategory != to.idCategory || from.idAnimal != to.idAnimal) {
+        this.pageLocal = 1    
+      }  
       this.$store.dispatch("getProductsForOneCategoryOnPage", {
         page: this.$route.params.pageNumber,
         idAnimal: this.$route.params.idAnimal,
@@ -72,6 +75,7 @@ export default {
       idAnimal: this.$route.params.idAnimal,
       idCategory: this.$route.params.idCategory,
     });
+    
   },
 
   methods: {

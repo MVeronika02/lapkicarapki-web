@@ -162,6 +162,7 @@
 <script>
 import { mapState } from "vuex";
 import Axios from "axios";
+import Config from '../../globalConfig.js'
 
 export default {
   name: "Reviews",
@@ -187,7 +188,7 @@ export default {
     },
     addReview(event) {
       Axios.post,
-        ("http://localhost:5000/reviews", this.content).then((response) => {
+        (Config.backendServerUrl + "/reviews", this.content).then((response) => {
           console.log(response);
         }),
         (error) => {
