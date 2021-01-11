@@ -96,7 +96,6 @@ export default {
   mounted() {
     this.$store.commit("saveBasket");
   },
-  // computed: mapState(["allProducts"]),
   computed: {
     totalPrice() {
       let total = 0;
@@ -113,14 +112,14 @@ export default {
   methods: {
     imageProduct(imagePath) {
       return require(`../static/${imagePath}`);    },
-    addToBasket(allProduct) {
-      this.$store.commit("productsToBasket", allProduct);
+    addToBasket(product) {
+      this.$store.commit("productsToBasket", product);
     },
-    minusProduct(allProduct) {
-      this.$store.commit("removeProductFromBasket", allProduct);
+    minusProduct(product) {
+      this.$store.commit("removeProductFromBasket", product);
     },
-    removeProducts(allProduct) {
-      this.$store.commit("removeAllProduct", allProduct);
+    removeProducts(product) {
+      this.$store.commit("removeProduct", product);
     },
     goToOrdering(allProduct) {
       this.$router.push({ name: "Order" });

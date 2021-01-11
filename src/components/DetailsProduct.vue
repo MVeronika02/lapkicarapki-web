@@ -60,11 +60,11 @@
       </div>
     </div>
 
-    <div class="details_container_info">
-      <p class="details_container_info_nameProduct">{{
+    <div class="details_container_buttons">
+      <p class="details_container_buttons_nameProduct">{{
         allDetailProduct.name_product
       }}</p>
-      <div class="details_container_info_actions">
+      <div class="details_container_buttons_actions">
         <btn class="info_actions_btn">
           <i class="fab fa-gratipay"></i>
           <span>Отложить</span>
@@ -79,11 +79,11 @@
         </btn>
       </div>
 
-      <span class="details_container_info_price"
+      <span class="details_container_buttons_price"
         >{{ allDetailProduct.price_product }} тг</span
       >
       <button
-        class="details_container_info_btn_basket"
+        class="details_container_buttons_btn_basket"
         @click="addToBasket(allDetailProduct)"
       >
         Добавить в корзину
@@ -240,20 +240,20 @@ export default {
   height: 80px;
 }
 
-.details_container_info {
+.details_container_buttons {
   margin: 10px 0px 0 50px;
   display: flex;
   flex-direction: column;
 }
 
-.details_container_info_nameProduct {
+.details_container_buttons_nameProduct {
   font-weight: 400;
   font-size: 2em;
   margin-bottom: 10px;
   width: 500px;
 }
 
-.details_container_info_actions {
+.details_container_buttons_actions {
   width: 90%;
   margin: 0 0 20px 50px;
   display: flex;
@@ -282,12 +282,12 @@ export default {
   box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
-.details_container_info_price {
+.details_container_buttons_price {
   font-size: 2.5em;
   font-weight: 400;
 }
 
-.details_container_info_btn_basket {
+.details_container_buttons_btn_basket {
   width: 300px;
   height: 40px;
   border-radius: 4px;
@@ -297,11 +297,11 @@ export default {
   font-size: 18px;
 }
 
-.details_container_info_btn_basket:hover {
+.details_container_buttons_btn_basket:hover {
   background: rgb(53, 167, 110);
 }
 
-.details_container_info_btn_basket:active {
+.details_container_buttons_btn_basket:active {
   background: rgb(33, 147, 90);
   box-shadow: 0 3px rgb(33, 147, 90) inset;
 }

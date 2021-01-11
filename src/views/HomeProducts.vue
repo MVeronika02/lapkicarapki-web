@@ -24,7 +24,6 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
 export default {
   name: "homeProducts",
   data() {
@@ -32,11 +31,10 @@ export default {
       page: 1,
     };
   },
-  // mounted() {console.log(this.$store.state.allProducts, 'homeProducts')},
-  // computed: mapState(["allProducts"]),
   created() {
     this.$store.dispatch("getProductsOnPage", 1);
-    this.$router.push({ name: "homeProducts", params: {pageNumber: 1} })
+    this.$router.push({ name: "homeProducts", params: {pageNumber: 1} });
+    // this.$store.commit("saveBasket");
   },
   methods: {
     imageProduct(imagePath) {
@@ -47,6 +45,7 @@ export default {
     },
     addToBasket(product) {
       this.$store.commit("productsToBasket", product);
+      this.$store.commit("saveBasket", product);
     },
     showPage(page) {
       this.$router.push({ name: "homeProducts", params: {pageNumber: page} })

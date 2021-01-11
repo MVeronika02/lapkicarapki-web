@@ -127,7 +127,7 @@ export default new Vuex.Store({
 
     },
     // Удаление товара из корзины полностью
-    removeAllProduct: (state, allDetailProduct) => {
+    removeProduct: (state, allDetailProduct) => {
       let index = state.basketContent.indexOf(allDetailProduct)
       if (index > -1) {
         let product = state.basketContent[index]

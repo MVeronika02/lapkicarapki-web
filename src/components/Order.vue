@@ -125,16 +125,6 @@
         >
           Наличными
         </button>
-        <!-- <form class="form_pay" id="payment">
-          <p class="form_pay_input">
-            <input type="radio" id="check1" value="1pay" name="check" />
-            <label for="check1">Оплата онлайн</label>
-          </p>
-          <p class="form_pay_input">
-            <input type="radio" id="check2" value="2pay" name="check" />
-            <label for="check2">Наличными курьеру</label>
-          </p>
-        </form> -->
       </div>
 
       <button @click="createOrder()" class="btn_next_step">
@@ -145,16 +135,16 @@
     <div class="check_basket">
       <p class="check_basket_name">Состав заказа</p>
       <div
-        v-for="allProduct in $store.state.basketContent"
-        :key="allProduct.id_product"
+        v-for="product in $store.state.basketContent"
+        :key="product.id_product"
         class="check_products"
         id="checkdiv"
       >
-        <p class="check_products_name">{{ allProduct.name_product }}</p>
+        <p class="check_products_name">{{ product.name_product }}</p>
         <span class="check_products_counter"
-          >{{ allProduct.quantity }} шт.</span
+          >{{ product.quantity }} шт.</span
         >
-        <p class="check_products_price">{{ allProduct.totalPrice }} тг</p>
+        <p class="check_products_price">{{ product.totalPrice }} тг</p>
       </div>
       <hr />
       <p class="check_products_totalprice">
@@ -199,12 +189,11 @@ export default {
   mounted() {
     this.$store.commit("saveBasket");
   },
-  // computed: mapState(["allProducts"]),
   computed: {
     totalPrice() {
       let total = 0;
-      for (let allProduct of this.$store.state.basketContent) {
-        total += allProduct.totalPrice;
+      for (let product of this.$store.state.basketContent) {
+        total += product.totalPrice;
       }
       return total.toFixed(2);
     },
@@ -241,9 +230,6 @@ export default {
       if (this.$store.state.userData.id == "undefined") {
         this.writeOrderData.id_user = 0
       }
-      //   this.writeOrderData.id_user = this.$store.state.userData.id;
-      // }
-      console.log(this.writeOrderData.id_user, 'user')
       
       Axios.post(Config.backendServerUrl + "/place_order", this.writeOrderData)
         .then((response) => {
@@ -367,17 +353,6 @@ export default {
 .block_pay_btn:active {
   background: rgb(20, 163, 91);
 }
-
-/* .form_pay {
-  display: flex;
-}
-
-.form_pay_input {
-  margin-left: 20px;
-  width: 30%;
-  height: 50px;
-  border: 1px solid green;
-} */
 
 .btn_next_step {
   border-radius: 4px;

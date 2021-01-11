@@ -20,18 +20,16 @@
           <i
             class="fa fa-shopping-cart"
             aria-hidden="true"
-            style="margin-right: 10px"
-          ></i>
-          Корзина
+          ></i>Корзина ({{ $store.state.cartCount }} шт)
           </br>
-          <span>Товара: {{ $store.state.cartCount }} шт</br> На сумму: {{ totalPrice }} тг</span>
+          <span>Сумма: {{ totalPrice }} тг</span>
+          <!-- <span>Товара: {{ $store.state.cartCount }} шт</br> На сумму: {{ totalPrice }} тг</span> -->
         </button>
       
-        <div :class="this.presenceUser ? 'sign_in_close_block' : 'sign_in'">
-            <button class="btn_sign_in" @click="showSigninOverlay()">
+        <div :class="this.presenceUser ? 'signin_close_block' : 'signin'">
+            <button class="btn_signin" @click="showSigninOverlay()">
               <i
                 class="fa fa-user"
-                style="margin-right: 10px"
                 aria-hidden="true"
               ></i>Войти
             </button>
@@ -46,17 +44,17 @@
     </div>
     
     <div id="signin_wrapper" :class="this.keySiginOverlay ? 'signin_overlay_on' : 'signin_overlay_off'">
-      <div id="popup" class="sign_in_popup">
-        <a class="sign_in_close" @click="showSigninOverlay()">&times;</a>
-        <form id="form_sign_in" method="get" @submit.prevent="login()">
-          <button class="form_btn_sign_in">Войти</button>
+      <div id="popup" class="signin_popup">
+        <a class="signin_close" @click="showSigninOverlay()">&times;</a>
+        <form id="form_signin" method="get" @submit.prevent="login()">
+          <button class="form_btn_signin">Войти</button>
           <button class="form_btn_up" @click="openSignUp">Регистрация</button>
             <label style="margin-right: 150px;">Логин</label><br />
             <input
               id="sigin_login"
               type="text"
               required
-              class="form_sign_in_input"
+              class="form_signin_input"
             />
             <br />
             <label style="margin-right: 140px;">Пароль</label><br />
@@ -64,7 +62,7 @@
               id="sigin_password"
               type="password"
               required
-              class="form_sign_in_input"
+              class="form_signin_input"
             />
             <div :class="this.incorectCredentials ? 'block_wrong_user_open' : 'block_wrong_close'">
               <p>*Неверный логин или пароль</p>
@@ -76,14 +74,14 @@
               title="Не менее восьми символов, содержащих хотя бы одну цифру и символы из верхнего и нижнего регистра"
               placeholder="*Пароль"
               required
-              class="form_sign_in_input"
+              class="form_signin_input"
             /> -->
 
-          <button href="#" type="button" class="btn_sign_in" @click="login()">Войти</button>
+          <button href="#" type="button" class="btn_signin" @click="login()">Войти</button>
         </form>
 
         <form id="form_sign_up" method="post" @submit.prevent="recordUser">
-          <button type="button" class="form_btn_sign_in" @click="closeSignUp">Войти</button>
+          <button type="button" class="form_btn_signin" @click="closeSignUp">Войти</button>
           <button type="button" class="form_btn_up" @click="openSignUp">Регистрация</button>
           <div style="margin-bottom: 15px;">
             <label style="margin-right: 120px;">*Ваше имя</label><br />
@@ -248,11 +246,11 @@ export default {
     },
     openSignUp() {
       document.getElementById("form_sign_up").style.display = "block";
-      document.getElementById("form_sign_in").style.display = "none";
+      document.getElementById("form_signin").style.display = "none";
     },
     closeSignUp() {
       document.getElementById("form_sign_up").style.display = "none";
-      document.getElementById("form_sign_in").style.display = "block";
+      document.getElementById("form_signin").style.display = "block";
     },
     recordUser(event) {
       if (this.userData.repeat_password != this.userData.password) {
@@ -356,7 +354,7 @@ hr {
 }
 
 .buttons_block {
-  width: 18%;
+  width: 260px;
   display: inline-block;
   margin-left: 100px;
 }
@@ -382,8 +380,8 @@ hr {
 }
 
 .basket_btn {
-  height: 70px;
-  width: 180px;
+  height: 50px;
+  width: 140px;
   padding-left: 10px;
   border-radius: 2px;
   font-size: 14px;
@@ -403,42 +401,41 @@ hr {
   box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
-.sign_in {
+.signin {
   height: 30px;
   float: right;
   display: flex;
 }
 
-.sign_in_close_block {
+.signin_close_block {
   display: none;
 }
 
-.btn_sign_in {
+.btn_signin {
   width: 80px;
   height: 30px;
   border-radius: 2px;
   font-size: 14px;
-  margin-right: 15px;
   background: rgb(141, 206, 157);
   box-shadow: 0 -3px rgb(20, 163, 91) inset;
   transition: 0.2s;
   color: black;
 }
 
-.btn_sign_in:hover {
+.btn_signin:hover {
   background: rgb(53, 167, 110);
 }
 
-.btn_sign_in:active {
+.btn_signin:active {
   background: rgb(33, 147, 90);
   box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
 
-.close_form_sign_in {
+.close_form_signin {
   display: none;
 }
 
-.form_btn_sign_in {
+.form_btn_signin {
   width: 80px;
   height: 30px;
   border-radius: 2px;
@@ -449,11 +446,11 @@ hr {
   margin-right: 10px;
 }
 
-.form_btn_sign_in:hover {
+.form_btn_signin:hover {
   background: rgb(53, 167, 110);
 }
 
-.form_btn_sign_in:active {
+.form_btn_signin:active {
   background: rgb(33, 147, 90);
   box-shadow: 0 3px rgb(33, 147, 90) inset;
 }
@@ -533,7 +530,7 @@ hr {
   z-index: 999999;
 }
 
-.sign_in_popup {
+.signin_popup {
   position: relative;
   z-index: 100000;
   margin: 70px auto;
@@ -545,13 +542,13 @@ hr {
   transition: all 5s ease-in-out;
 }
 
-.sign_in_popup h2 {
+.signin_popup h2 {
   margin-top: 0;
   color: #333;
   font-family: Tahoma, Arial, sans-serif;
 }
 
-.sign_in_close {
+.signin_close {
   position: absolute;
   top: 0px;
   right: 20px;
@@ -562,11 +559,11 @@ hr {
   color: #333;
 }
 
-.sign_in_close:hover {
+.signin_close:hover {
   color: #06d85f;
 }
 
-.form_sign_in_input {
+.form_signin_input {
   width: 200px;
   height: 40px;
   margin-bottom: 10px;
@@ -635,7 +632,7 @@ hr {
   margin-top: 30px;
 }
 
-#form_sign_in {
+#form_signin {
   display: block;
   text-align: center;
   margin-top: 30px;
@@ -673,5 +670,9 @@ hr {
   text-align: center;
   outline: none !important;
   border: 1px solid Green;
+}
+
+.fa {
+  margin-right: 10px !important;
 }
 </style>
