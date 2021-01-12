@@ -2,7 +2,7 @@
   <div class="info_content">
     <div class="profile_orders" id="info_orders">
       <ul
-        v-for="order in $store.state.allOrders"
+        v-for="order in $store.state.allUserOrders.data"
         :key="order.id_order"
         class="ul_order_block"
       >
@@ -59,7 +59,7 @@
               <v-pagination
                 v-model="page"
                 class="pt-4 pb-2"
-                :length="$store.state.countPageOrders"
+                :length="$store.state.allUserOrders.countPage"
                 total-visible="5"
                 @input="showPage(page)"
               ></v-pagination>
