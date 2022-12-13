@@ -12,7 +12,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "hooper": "^0.3.4",
     "jquery": "^3.5.1",
     "jssor-slider": "^28.0.0",
